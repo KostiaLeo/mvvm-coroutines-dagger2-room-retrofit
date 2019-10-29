@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="black">#000000</color>
+    <color name="default_news_background">#E7E5E5</color>
+    <color name="color_for_insider_of_new">#3492DD</color>
+    <color name="separate_line_color">#E3E3E7</color>
+</resources>
