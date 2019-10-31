@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">News</string>
+    <string name="app_name">NewsKotlinized</string>
     <string name="tab_text_1">Stories</string>
     <string name="video_frag_text">Список пуст \n Контент появится позже</string>
     <string name="fav_frag_text">Нету отмеченных \n избранных новостей</string>

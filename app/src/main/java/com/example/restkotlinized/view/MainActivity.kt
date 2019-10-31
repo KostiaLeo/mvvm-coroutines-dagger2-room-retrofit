@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val tabLayout: TabLayout = findViewById(R.id.tabs)
         tabLayout.setupWithViewPager(viewPager)
 
-        val newz = Newz()
-        newz.getAllNews()
+//        val newz = Newz()
+//        newz.getAllNews()
     }
 }

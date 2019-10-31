@@ -57,7 +57,7 @@
                 android:id="@+id/cost_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/type"
+                android:layout_below="@id/type_top"
                 android:layout_marginLeft="4dp"
                 android:ellipsize="end"
                 android:gravity="start"
