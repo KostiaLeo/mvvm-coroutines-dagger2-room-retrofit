@@ -23,6 +23,8 @@ import com.example.restkotlinized.view.fragments.topAdapter.TopNewzAdapter
 //}
 class StoriesFragment(context: Context) : Fragment() {
     val ctx = context
+    var news: Newz? = null
+
     companion object Factory {
         fun create(context: Context): StoriesFragment =
             StoriesFragment(context)
@@ -37,6 +39,15 @@ class StoriesFragment(context: Context) : Fragment() {
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         val sliderDotsPanel = root.findViewById<LinearLayout>(R.id.SliderDots)
+        setDots(sliderDotsPanel, viewPager)
+
+        news = Newz(viewPager, newsRecycler, ctx)
+        news?.getAllNews()
+        return root
+    }
+
+    private fun setDots(sliderDotsPanel: LinearLayout, viewPager: ViewPager2){
+
         sliderDotsPanel.bringToFront()
         val dotsCount = TopNewzAdapter.AMOUNT_OF_TOPNEWS
 
@@ -67,8 +78,10 @@ class StoriesFragment(context: Context) : Fragment() {
                 dots[position]?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotblue))
             }
         })
-        val news = Newz(viewPager, newsRecycler, ctx)
-        news.getAllNews()
-        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        news?.subscribeTop?.dispose()
     }
 }
