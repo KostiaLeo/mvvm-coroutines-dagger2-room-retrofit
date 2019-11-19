@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.restkotlinized.R
 
-class SectionPagerAdapter(private val context: Context,private val fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class SectionPagerAdapter(private val context: Context, private val fm: FragmentManager) : FragmentPagerAdapter(fm) {
     companion object {
         val TAB_TITLES = arrayOf(R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3)
     }

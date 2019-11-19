@@ -14,24 +14,25 @@ import com.example.restkotlinized.model.Results
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.ReplaySubject
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NewzAdapter(val results: ArrayList<Results>) :
-    RecyclerView.Adapter<NewzAdapter.ViewHolder>() {
+class NewzAdapter(val results: ArrayList<Results>) : RecyclerView.Adapter<NewzAdapter.ViewHolder>() {
 
-    private val clickSubject = ReplaySubject.create<Results>()
-    private var disposable: Disposable? = null
-    val clickEvent: Observable<Results> = clickSubject
+    companion object {
+        private val clickSubject = BehaviorSubject.create<Results>()
+        val clickEvent: Observable<Results> = clickSubject
+        private var disposable: Disposable? = null
+    }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-    )
-
-    override fun getItemCount(): Int = results?.let { results.size }
+    override fun getItemCount(): Int = results.let { results.size }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val result = results[position]
@@ -50,14 +51,10 @@ class NewzAdapter(val results: ArrayList<Results>) :
         val idTv = itemView.findViewById<TextView>(R.id.id)
         val photo = itemView.findViewById<ImageView>(R.id.photo)
 
-
         init {
             disposable = RxView.clicks(itemView).subscribe {
                 clickSubject.onNext(results[layoutPosition])
             }
-//            itemView.setOnClickListener {
-//                clickSubject.onNext(results[layoutPosition])
-//            }
         }
     }
 

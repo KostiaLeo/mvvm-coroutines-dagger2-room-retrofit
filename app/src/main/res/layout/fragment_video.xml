@@ -1,15 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragments.VideoFragment">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:text="@string/video_frag_text">
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints">
 
-</TextView>
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/g"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/slider_dots_margin_bottom_and_list_item"
+        android:layout_marginRight="@dimen/slider_dots_margin_bottom_and_list_item"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_news_height"
+            android:layout_marginTop="@dimen/appbar_padding"
+            android:background="@color/default_news_background"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo"
+            android:layout_marginLeft="@dimen/top_text_pads"
+            android:layout_marginTop="@dimen/appbar_padding"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-black"
+            android:gravity="start"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/news_main_text_size" />
+
+        <LinearLayout
+            android:id="@+id/shortlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginLeft="@dimen/top_text_pads"
+            android:layout_marginTop="@dimen/top_text_pads"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:text="Id"
+                android:textColor="@color/color_for_insider_of_new"
+                android:textSize="@dimen/top_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/top_mark_pad"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:text="source"
+                android:textSize="@dimen/top_text_size" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separate_line_height"
+        android:layout_below="@id/g"
+        android:layout_marginTop="@dimen/appbar_padding"
+        android:layout_marginBottom="@dimen/separate_line_height"
+        android:background="@color/separate_line_color" />
+</RelativeLayout>
+

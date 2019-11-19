@@ -29,7 +29,7 @@ class Newz(
     private val recyclerView: RecyclerView,
     private val context: Context
 ) {
-    var subscribeTop: Disposable? = null
+    var subscribe: Disposable? = null
 
     @SuppressLint("CheckResult")
     fun getAllNews() {
@@ -59,10 +59,10 @@ class Newz(
         val mainAdapter = NewzAdapter(results)
         viewPager2.adapter = adapterForVP
         recyclerView.adapter = mainAdapter
-
-        subscribeTop = mainAdapter.clickEvent.subscribe {
-            Toast.makeText(context, "Clicked on ${it.name}", Toast.LENGTH_LONG).show()
-        }
+//
+//        subscribe = MainAdapter().clickEvent.subscribe {
+//            Toast.makeText(context, "Clicked on ${it.name}", Toast.LENGTH_LONG).show()
+//        }
     }
 
 

@@ -82,6 +82,6 @@ class StoriesFragment(context: Context) : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        news?.subscribeTop?.dispose()
+        news?.subscribe?.dispose()
     }
 }
