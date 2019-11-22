@@ -14,10 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val sectionPagerAdapter = SectionPagerAdapter(
-            this,
-            supportFragmentManager
-        )
+        val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
 
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
