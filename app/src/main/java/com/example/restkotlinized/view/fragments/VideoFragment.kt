@@ -13,6 +13,7 @@ import com.example.restkotlinized.R
 import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -31,6 +32,9 @@ class VideoFragment(context: Context) : Fragment() {
     // TODO: create observable which will emit some simple value to MainActivity for switching tabs
     //  when user has clicked on New-item
 
+    // https://stackoverflow.com/questions/12231318/set-default-tab-for-fragment-viewpager-setup
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_video, container, false)
         this.root = root
@@ -38,8 +42,8 @@ class VideoFragment(context: Context) : Fragment() {
         return root
     }
 
-    fun observeDataFromObservable() {
-        disposable = NewzAdapter.clickEvent.subscribeOn(Schedulers.io()).subscribe { result ->
+    private fun observeDataFromObservable() {
+        disposable = NewzAdapter.clickObservable.subscribe { result ->
             setView(result)
         }
     }

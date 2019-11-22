@@ -1,39 +1,69 @@
 package com.example.restkotlinized.view.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.media.Image
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.restkotlinized.ArtistsContract
+import com.example.restkotlinized.Presenter
 import com.example.restkotlinized.R
-import com.example.restkotlinized.presenter.Newz
+import com.example.restkotlinized.ShowEmptyView
+import com.example.restkotlinized.model.Results
+import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
 import com.example.restkotlinized.view.fragments.topAdapter.TopNewzAdapter
 
-//object StoriesFragment : Fragment() {
-//    fun getStFrag(context: Context): StoriesFragment = StoriesFragment
-//}
-class StoriesFragment(context: Context) : Fragment() {
-    val ctx = context
-    var news: Newz? = null
+
+class StoriesFragment(context: Context) : Fragment(), ArtistsContract.View, ShowEmptyView {
+
+    private val ctx: Context = context
+    private var newsRecycler: RecyclerView? = null
+    private var progressBar: ProgressBar? = null
+    private var emptyView: TextView? = null
+
+    private var presenter: Presenter = Presenter(this)
+
+    private var allResults: ArrayList<Results>? = null
+
+    private var mainAdapter: NewzAdapter? = null
+    private var adapterForVP: TopNewzAdapter? = null
 
     companion object Factory {
         fun create(context: Context): StoriesFragment =
             StoriesFragment(context)
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_stories, container, false)
+        presenter.requestDataFromServer()
+
+        Presenter.loadObservable.subscribe {
+            results -> initUI(root, ArrayList(results))
+        }
+
+        return root
+    }
+
+    private fun initUI(root: View, allResults: ArrayList<Results>){
+        println("initUI(): allResults size = ${allResults.size}")
+
+        mainAdapter = NewzAdapter(allResults)
+        adapterForVP = TopNewzAdapter(allResults)
+
         val newsRecycler = root.findViewById<RecyclerView>(R.id.newzzz)
-        newsRecycler.layoutManager = LinearLayoutManager(this.ctx)
+        newsRecycler.layoutManager = LinearLayoutManager(ctx)
+        newsRecycler.itemAnimator = DefaultItemAnimator()
+        progressBar = root.findViewById<ProgressBar>(R.id.pb_loading)
 
         val viewPager = root.findViewById<ViewPager2>(R.id.viewPager2)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -41,11 +71,46 @@ class StoriesFragment(context: Context) : Fragment() {
         val sliderDotsPanel = root.findViewById<LinearLayout>(R.id.SliderDots)
         setDots(sliderDotsPanel, viewPager)
 
-        news = Newz(viewPager, newsRecycler, ctx)
-        news?.getAllNews()
-        return root
+        newsRecycler?.adapter = mainAdapter
+        viewPager?.adapter = adapterForVP
     }
 
+    override fun setDataToRecyclerView(results: List<Results>) {
+            val res: ArrayList<Results> = ArrayList(results)
+            println("setting adapter, res size = ${res.size}")
+            allResults?.addAll(res)
+            mainAdapter?.notifyDataSetChanged()
+    }
+
+    override fun onResponseFailure(throwable: Throwable) {
+        Toast.makeText(
+            context,
+            "Сервер не отвечает, попробуйте позже",
+            Toast.LENGTH_SHORT
+        ).show()
+        println(throwable)
+    }
+
+    override fun showEmptyView() {
+        newsRecycler?.visibility = View.GONE
+        emptyView?.visibility = View.VISIBLE
+    }
+
+    override fun hideEmptyView() {
+        newsRecycler?.visibility = View.VISIBLE
+        emptyView?.visibility = View.GONE
+    }
+
+    override fun showProgress() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar?.visibility = View.INVISIBLE
+    }
+
+
+// ------------------ UI ------------------
     private fun setDots(sliderDotsPanel: LinearLayout, viewPager: ViewPager2){
 
         sliderDotsPanel.bringToFront()
@@ -73,15 +138,16 @@ class StoriesFragment(context: Context) : Fragment() {
 //                super.onPageSelected(position)
                 dots.forEach {
                     it?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotgrey))
-                    val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    //val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                 }
                 dots[position]?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotblue))
             }
         })
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
-        news?.subscribe?.dispose()
+
     }
 }

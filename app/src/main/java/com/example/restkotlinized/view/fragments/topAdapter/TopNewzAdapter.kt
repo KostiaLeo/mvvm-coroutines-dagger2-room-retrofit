@@ -9,13 +9,12 @@ import com.example.restkotlinized.model.Results
 
 class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<TopViewHolder>() {
     companion object {
-        const val AMOUNT_OF_TOPNEWS = 10
+        const val AMOUNT_OF_TOPNEWS = 5
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopViewHolder =
-        TopViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.top_new, parent, false)
-        )
+        TopViewHolder(LayoutInflater.from(parent.context)
+                .inflate(R.layout.top_new, parent, false))
 
     override fun getItemCount(): Int = results?.let { AMOUNT_OF_TOPNEWS }
 
