@@ -26,6 +26,5 @@ class Presenter(private val artistsView: ArtistsContract.View) : ArtistsContract
     }
 
     override fun onDestroy() {
-//        artistsView = null
     }
 }
