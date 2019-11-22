@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.example.restkotlinized.ArtistsContract
+import com.example.restkotlinized.MVPContract
 import com.example.restkotlinized.R
 import com.example.restkotlinized.presenter.Presenter
 import com.example.restkotlinized.model.pojo.Results
@@ -27,7 +27,7 @@ import io.reactivex.subjects.BehaviorSubject
 import kotlin.collections.ArrayList
 
 class StoriesFragment(context: Context) : Fragment(),
-    ArtistsContract.View {
+    MVPContract.View {
     companion object Factory {
         fun create(context: Context): StoriesFragment =
             StoriesFragment(context)

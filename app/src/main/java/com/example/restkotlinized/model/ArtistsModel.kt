@@ -1,14 +1,14 @@
 package com.example.restkotlinized.model
 
 import android.annotation.SuppressLint
-import com.example.restkotlinized.ArtistsContract
+import com.example.restkotlinized.MVPContract
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ArtistsModel : ArtistsContract.Model {
+class ArtistsModel : MVPContract.Model {
 
     @SuppressLint("CheckResult")
-    override fun getArtistsList(onFinishedListener: ArtistsContract.Model.OnFinishedListener) {
+    override fun getArtistsList(onFinishedListener: MVPContract.Model.OnFinishedListener) {
         val newsSingle = INewsApi.create().getAPINewz()
         newsSingle.subscribeOn(Schedulers.io()).retry(3)
             .observeOn(AndroidSchedulers.mainThread()).subscribe { myNews, error ->
