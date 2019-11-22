@@ -1,4 +1,4 @@
-package com.example.restkotlinized.mainAdapter
+package com.example.restkotlinized.view.mainAdapter
 
 import android.view.LayoutInflater
 import android.view.View

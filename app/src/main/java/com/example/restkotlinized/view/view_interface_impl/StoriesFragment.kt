@@ -18,8 +18,8 @@ import com.example.restkotlinized.ArtistsContract
 import com.example.restkotlinized.R
 import com.example.restkotlinized.presenter.Presenter
 import com.example.restkotlinized.model.pojo.Results
-import com.example.restkotlinized.mainAdapter.NewzAdapter
-import com.example.restkotlinized.topAdapter.TopNewzAdapter
+import com.example.restkotlinized.view.mainAdapter.NewzAdapter
+import com.example.restkotlinized.view.topAdapter.TopNewzAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
