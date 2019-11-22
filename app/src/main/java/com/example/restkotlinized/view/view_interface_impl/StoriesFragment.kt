@@ -1,4 +1,4 @@
-package com.example.restkotlinized.view.fragments
+package com.example.restkotlinized.view.view_interface_impl
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,18 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.restkotlinized.ArtistsContract
-import com.example.restkotlinized.presenter.Presenter
 import com.example.restkotlinized.R
+import com.example.restkotlinized.presenter.Presenter
 import com.example.restkotlinized.model.pojo.Results
-import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
-import com.example.restkotlinized.view.fragments.topAdapter.TopNewzAdapter
+import com.example.restkotlinized.mainAdapter.NewzAdapter
+import com.example.restkotlinized.topAdapter.TopNewzAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlin.collections.ArrayList
 
-class StoriesFragment(context: Context) : Fragment(), ArtistsContract.View {
+class StoriesFragment(context: Context) : Fragment(),
+    ArtistsContract.View {
     companion object Factory {
         fun create(context: Context): StoriesFragment =
             StoriesFragment(context)
@@ -108,7 +109,9 @@ class StoriesFragment(context: Context) : Fragment(), ArtistsContract.View {
 
         dots.forEach {
 
-            it?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotgrey))
+            it?.setImageDrawable(ContextCompat.getDrawable(ctx,
+                R.drawable.dotgrey
+            ))
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -118,16 +121,22 @@ class StoriesFragment(context: Context) : Fragment(), ArtistsContract.View {
             sliderDotsPanel.addView(it, params)
         }
 
-        dots[0]?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotblue))
+        dots[0]?.setImageDrawable(ContextCompat.getDrawable(ctx,
+            R.drawable.dotblue
+        ))
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
 //                super.onPageSelected(position)
                 dots.forEach {
-                    it?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotgrey))
+                    it?.setImageDrawable(ContextCompat.getDrawable(ctx,
+                        R.drawable.dotgrey
+                    ))
                     //val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                 }
-                dots[position]?.setImageDrawable(ContextCompat.getDrawable(ctx, R.drawable.dotblue))
+                dots[position]?.setImageDrawable(ContextCompat.getDrawable(ctx,
+                    R.drawable.dotblue
+                ))
             }
         })
     }

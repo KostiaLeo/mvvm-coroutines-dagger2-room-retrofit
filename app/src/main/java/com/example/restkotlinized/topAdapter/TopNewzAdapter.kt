@@ -1,4 +1,4 @@
-package com.example.restkotlinized.view.fragments.topAdapter
+package com.example.restkotlinized.topAdapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
 import com.example.restkotlinized.model.pojo.Results
-import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
 
 class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<TopNewzAdapter.TopViewHolder>() {
     companion object {

@@ -1,10 +1,11 @@
-package com.example.restkotlinized
+package com.example.restkotlinized.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
+import com.example.restkotlinized.R
+import com.example.restkotlinized.mainAdapter.NewzAdapter
 import com.example.restkotlinized.view.fragments.SectionPagerAdapter
-import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
 import com.google.android.material.tabs.TabLayout
 import io.reactivex.disposables.Disposable
 

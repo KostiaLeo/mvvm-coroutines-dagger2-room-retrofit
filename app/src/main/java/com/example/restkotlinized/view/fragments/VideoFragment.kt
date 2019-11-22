@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
 import com.example.restkotlinized.model.pojo.Results
-import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
+import com.example.restkotlinized.mainAdapter.NewzAdapter
 import io.reactivex.disposables.Disposable
 
 class VideoFragment(context: Context) : Fragment() {
