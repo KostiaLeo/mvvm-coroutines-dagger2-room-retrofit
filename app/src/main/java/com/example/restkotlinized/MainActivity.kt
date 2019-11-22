@@ -1,15 +1,12 @@
-package com.example.restkotlinized.view
+package com.example.restkotlinized
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import com.example.restkotlinized.R
 import com.example.restkotlinized.view.fragments.SectionPagerAdapter
 import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
 import com.google.android.material.tabs.TabLayout
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.observers.DisposableCompletableObserver
 
 class MainActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
@@ -20,8 +17,10 @@ class MainActivity : AppCompatActivity() {
             this,
             supportFragmentManager
         )
+
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
+
         val tabLayout: TabLayout = findViewById(R.id.tabs)
         tabLayout.setupWithViewPager(viewPager)
 

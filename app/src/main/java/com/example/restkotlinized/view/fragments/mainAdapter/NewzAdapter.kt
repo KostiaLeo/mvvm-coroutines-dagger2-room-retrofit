@@ -1,6 +1,5 @@
 package com.example.restkotlinized.view.fragments.mainAdapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,43 +8,36 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model.MyNewz
-import com.example.restkotlinized.model.Results
+import com.example.restkotlinized.model.pojo.Results
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.ReplaySubject
-import java.util.*
-import java.util.function.Consumer
 import kotlin.collections.ArrayList
 
 class NewzAdapter(val results: ArrayList<Results>) : RecyclerView.Adapter<NewzAdapter.ViewHolder>() {
 
     companion object {
         private val clickSubject = BehaviorSubject.create<Results>()
-        val clickObservable: Observable<Results> = clickSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        val clickObservable: Observable<Results> =
+            clickSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
         private var disposableSetItem: Disposable? = null
 
         private val switchSubject = BehaviorSubject.create<Any>()
-        val switchObservable: Observable<Any> = switchSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        val switchObservable: Observable<Any> = switchSubject
+            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
 
     override fun getItemCount(): Int = results.let { results.size }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val result = results[position]
-        println("Adapter: ${result.name}")
         val image = result.image
         Glide.with(holder.itemView.context)
             .load(image.url)

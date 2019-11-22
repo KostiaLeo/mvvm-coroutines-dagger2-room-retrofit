@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.restkotlinized.R
 
 class FavFragment(context: Context) : Fragment(){
-    val ctx = context
+
     companion object Factory {
         fun create(context: Context): FavFragment =
             FavFragment(context)

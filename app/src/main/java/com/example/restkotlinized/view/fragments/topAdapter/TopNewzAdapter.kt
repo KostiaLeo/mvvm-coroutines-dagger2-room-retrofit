@@ -1,13 +1,17 @@
 package com.example.restkotlinized.view.fragments.topAdapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model.Results
+import com.example.restkotlinized.model.pojo.Results
+import com.example.restkotlinized.view.fragments.mainAdapter.NewzAdapter
 
-class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<TopViewHolder>() {
+class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<TopNewzAdapter.TopViewHolder>() {
     companion object {
         const val AMOUNT_OF_TOPNEWS = 5
     }
@@ -24,8 +28,15 @@ class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<To
         Glide.with(holder.itemView.context)
             .load(image.url)
             .into(holder.photo)
-        holder.nameTv.setText(result.name)
-        holder.typeTv.setText(result.price)
-        holder.costTv.setText(result.currency.id)
+        holder.nameTv.text = result.name
+        holder.typeTv.text = result.price
+        holder.costTv.text = result.currency.id
+    }
+
+    inner class TopViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nameTv = itemView.findViewById(R.id.name_top) as TextView
+        val costTv = itemView.findViewById(R.id.cost_top) as TextView
+        val typeTv = itemView.findViewById(R.id.type_top) as TextView
+        val photo = itemView.findViewById(R.id.photo_top) as ImageView
     }
 }

@@ -1,7 +1,6 @@
 package com.example.restkotlinized
 
-import com.example.restkotlinized.model.MyNewz
-import com.example.restkotlinized.model.Results
+import com.example.restkotlinized.model.pojo.Results
 
 interface ArtistsContract {
 
@@ -10,7 +9,7 @@ interface ArtistsContract {
         interface OnFinishedListener {
             fun onFinished(results: List<Results>)
 
-            fun OnFailed(t: Throwable)
+            fun onFailed(t: Throwable)
         }
 
         fun getArtistsList(onFinishedListener: OnFinishedListener)
