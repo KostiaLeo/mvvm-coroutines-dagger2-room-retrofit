@@ -26,8 +26,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlin.collections.ArrayList
 
-class StoriesFragment(context: Context) : Fragment(),
-    MVPContract.View {
+class StoriesFragment(context: Context) : Fragment(), MVPContract.View {
     companion object Factory {
         fun create(context: Context): StoriesFragment =
             StoriesFragment(context)
@@ -36,6 +35,9 @@ class StoriesFragment(context: Context) : Fragment(),
     private val ctx: Context = context
     private var root: View? = null
     private var progressBar: ProgressBar? = null
+    private var newsRecycler: RecyclerView? = null
+    private var viewPager2: ViewPager2? = null
+    private var sliderDotsPanel: LinearLayout? = null
 
     private var presenter: Presenter = Presenter(this)
 
@@ -43,57 +45,59 @@ class StoriesFragment(context: Context) : Fragment(),
     private var adapterForTopNewz: TopNewzAdapter? = null
 
     private val loadSubject = BehaviorSubject.create<List<Results>>()
-    private val loadObservable
-            = loadSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+    private val loadObservable =
+        loadSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     private var disposableLoader: Disposable? = null
 
 
     override fun setDataToRecyclerView(results: List<Results>) {
         loadSubject.onNext(results)
-
         mainAdapter?.notifyDataSetChanged()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_stories, container, false)
         this.root = root
-
         presenter.requestDataFromServer()
-        observeResult()
+        findUIElements()
+        refreshUIByObserving()
 
         return root
     }
 
     @SuppressLint("CheckResult")
-    fun observeResult() {
-        disposableLoader = loadObservable.subscribe {
-            results -> putResultsToInitUI(results)
+    fun refreshUIByObserving() {
+        disposableLoader = loadObservable.subscribe { results ->
+            putResultsToInitUI(results)
         }
     }
 
-    private fun putResultsToInitUI(r: List<Results>){
-        initUI(ArrayList(r))
+    private fun putResultsToInitUI(r: List<Results>) {
+        setAdaptersAndDots(ArrayList(r))
     }
 
 // ----------------------------- UI ---------------------------------
 
-    private fun initUI(allResults: ArrayList<Results>) {
-
-        mainAdapter = NewzAdapter(allResults)
-        adapterForTopNewz = TopNewzAdapter(allResults)
-
-        val newsRecycler = root?.findViewById<RecyclerView>(R.id.newzzz)
+    private fun findUIElements() {
+        newsRecycler = root?.findViewById<RecyclerView>(R.id.newzzz)
         newsRecycler?.layoutManager = LinearLayoutManager(ctx)
         newsRecycler?.itemAnimator = DefaultItemAnimator()
 
-        val viewPager = root?.findViewById<ViewPager2>(R.id.viewPager2)
-        viewPager?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        viewPager2 = root?.findViewById<ViewPager2>(R.id.viewPager2)
+        viewPager2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
 
-        val sliderDotsPanel = root?.findViewById<LinearLayout>(R.id.SliderDots)
-        sliderDotsPanel?.let { viewPager?.let { it1 -> setDots(it, it1) } }
+    private fun setAdaptersAndDots(allResults: ArrayList<Results>) {
+        mainAdapter = NewzAdapter(allResults)
+        adapterForTopNewz = TopNewzAdapter(allResults)
 
         newsRecycler?.adapter = mainAdapter
-        viewPager?.adapter = adapterForTopNewz
+        viewPager2?.adapter = adapterForTopNewz
+
+        sliderDotsPanel = root?.findViewById<LinearLayout>(R.id.SliderDots)
+        sliderDotsPanel?.let {
+            viewPager2?.let { pager -> setDots(sliderDotsPanel!!, pager) }
+        }
     }
 
     private fun setDots(sliderDotsPanel: LinearLayout, viewPager: ViewPager2) {
@@ -109,9 +113,12 @@ class StoriesFragment(context: Context) : Fragment(),
 
         dots.forEach {
 
-            it?.setImageDrawable(ContextCompat.getDrawable(ctx,
-                R.drawable.dotgrey
-            ))
+            it?.setImageDrawable(
+                ContextCompat.getDrawable(
+                    ctx,
+                    R.drawable.dotgrey
+                )
+            )
             val params = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -121,22 +128,29 @@ class StoriesFragment(context: Context) : Fragment(),
             sliderDotsPanel.addView(it, params)
         }
 
-        dots[0]?.setImageDrawable(ContextCompat.getDrawable(ctx,
-            R.drawable.dotblue
-        ))
+        dots[0]?.setImageDrawable(
+            ContextCompat.getDrawable(
+                ctx,
+                R.drawable.dotblue
+            )
+        )
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
                 dots.forEach {
-                    it?.setImageDrawable(ContextCompat.getDrawable(ctx,
-                        R.drawable.dotgrey
-                    ))
-                    //val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    it?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            ctx,
+                            R.drawable.dotgrey
+                        )
+                    )
                 }
-                dots[position]?.setImageDrawable(ContextCompat.getDrawable(ctx,
-                    R.drawable.dotblue
-                ))
+                dots[position]?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        ctx,
+                        R.drawable.dotblue
+                    )
+                )
             }
         })
     }
