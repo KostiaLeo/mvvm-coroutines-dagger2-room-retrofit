@@ -9,15 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.restkotlinized.MVPContract
 import com.example.restkotlinized.R
+import com.example.restkotlinized.databinding.FragmentStoriesBinding
 import com.example.restkotlinized.presenter.Presenter
 import com.example.restkotlinized.model.pojo.Results
+import com.example.restkotlinized.mvvm.MainViewModel
+import com.example.restkotlinized.mvvm.OnDataReadyCallback
 import com.example.restkotlinized.view.mainAdapter.NewzAdapter
 import com.example.restkotlinized.view.topAdapter.TopNewzAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,7 +32,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlin.collections.ArrayList
 
-class StoriesFragment(context: Context) : Fragment(), MVPContract.View {
+class StoriesFragment(context: Context) : Fragment(), OnDataReadyCallback {//, MVPContract.View
     companion object Factory {
         fun create(context: Context): StoriesFragment =
             StoriesFragment(context)
@@ -39,7 +45,7 @@ class StoriesFragment(context: Context) : Fragment(), MVPContract.View {
     private var viewPager2: ViewPager2? = null
     private var sliderDotsPanel: LinearLayout? = null
 
-    private var presenter: Presenter = Presenter(this)
+    //private var presenter: Presenter = Presenter(this)
 
     private var mainAdapter: NewzAdapter? = null
     private var adapterForTopNewz: TopNewzAdapter? = null
@@ -49,26 +55,41 @@ class StoriesFragment(context: Context) : Fragment(), MVPContract.View {
         loadSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     private var disposableLoader: Disposable? = null
 
+    private lateinit var binding: FragmentStoriesBinding
+    private lateinit var viewModel: MainViewModel
 
-    override fun setDataToRecyclerView(results: List<Results>) {
-        loadSubject.onNext(results)
+//    override fun setDataToRecyclerView(results: List<Results>) {
+//        loadSubject.onNext(results)
+//        mainAdapter?.notifyDataSetChanged()
+//    }
+
+    override fun onDataReady(artists: ArrayList<Results>) {
+        println("getttttt")
+        loadSubject.onNext(artists)
         mainAdapter?.notifyDataSetChanged()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_stories, container, false)
-        this.root = root
-        presenter.requestDataFromServer()
-        findUIElements()
+//        val root = inflater.inflate(R.layout.fragment_stories, container, false)
+//        this.root = root
+//        presenter.requestDataFromServer()
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.getDataArtists(this)
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
+        //val view = binding.root
+
+        findUIElements(binding)
         refreshUIByObserving()
 
-        return root
+        return binding.root
     }
 
     @SuppressLint("CheckResult")
     fun refreshUIByObserving() {
         disposableLoader = loadObservable.subscribe { results ->
             putResultsToInitUI(results)
+            results.forEach{ println(it.name) }
         }
     }
 
@@ -78,13 +99,29 @@ class StoriesFragment(context: Context) : Fragment(), MVPContract.View {
 
 // ----------------------------- UI ---------------------------------
 
-    private fun findUIElements() {
-        newsRecycler = root?.findViewById<RecyclerView>(R.id.newzzz)
-        newsRecycler?.layoutManager = LinearLayoutManager(ctx)
-        newsRecycler?.itemAnimator = DefaultItemAnimator()
+    private fun findUIElements(binding: FragmentStoriesBinding) {
+        binding.viewModel = viewModel
+        binding.executePendingBindings()
+//        binding.newzzz.layoutManager = LinearLayoutManager(context)
+//        binding.newzzz.adapter = NewzAdapter(viewModel.arstistsList)
+        binding.newzzz.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = NewzAdapter(viewModel.arstistsList)
+            itemAnimator = DefaultItemAnimator()
+        }
+        newsRecycler = binding.newzzz
 
-        viewPager2 = root?.findViewById<ViewPager2>(R.id.viewPager2)
-        viewPager2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.viewPager2.apply {
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        }
+
+        viewPager2 = binding.viewPager2
+//        newsRecycler = root?.findViewById<RecyclerView>(R.id.newzzz)
+//        newsRecycler?.layoutManager = LinearLayoutManager(ctx)
+//        newsRecycler?.itemAnimator = DefaultItemAnimator()
+//
+//        viewPager2 = root?.findViewById<ViewPager2>(R.id.viewPager2)
+//        viewPager2?.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
     private fun setAdaptersAndDots(allResults: ArrayList<Results>) {
@@ -157,19 +194,19 @@ class StoriesFragment(context: Context) : Fragment(), MVPContract.View {
 
 // --------------------------- END UI -------------------------------
 
-    override fun onResponseFailure(throwable: Throwable) {
-        Toast.makeText(context, "Сервер не отвечает, попробуйте позже", Toast.LENGTH_SHORT).show()
-        println(throwable)
-    }
-
-
-    override fun showProgress() {
-        progressBar?.visibility = View.VISIBLE
-    }
-
-    override fun hideProgress() {
-        progressBar?.visibility = View.INVISIBLE
-    }
+//    override fun onResponseFailure(throwable: Throwable) {
+//        Toast.makeText(context, "Сервер не отвечает, попробуйте позже", Toast.LENGTH_SHORT).show()
+//        println(throwable)
+//    }
+//
+//
+//    override fun showProgress() {
+//        progressBar?.visibility = View.VISIBLE
+//    }
+//
+//    override fun hideProgress() {
+//        progressBar?.visibility = View.INVISIBLE
+//    }
 
 
     override fun onDestroyView() {

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
+import com.example.restkotlinized.databinding.ListItemBinding
 import com.example.restkotlinized.model.pojo.Results
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
@@ -17,7 +18,8 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import kotlin.collections.ArrayList
 
-class NewzAdapter(val results: ArrayList<Results>) : RecyclerView.Adapter<NewzAdapter.ViewHolder>() {
+class NewzAdapter(val results: ArrayList<Results>) :
+    RecyclerView.Adapter<NewzAdapter.ViewHolder>() {
 
     companion object {
         private val clickSubject = BehaviorSubject.create<Results>()
@@ -31,33 +33,28 @@ class NewzAdapter(val results: ArrayList<Results>) : RecyclerView.Adapter<NewzAd
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
-            = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        //.inflate(R.layout.list_item, parent, false)
+        val binding = ListItemBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
+    }
 
     override fun getItemCount(): Int = results.let { results.size }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val result = results[position]
-        val image = result.image
-        Glide.with(holder.itemView.context)
-            .load(image.url)
-            .into(holder.photo)
-        holder.nameTv.text = result.name
-        holder.idTv.text = result.currency.id
-        holder.sourceTv.text = result.price
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(results[position])
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameTv = itemView.findViewById(R.id.name) as TextView
-        val sourceTv = itemView.findViewById(R.id.source) as TextView
-        val idTv = itemView.findViewById(R.id.id) as TextView
-        val photo = itemView.findViewById(R.id.photo) as ImageView
+    inner class ViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(artist: Results) {
+            binding.artist = artist
 
-        init {
-            disposableSetItem = RxView.clicks(itemView).subscribe {
+            disposableSetItem = RxView.clicks(binding.root).subscribe {
                 clickSubject.onNext(results[layoutPosition])
                 switchSubject.onNext(Any())
             }
+
+            binding.executePendingBindings()
         }
     }
 
