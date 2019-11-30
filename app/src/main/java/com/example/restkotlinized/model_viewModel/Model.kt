@@ -1,11 +1,10 @@
-package com.example.restkotlinized.mvvm
+package com.example.restkotlinized.model_viewModel
 
 import android.annotation.SuppressLint
-import com.example.restkotlinized.model.INewsApi
+import com.example.restkotlinized.mvp_files.INewsApi
 import com.example.restkotlinized.model.pojo.Results
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 import kotlin.collections.ArrayList
 
 class Model {

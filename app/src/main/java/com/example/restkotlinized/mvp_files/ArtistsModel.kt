@@ -1,7 +1,6 @@
-package com.example.restkotlinized.model
+package com.example.restkotlinized.mvp_files
 
 import android.annotation.SuppressLint
-import com.example.restkotlinized.MVPContract
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

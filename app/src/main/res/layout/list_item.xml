@@ -33,6 +33,7 @@
                 android:layout_marginTop="@dimen/appbar_padding"
                 android:background="@color/default_news_background"
                 android:scaleType="centerCrop"
+                android:src="@{artist.image.url}"
                 />
 <!--app:profileImage="@{artist.image.url}"-->
             <TextView

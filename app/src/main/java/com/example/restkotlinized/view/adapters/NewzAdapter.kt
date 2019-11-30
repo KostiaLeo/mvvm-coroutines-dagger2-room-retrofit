@@ -1,13 +1,8 @@
-package com.example.restkotlinized.view.mainAdapter
+package com.example.restkotlinized.view.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.restkotlinized.R
 import com.example.restkotlinized.databinding.ListItemBinding
 import com.example.restkotlinized.model.pojo.Results
 import com.jakewharton.rxbinding2.view.RxView
@@ -35,7 +30,6 @@ class NewzAdapter(val results: ArrayList<Results>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        //.inflate(R.layout.list_item, parent, false)
         val binding = ListItemBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding)
     }
@@ -44,6 +38,12 @@ class NewzAdapter(val results: ArrayList<Results>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(results[position])
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        disposableSetItem?.dispose()
+    }
+
 
     inner class ViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(artist: Results) {
@@ -56,10 +56,5 @@ class NewzAdapter(val results: ArrayList<Results>) :
 
             binding.executePendingBindings()
         }
-    }
-
-    override fun onViewDetachedFromWindow(holder: ViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        disposableSetItem?.dispose()
     }
 }

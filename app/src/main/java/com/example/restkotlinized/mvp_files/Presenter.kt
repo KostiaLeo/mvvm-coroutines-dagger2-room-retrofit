@@ -1,7 +1,5 @@
-package com.example.restkotlinized.presenter
+package com.example.restkotlinized.mvp_files
 
-import com.example.restkotlinized.MVPContract
-import com.example.restkotlinized.model.ArtistsModel
 import com.example.restkotlinized.model.pojo.Results
 
 class Presenter(private val artistsView: MVPContract.View) : MVPContract.Presenter,

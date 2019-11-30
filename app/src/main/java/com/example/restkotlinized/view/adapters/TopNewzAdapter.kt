@@ -1,4 +1,4 @@
-package com.example.restkotlinized.view.topAdapter
+package com.example.restkotlinized.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View

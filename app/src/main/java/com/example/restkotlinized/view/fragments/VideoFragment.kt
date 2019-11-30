@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
 import com.example.restkotlinized.model.pojo.Results
-import com.example.restkotlinized.view.mainAdapter.NewzAdapter
+import com.example.restkotlinized.view.adapters.NewzAdapter
 import io.reactivex.disposables.Disposable
 
 class VideoFragment(context: Context) : Fragment() {
@@ -24,7 +24,7 @@ class VideoFragment(context: Context) : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_video, container, false)
+        val root = inflater.inflate(R.layout.fragment_chosen, container, false)
         this.root = root
         observeDataFromClickObservable()
         return root

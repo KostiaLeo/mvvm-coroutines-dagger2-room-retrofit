@@ -9,13 +9,13 @@
         
         <variable
             name="viewModel"
-            type="com.example.restkotlinized.mvvm.MainViewModel" />
+            type="com.example.restkotlinized.model_viewModel.MainViewModel" />
     </data>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view_interface_impl.StoriesFragment">
+    tools:context=".view.fragments.StoriesFragment">
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">

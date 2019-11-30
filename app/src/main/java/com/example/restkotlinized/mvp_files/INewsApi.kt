@@ -1,4 +1,4 @@
-package com.example.restkotlinized.model
+package com.example.restkotlinized.mvp_files
 
 import com.example.restkotlinized.model.pojo.MyNewz
 import io.reactivex.Single

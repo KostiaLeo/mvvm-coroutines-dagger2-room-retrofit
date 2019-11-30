@@ -4,13 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.example.restkotlinized.R
-import com.example.restkotlinized.view.mainAdapter.NewzAdapter
+import com.example.restkotlinized.view.adapters.NewzAdapter
 import com.example.restkotlinized.view.fragments.SectionPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
