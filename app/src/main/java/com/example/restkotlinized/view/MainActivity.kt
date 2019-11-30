@@ -11,13 +11,14 @@ import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
     private var disposable: Disposable? = null
+    private lateinit var viewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
 
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
 
         val tabLayout: TabLayout = findViewById(R.id.tabs)
@@ -26,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         disposable = NewzAdapter.switchObservable.subscribe {
             viewPager.currentItem = 1
         }
+    }
+
+    override fun onBackPressed() {
+        viewPager.currentItem = 0
     }
 
     override fun onDestroy() {

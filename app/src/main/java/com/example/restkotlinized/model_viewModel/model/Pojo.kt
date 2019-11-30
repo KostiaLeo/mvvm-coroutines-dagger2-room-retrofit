@@ -1,4 +1,4 @@
-package com.example.restkotlinized.model.pojo
+package com.example.restkotlinized.model_viewModel.model
 
 import androidx.databinding.BaseObservable
 

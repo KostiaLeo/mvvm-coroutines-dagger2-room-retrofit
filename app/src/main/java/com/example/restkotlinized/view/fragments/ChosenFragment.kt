@@ -10,17 +10,17 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model.pojo.Results
+import com.example.restkotlinized.model_viewModel.model.Results
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import io.reactivex.disposables.Disposable
 
-class VideoFragment(context: Context) : Fragment() {
+class ChosenFragment(context: Context) : Fragment() {
     private var root: View? = null
     private var disposable: Disposable? = null
 
     companion object Factory {
-        fun create(context: Context): VideoFragment =
-            VideoFragment(context)
+        fun create(context: Context): ChosenFragment =
+            ChosenFragment(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

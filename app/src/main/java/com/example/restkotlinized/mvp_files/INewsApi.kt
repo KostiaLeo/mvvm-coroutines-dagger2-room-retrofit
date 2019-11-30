@@ -1,6 +1,6 @@
 package com.example.restkotlinized.mvp_files
 
-import com.example.restkotlinized.model.pojo.MyNewz
+import com.example.restkotlinized.model_viewModel.model.MyNewz
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.Retrofit

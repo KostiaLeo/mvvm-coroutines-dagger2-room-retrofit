@@ -1,21 +1,20 @@
-package com.example.restkotlinized.model_viewModel
+package com.example.restkotlinized.model_viewModel.model
 
 import android.annotation.SuppressLint
 import com.example.restkotlinized.mvp_files.INewsApi
-import com.example.restkotlinized.model.pojo.Results
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlin.collections.ArrayList
 
-class Model {
+class ArtistsLocalSource {
+
     @SuppressLint("CheckResult")
-    fun retriveData(onDataReadyCallback: OnDataReadyCallback) {
+    fun retrieveData(onDataReadyCallback: OnDataLocalReadyCallback) {
         val newsSingle = INewsApi.create().getAPINewz()
         newsSingle.subscribeOn(Schedulers.io()).retry(3)
             .observeOn(AndroidSchedulers.mainThread()).subscribe { myNews, error ->
                 if (myNews != null) {
                     myNews.let {
-                        onDataReadyCallback.onDataReady(ArrayList(it.results.toList()))
+                        onDataReadyCallback.onLocalDataReady(ArrayList(it.results.toList()))
                         println("Successfully retrieved")
                     }
                 } else {
@@ -24,7 +23,12 @@ class Model {
                 }
             }
     }
+
+    fun saveRepositories(artists: ArrayList<Results>){
+
+    }
 }
-interface OnDataReadyCallback{
-    fun onDataReady(artists: ArrayList<Results>)
+
+interface OnDataLocalReadyCallback{
+    fun onLocalDataReady(artists: ArrayList<Results>)
 }

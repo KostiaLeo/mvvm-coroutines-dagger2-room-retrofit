@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restkotlinized.databinding.ListItemBinding
-import com.example.restkotlinized.model.pojo.Results
+import com.example.restkotlinized.model_viewModel.model.Results
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,13 +48,12 @@ class NewzAdapter(val results: ArrayList<Results>) :
     inner class ViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(artist: Results) {
             binding.artist = artist
+            binding.executePendingBindings()
 
             disposableSetItem = RxView.clicks(binding.root).subscribe {
                 clickSubject.onNext(results[layoutPosition])
                 switchSubject.onNext(Any())
             }
-
-            binding.executePendingBindings()
         }
     }
 }

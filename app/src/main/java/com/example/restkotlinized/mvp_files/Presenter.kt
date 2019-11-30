@@ -1,6 +1,6 @@
 package com.example.restkotlinized.mvp_files
 
-import com.example.restkotlinized.model.pojo.Results
+import com.example.restkotlinized.model_viewModel.model.Results
 
 class Presenter(private val artistsView: MVPContract.View) : MVPContract.Presenter,
     MVPContract.Model.OnFinishedListener {

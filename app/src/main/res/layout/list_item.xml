@@ -8,7 +8,7 @@
         
         <variable
             name="artist"
-            type="com.example.restkotlinized.model.pojo.Results"
+            type="com.example.restkotlinized.model_viewModel.model.Results"
             />
     </data>
 
