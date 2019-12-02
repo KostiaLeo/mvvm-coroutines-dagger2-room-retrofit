@@ -8,16 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model_viewModel.model.Results
+import com.example.restkotlinized.model.remote.Results
 
-class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<TopNewzAdapter.TopViewHolder>() {
+class TopNewzAdapter(val results: ArrayList<Results>) :
+    RecyclerView.Adapter<TopNewzAdapter.TopViewHolder>() {
     companion object {
         const val AMOUNT_OF_TOPNEWS = 5
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopViewHolder =
-        TopViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.top_new, parent, false))
+        TopViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.top_new, parent, false)
+        )
 
     override fun getItemCount(): Int = results?.let { AMOUNT_OF_TOPNEWS }
 
@@ -32,7 +35,7 @@ class TopNewzAdapter (val results: ArrayList<Results>) : RecyclerView.Adapter<To
         holder.costTv.text = result.currency.id
     }
 
-    inner class TopViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTv = itemView.findViewById(R.id.name_top) as TextView
         val costTv = itemView.findViewById(R.id.cost_top) as TextView
         val typeTv = itemView.findViewById(R.id.type_top) as TextView

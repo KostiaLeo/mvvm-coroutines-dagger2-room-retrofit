@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.restkotlinized.R
 import com.example.restkotlinized.databinding.FragmentStoriesBinding
-import com.example.restkotlinized.model_viewModel.model.Results
-import com.example.restkotlinized.model_viewModel.MainViewModel
+import com.example.restkotlinized.model.remote.Results
+import com.example.restkotlinized.viewmodel.MainViewModel
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import com.example.restkotlinized.view.adapters.TopNewzAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,7 +60,8 @@ class StoriesFragment(context: Context) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getDataArtists()
+
+        viewModel.getData(this, this)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
 
@@ -76,7 +77,7 @@ class StoriesFragment(context: Context) : Fragment() {
 
         newsRecycler = binding.newzzz.apply {
             layoutManager = LinearLayoutManager(context)
-            viewModel.artistsList.observe(this@StoriesFragment,
+            viewModel.artistsList.observe(viewLifecycleOwner,
                 Observer<ArrayList<Results>> {
                     it?.let {
                         loadSubject.onNext(it)

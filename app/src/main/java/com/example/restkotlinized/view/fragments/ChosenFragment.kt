@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model_viewModel.model.Results
+import com.example.restkotlinized.model.remote.Results
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import io.reactivex.disposables.Disposable
 
@@ -23,7 +23,11 @@ class ChosenFragment(context: Context) : Fragment() {
             ChosenFragment(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val root = inflater.inflate(R.layout.fragment_chosen, container, false)
         this.root = root
         observeDataFromClickObservable()
@@ -50,7 +54,7 @@ class ChosenFragment(context: Context) : Fragment() {
         }
         nameTv?.text = result?.name
         idTv?.text = result?.currency?.id
-        sourceTv?.text = result?.price
+        sourceTv?.text = result?.price.toString()
     }
 
     override fun onDetach() {

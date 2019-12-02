@@ -8,7 +8,7 @@
         
         <variable
             name="artist"
-            type="com.example.restkotlinized.model_viewModel.model.Results"
+            type="com.example.restkotlinized.model.remote.Results"
             />
     </data>
 
@@ -33,7 +33,7 @@
                 android:layout_marginTop="@dimen/appbar_padding"
                 android:background="@color/default_news_background"
                 android:scaleType="centerCrop"
-                android:src="@{artist.image.url}"
+                android:src_image="@{artist.image.url}"
                 />
 <!--app:profileImage="@{artist.image.url}"-->
             <TextView
@@ -84,7 +84,7 @@
                     android:gravity="start"
                     android:lines="1"
                     android:scrollHorizontally="true"
-                    android:text="@{artist.price}"
+                    android:text="@{String.valueOf(artist.price)}"
                     android:textSize="@dimen/top_text_size" />
             </LinearLayout>
 

@@ -9,7 +9,7 @@
         
         <variable
             name="viewModel"
-            type="com.example.restkotlinized.model_viewModel.MainViewModel" />
+            type="com.example.restkotlinized.viewmodel.MainViewModel" />
     </data>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -104,7 +104,7 @@
             android:id="@+id/newzzz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
             tools:listitem="@layout/list_item" />
 
     </LinearLayout>

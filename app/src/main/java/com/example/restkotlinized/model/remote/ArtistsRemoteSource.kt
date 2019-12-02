@@ -1,26 +1,29 @@
-package com.example.restkotlinized.mvp_files
+package com.example.restkotlinized.model.remote
 
 import android.annotation.SuppressLint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class ArtistsModel : MVPContract.Model {
-
+class ArtistsRemoteSource {
     @SuppressLint("CheckResult")
-    override fun getArtistsList(onFinishedListener: MVPContract.Model.OnFinishedListener) {
-        val newsSingle = INewsApi.create().getAPINewz()
-        newsSingle.subscribeOn(Schedulers.io()).retry(3)
+    fun retrieveData(onDataReadyCallback: OnDataRemoteReadyCallback) {
+        val artistsSingle = INewsApi.create().getAPINewz()
+        artistsSingle.subscribeOn(Schedulers.io()).retry(3)
             .observeOn(AndroidSchedulers.mainThread()).subscribe { myNews, error ->
+                println(myNews == null)
                 if (myNews != null) {
                     myNews.let {
-                        onFinishedListener.onFinished(it.results.toList())
+                        onDataReadyCallback.onRemoteDataReady(ArrayList(it.results.toList()))
                         println("Successfully retrieved")
                     }
                 } else {
                     println("Failure")
                     println(error)
-                    onFinishedListener.onFailed(error)
                 }
             }
     }
+}
+
+interface OnDataRemoteReadyCallback {
+    fun onRemoteDataReady(artists: ArrayList<Results>)
 }

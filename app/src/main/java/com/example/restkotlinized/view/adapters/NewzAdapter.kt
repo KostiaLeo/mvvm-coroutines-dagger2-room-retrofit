@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restkotlinized.databinding.ListItemBinding
-import com.example.restkotlinized.model_viewModel.model.Results
+import com.example.restkotlinized.model.remote.Results
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
