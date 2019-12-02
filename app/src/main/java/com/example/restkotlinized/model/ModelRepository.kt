@@ -22,27 +22,38 @@ class ModelRepository(
     private val artistsViewModel =
         ViewModelProvider(viewModelStoreOwner).get(ProductViewModel::class.java)
     private val localSource = ArtistsLocalSource(artistsViewModel, lifecycleOwner)
+    private lateinit var onDataReadyCallback: OnDataReadyCallback
 
     fun retrieveData(onDataReadyCallback: OnDataReadyCallback) {
+        this.onDataReadyCallback = onDataReadyCallback
+
         NetManager(applicationContext).isConnectedToInternet?.let {
             if (it) {
-                println("Data from server")
-                remoteSource.retrieveData(object : OnDataRemoteReadyCallback {
-                    override fun onRemoteDataReady(artists: ArrayList<Results>) {
-                        onDataReadyCallback.onDataReady(artists)
-                        localSource.saveData(artists)
-                    }
-                })
+                retrieveRemoteData()
             } else {
-                println("Data from database")
-                localSource.retrieveData(object : OnDataLocalReadyCallback {
-                    override fun onLocalDataReady(artists: ArrayList<Results>) {
-                        onDataReadyCallback.onDataReady(artists)
-                        artists.forEach { artist -> println(artist) }
-                    }
-                })
+                retrieveLocalData()
             }
         }
+    }
+
+    private fun retrieveRemoteData(){
+        println("Data from server")
+        remoteSource.retrieveData(object : OnDataRemoteReadyCallback {
+            override fun onRemoteDataReady(artists: ArrayList<Results>) {
+                onDataReadyCallback.onDataReady(artists)
+                localSource.saveData(artists)
+            }
+        })
+    }
+
+    private fun retrieveLocalData(){
+        println("Data from database")
+        localSource.retrieveData(object : OnDataLocalReadyCallback {
+            override fun onLocalDataReady(artists: ArrayList<Results>) {
+                onDataReadyCallback.onDataReady(artists)
+                artists.forEach { artist -> println(artist) }
+            }
+        })
     }
 }
 
