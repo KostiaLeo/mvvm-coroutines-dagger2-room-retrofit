@@ -1,6 +1,7 @@
 package com.example.restkotlinized.model.remote
 
 import android.annotation.SuppressLint
+import com.example.restkotlinized.model.Results
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

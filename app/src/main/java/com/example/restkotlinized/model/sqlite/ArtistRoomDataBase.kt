@@ -5,21 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.restkotlinized.model.remote.Results
+import com.example.restkotlinized.model.Results
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(entities = arrayOf(Results::class), version = 1, exportSchema = false)
-abstract class ProductRoomDataBase : RoomDatabase() {
+abstract class ArtistRoomDataBase : RoomDatabase() {
 
     abstract fun artistDao(): ArtistDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: ProductRoomDataBase? = null
+        private var INSTANCE: ArtistRoomDataBase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): ProductRoomDataBase {
+        fun getDatabase(context: Context, scope: CoroutineScope): ArtistRoomDataBase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -27,7 +27,7 @@ abstract class ProductRoomDataBase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ProductRoomDataBase::class.java,
+                    ArtistRoomDataBase::class.java,
                     "product_database"
                 )
                     .addCallback(

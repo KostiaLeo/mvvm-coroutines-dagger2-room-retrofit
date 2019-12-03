@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model.remote.Results
+import com.example.restkotlinized.model.Results
 
 class TopNewzAdapter(val results: ArrayList<Results>) :
     RecyclerView.Adapter<TopNewzAdapter.TopViewHolder>() {

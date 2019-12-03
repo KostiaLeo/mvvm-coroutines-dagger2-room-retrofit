@@ -1,4 +1,4 @@
-package com.example.restkotlinized.model.remote
+package com.example.restkotlinized.model
 
 import androidx.room.*
 

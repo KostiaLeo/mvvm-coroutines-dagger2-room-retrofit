@@ -1,5 +1,6 @@
 package com.example.restkotlinized.model.remote
 
+import com.example.restkotlinized.model.MyNewz
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

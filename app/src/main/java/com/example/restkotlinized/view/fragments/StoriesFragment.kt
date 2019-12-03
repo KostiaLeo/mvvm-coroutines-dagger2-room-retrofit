@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.restkotlinized.R
 import com.example.restkotlinized.databinding.FragmentStoriesBinding
-import com.example.restkotlinized.model.remote.Results
+import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.viewmodel.MainViewModel
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import com.example.restkotlinized.view.adapters.TopNewzAdapter

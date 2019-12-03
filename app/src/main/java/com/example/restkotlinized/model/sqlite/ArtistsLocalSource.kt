@@ -2,10 +2,10 @@ package com.example.restkotlinized.model.sqlite
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.example.restkotlinized.model.remote.Results
+import com.example.restkotlinized.model.Results
 
 class ArtistsLocalSource(
-    private val artistsViewModel: ProductViewModel,
+    private val artistsViewModel: ArtistViewModel,
     private val owner: LifecycleOwner
 ) {
 

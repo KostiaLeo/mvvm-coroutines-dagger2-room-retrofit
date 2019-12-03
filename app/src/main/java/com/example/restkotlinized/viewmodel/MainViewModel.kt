@@ -5,7 +5,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.restkotlinized.model.ModelRepository
 import com.example.restkotlinized.model.OnDataReadyCallback
-import com.example.restkotlinized.model.remote.Results
+import com.example.restkotlinized.model.Results
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject

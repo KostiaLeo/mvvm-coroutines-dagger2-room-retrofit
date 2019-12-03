@@ -8,10 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.restkotlinized.model.remote.ArtistsRemoteSource
 import com.example.restkotlinized.model.remote.OnDataRemoteReadyCallback
-import com.example.restkotlinized.model.remote.Results
 import com.example.restkotlinized.model.sqlite.ArtistsLocalSource
 import com.example.restkotlinized.model.sqlite.OnDataLocalReadyCallback
-import com.example.restkotlinized.model.sqlite.ProductViewModel
+import com.example.restkotlinized.model.sqlite.ArtistViewModel
 
 class ModelRepository(
     private val applicationContext: Context,
@@ -20,7 +19,7 @@ class ModelRepository(
 ) {
     private val remoteSource = ArtistsRemoteSource()
     private val artistsViewModel =
-        ViewModelProvider(viewModelStoreOwner).get(ProductViewModel::class.java)
+        ViewModelProvider(viewModelStoreOwner).get(ArtistViewModel::class.java)
     private val localSource = ArtistsLocalSource(artistsViewModel, lifecycleOwner)
     private lateinit var onDataReadyCallback: OnDataReadyCallback
 
