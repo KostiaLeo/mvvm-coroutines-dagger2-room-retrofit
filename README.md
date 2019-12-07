@@ -4,11 +4,11 @@ There is applying MVVM architecture pattern example. </h3>
 <h3>Overview: </h3>
 <ul>
 <li><h3>Model</h3>
-Model is implemented as Repository pattern. Firstly it begins from internet connection checking, consequently if it's though we retrieve data from server (by applying Retrofit 2) and insert into SQLite database. Otherwise we try to fetch data from SQLite itself.
+Model is implemented as Repository pattern. Firstly it begins from internet connection checking. Consequently if it's alive we're retrieving data from the server (by using Retrofit 2) and inserting into the SQLite database. Otherwise we're trying to fetch data from the SQLite itself.
 </li>
 <li><h3>View</h3>
-View realised as 2 fragments. First one contains RecyclerView, second one depends on clicks on recycler-items and finally displays detailed data fetched from Model.
-It implementes state saving refleled on configuration changes.
+View is realised as 2 fragments. First one contains RecyclerView, second one depends on clicks on recycler-items and finally displays detailed data fetched from the Model.
+It implements state saving reflected on configuration changes.
 </li>
 <li><h3>ViewModel</h3>
 VM is responsible for transferring data between view and model.
