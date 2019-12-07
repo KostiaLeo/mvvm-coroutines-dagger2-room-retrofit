@@ -45,11 +45,9 @@ class ModelRepository(
     }
 
     private fun retrieveLocalData(){
-        //println("Data from database")
         localSource.retrieveData(object : OnDataLocalReadyCallback {
             override fun onLocalDataReady(artists: ArrayList<Results>) {
                 onDataReadyCallback.onDataReady(artists)
-                //artists.forEach { artist -> println(artist) }
             }
         })
     }
