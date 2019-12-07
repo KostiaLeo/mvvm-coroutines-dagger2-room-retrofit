@@ -1,5 +1,5 @@
 # Music news
-<h3>Application which retrieve data from server (via retrofit), save this into SQLite and get data from local database (SQLite) if user is offline. <br/>
+<h3>Application which retrieves data from Webserver (via Retrofit), saves it into SQLite and get from local database (SQLite) if user is offline. <br/>
 There is applying MVVM architecture pattern example. </h3>
 <h3>Overview: </h3>
 <ul>
