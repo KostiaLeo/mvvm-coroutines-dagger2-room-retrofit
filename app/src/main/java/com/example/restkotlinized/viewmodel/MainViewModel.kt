@@ -11,18 +11,18 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = application
 
     private lateinit var localModelRepository: ModelRepository
+
     private lateinit var viewModelStoreOwner: ViewModelStoreOwner
     private lateinit var lifecycleOwner: LifecycleOwner
-    private val context = application
 
     private val loadSubject = BehaviorSubject.create<Any>()
     private val loadObservable =
         loadSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
     val artistsList = MutableLiveData<ArrayList<Results>>()
-    val isLoading = MutableLiveData(true)
 
     fun getData(viewModelStoreOwner: ViewModelStoreOwner, lifecycleOwner: LifecycleOwner) {
         this.viewModelStoreOwner = viewModelStoreOwner
@@ -43,7 +43,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             localModelRepository.retrieveData(object :
                 OnDataReadyCallback {
                 override fun onDataReady(artists: ArrayList<Results>) {
-                    isLoading.postValue(false)
                     artistsList.value = artists
                 }
             })

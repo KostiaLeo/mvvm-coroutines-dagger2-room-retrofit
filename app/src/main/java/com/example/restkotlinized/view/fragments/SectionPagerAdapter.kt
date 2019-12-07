@@ -19,9 +19,9 @@ class SectionPagerAdapter(private val context: Context, private val fm: Fragment
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> StoriesFragment.create(context)
-            1 -> ChosenFragment.create(context)
-            else -> StoriesFragment.create(context)
+            0 -> StoriesFragment.create()
+            1 -> ChosenFragment.create()
+            else -> StoriesFragment.create()
         }
     }
 

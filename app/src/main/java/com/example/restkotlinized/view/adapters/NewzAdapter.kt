@@ -11,6 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import kotlin.collections.ArrayList
 
 class NewzAdapter(val results: ArrayList<Results>) :
@@ -21,16 +22,16 @@ class NewzAdapter(val results: ArrayList<Results>) :
         val clickObservable: Observable<Results> =
             clickSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
-        private var disposableSetItem: Disposable? = null
-
-        private val switchSubject = BehaviorSubject.create<Any>()
-        val switchObservable: Observable<Any> = switchSubject
-            .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        private val switchSubject = PublishSubject.create<Any>()
+        val switchObservable: Observable<Any> = switchSubject.observeOn(AndroidSchedulers.mainThread())
     }
+
+    private var disposableSetItem: Disposable? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(layoutInflater, parent, false)
+
         return ViewHolder(binding)
     }
 
@@ -45,7 +46,7 @@ class NewzAdapter(val results: ArrayList<Results>) :
     }
 
 
-    inner class ViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(artist: Results) {
             binding.artist = artist
             binding.executePendingBindings()

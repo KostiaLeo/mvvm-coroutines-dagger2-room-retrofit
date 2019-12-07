@@ -2,15 +2,17 @@ package com.example.restkotlinized.view.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,83 +23,85 @@ import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.viewmodel.MainViewModel
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import com.example.restkotlinized.view.adapters.TopNewzAdapter
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
+import java.util.function.BiFunction
 import kotlin.collections.ArrayList
 
-class StoriesFragment(context: Context) : Fragment() {
-    private val ctx: Context = context
-    private var root: View? = null
+class StoriesFragment : Fragment() {
     private var newsRecycler: RecyclerView? = null
     private var viewPager2: ViewPager2? = null
-    private var sliderDotsPanel: LinearLayout? = null
 
     private var mainAdapter: NewzAdapter? = null
     private var adapterForTopNewz: TopNewzAdapter? = null
 
-    // --------------------------- Rx ------------------------------
-    private val loadSubject = BehaviorSubject.create<List<Results>>()
-    private val loadObservable =
-        loadSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-    private lateinit var disposableLoader: Disposable
+    private val laManager = LinearLayoutManager(context)
 
     private lateinit var binding: FragmentStoriesBinding
     private lateinit var viewModel: MainViewModel
 
+    private val X_NESTEDSCROLL_COORDINATE = "x"
+    private val Y_NESTEDSCROLL_COORDINATE = "y"
 
 // --------------------- methods -------------------------------
 
     companion object Factory {
-        fun create(context: Context): StoriesFragment =
-            StoriesFragment(context)
+        fun create(): StoriesFragment {
+            return StoriesFragment()
+        }
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
         viewModel.getData(this, this)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
 
-        findUIElements()
-        refreshUIByObserving()
+        initUI()
+
+        savedInstanceState?.let {
+            Handler().postDelayed({
+                binding.nestedScrollView.scrollTo(
+                    it.getInt(X_NESTEDSCROLL_COORDINATE),
+                    it.getInt(Y_NESTEDSCROLL_COORDINATE)
+                )
+            }, 700)
+        }
 
         return binding.root
     }
 
-    private fun findUIElements() {
+    private fun initUI() {
         binding.viewModel = viewModel
         binding.executePendingBindings()
 
         newsRecycler = binding.newzzz.apply {
-            layoutManager = LinearLayoutManager(context)
-            viewModel.artistsList.observe(viewLifecycleOwner,
-                Observer<ArrayList<Results>> {
-                    it?.let {
-                        loadSubject.onNext(it)
-                        mainAdapter?.notifyDataSetChanged()
-                    }
-                }
-            )
+            layoutManager = laManager
             itemAnimator = DefaultItemAnimator()
         }
 
         viewPager2 = binding.viewPager2.apply {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
-    }
 
-    @SuppressLint("CheckResult")
-    fun refreshUIByObserving() {
-        disposableLoader = loadObservable.subscribe { results ->
-            setAdapters(ArrayList(results))
-        }
+        viewModel.artistsList.observe(viewLifecycleOwner,
+            Observer<ArrayList<Results>> {
+                it?.let {
+                    setAdapters(it)
+                    mainAdapter?.notifyDataSetChanged()
+                    adapterForTopNewz?.notifyDataSetChanged()
+                }
+            }
+        )
     }
 
     private fun setAdapters(allResults: ArrayList<Results>) {
@@ -110,9 +114,12 @@ class StoriesFragment(context: Context) : Fragment() {
 // --------------------------- END UI -------------------------------
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposableLoader.dispose()
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val x = binding.nestedScrollView.scrollX
+        val y = binding.nestedScrollView.scrollY
+        outState.putInt(X_NESTEDSCROLL_COORDINATE, x)
+        outState.putInt(Y_NESTEDSCROLL_COORDINATE, y)
     }
 }
 

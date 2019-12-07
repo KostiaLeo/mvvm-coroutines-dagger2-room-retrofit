@@ -17,6 +17,7 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.StoriesFragment">
 <androidx.core.widget.NestedScrollView
+    android:id="@+id/nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -34,7 +35,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:indeterminate="true"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +105,7 @@
             android:id="@+id/newzzz"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+            android:visibility="visible"
             tools:listitem="@layout/list_item" />
 
     </LinearLayout>

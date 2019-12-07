@@ -14,13 +14,13 @@ import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import io.reactivex.disposables.Disposable
 
-class ChosenFragment(context: Context) : Fragment() {
+class ChosenFragment() : Fragment() {
     private var root: View? = null
     private var disposable: Disposable? = null
 
     companion object Factory {
-        fun create(context: Context): ChosenFragment =
-            ChosenFragment(context)
+        fun create(): ChosenFragment =
+            ChosenFragment()
     }
 
     override fun onCreateView(

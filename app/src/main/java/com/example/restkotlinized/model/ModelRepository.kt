@@ -36,7 +36,6 @@ class ModelRepository(
     }
 
     private fun retrieveRemoteData(){
-        println("Data from server")
         remoteSource.retrieveData(object : OnDataRemoteReadyCallback {
             override fun onRemoteDataReady(artists: ArrayList<Results>) {
                 onDataReadyCallback.onDataReady(artists)
@@ -46,11 +45,11 @@ class ModelRepository(
     }
 
     private fun retrieveLocalData(){
-        println("Data from database")
+        //println("Data from database")
         localSource.retrieveData(object : OnDataLocalReadyCallback {
             override fun onLocalDataReady(artists: ArrayList<Results>) {
                 onDataReadyCallback.onDataReady(artists)
-                artists.forEach { artist -> println(artist) }
+                //artists.forEach { artist -> println(artist) }
             }
         })
     }
