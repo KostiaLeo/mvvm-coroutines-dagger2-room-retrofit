@@ -17,7 +17,7 @@ class MainViewModel(
     private lateinit var localModelRepository: ModelRepository
 
     val artistsList = MutableLiveData<ArrayList<Results>>()
-    
+
     @SuppressLint("CheckResult")
     fun getDataArtists(context: Context) {
         localModelRepository = ModelRepository(
