@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -43,20 +42,18 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
-
-    implementation 'androidx.core:core-ktx:1.1.0' // TO_DELETE
+//    implementation 'androidx.core:core-ktx:1.1.0' // TO_DELETE
 
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.androidxArchVersion"
-    //kapt "android.arch.lifecycle:compiler:1.0.0-alpha9"
+    kapt "android.arch.lifecycle:compiler:1.0.0-alpha9"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
 
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
-// Testing
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -76,8 +73,8 @@ dependencies {
 //    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
     implementation "androidx.viewpager2:viewpager2:1.0.0-alpha01"
     implementation "androidx.core:core-ktx:+"
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+//    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'

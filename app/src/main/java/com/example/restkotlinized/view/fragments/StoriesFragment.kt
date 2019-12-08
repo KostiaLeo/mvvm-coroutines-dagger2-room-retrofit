@@ -23,6 +23,7 @@ import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.viewmodel.MainViewModel
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import com.example.restkotlinized.view.adapters.TopNewzAdapter
+import com.example.restkotlinized.viewmodel.MainViewModelFactory
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -33,16 +34,14 @@ import java.util.function.BiFunction
 import kotlin.collections.ArrayList
 
 class StoriesFragment : Fragment() {
-    private var newsRecycler: RecyclerView? = null
-    private var viewPager2: ViewPager2? = null
-
-    private var mainAdapter: NewzAdapter? = null
-    private var adapterForTopNewz: TopNewzAdapter? = null
-
-    private val laManager = LinearLayoutManager(context)
+    private lateinit var newsRecycler: RecyclerView
+    private lateinit var viewPager2: ViewPager2
+    private lateinit var mainAdapter: NewzAdapter
+    private lateinit var adapterForTopNewz: TopNewzAdapter
 
     private lateinit var binding: FragmentStoriesBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var viewModelFactory: MainViewModelFactory
 
     private val X_NESTEDSCROLL_COORDINATE = "x"
     private val Y_NESTEDSCROLL_COORDINATE = "y"
@@ -61,8 +60,9 @@ class StoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getData(this, this)
+        viewModelFactory = MainViewModelFactory(viewLifecycleOwner)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.getDataArtists(context!!)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
 
@@ -85,7 +85,7 @@ class StoriesFragment : Fragment() {
         binding.executePendingBindings()
 
         newsRecycler = binding.newzzz.apply {
-            layoutManager = laManager
+            layoutManager = LinearLayoutManager(context)
             itemAnimator = DefaultItemAnimator()
         }
 
@@ -120,6 +120,13 @@ class StoriesFragment : Fragment() {
         val y = binding.nestedScrollView.scrollY
         outState.putInt(X_NESTEDSCROLL_COORDINATE, x)
         outState.putInt(Y_NESTEDSCROLL_COORDINATE, y)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        if(viewModel.artistsList.hasActiveObservers()){
+            viewModel.artistsList.removeObservers(viewLifecycleOwner)
+        }
     }
 }
 
