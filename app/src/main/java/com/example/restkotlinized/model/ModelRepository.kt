@@ -8,7 +8,7 @@ import com.example.restkotlinized.model.remote.ArtistsRemoteSource
 import com.example.restkotlinized.model.remote.OnDataRemoteReadyCallback
 import com.example.restkotlinized.model.sqlite.ArtistsLocalSource
 import com.example.restkotlinized.model.sqlite.OnDataLocalReadyCallback
-import com.example.restkotlinized.model.sqlite.ArtistViewModel
+import com.example.restkotlinized.model.sqlite.LiveDataProvider
 import kotlinx.coroutines.CoroutineScope
 
 class ModelRepository(
@@ -16,10 +16,11 @@ class ModelRepository(
     val lifecycleOwner: LifecycleOwner,
     val coroutineScope: CoroutineScope
 ) {
-    private val remoteSource = ArtistsRemoteSource()
-    private val artistsViewModel: ArtistViewModel = ArtistViewModel(applicationContext, coroutineScope)
-
+    private val liveDataProvider: LiveDataProvider = LiveDataProvider(applicationContext, coroutineScope)
     private lateinit var localSource: ArtistsLocalSource
+
+    private val remoteSource = ArtistsRemoteSource()
+
     private lateinit var onDataReadyCallback: OnDataReadyCallback
 
     fun retrieveData(onDataReadyCallback: OnDataReadyCallback) {
@@ -44,7 +45,7 @@ class ModelRepository(
     }
 
     private fun retrieveLocalData(){
-        localSource = ArtistsLocalSource(artistsViewModel, lifecycleOwner)
+        localSource = ArtistsLocalSource(liveDataProvider, lifecycleOwner)
         localSource.retrieveData(object : OnDataLocalReadyCallback {
             override fun onLocalDataReady(artists: ArrayList<Results>) {
                 onDataReadyCallback.onDataReady(artists)

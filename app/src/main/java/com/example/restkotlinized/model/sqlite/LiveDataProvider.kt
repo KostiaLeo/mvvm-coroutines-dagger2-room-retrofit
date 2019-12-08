@@ -6,7 +6,7 @@ import com.example.restkotlinized.model.Results
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class ArtistViewModel(context: Context, private val viewModelScope: CoroutineScope) {
+class LiveDataProvider(context: Context, private val viewModelScope: CoroutineScope) {
     private val repository: ArtistRepository
     val allArtists: LiveData<List<Results>>
 
