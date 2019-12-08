@@ -11,7 +11,7 @@ View is realised as 2 fragments. First one contains RecyclerView, second one dep
 It implements state saving reflected on configuration changes.
 </li>
 <li><h3>ViewModel</h3>
-VM is responsible for transferring data between view and model.
+ViewModel is responsible for transferring data between view and model.
 </li>
 </ul>
 <hr/>
@@ -21,11 +21,11 @@ VM is responsible for transferring data between view and model.
 <li><h3>Model</h3>
 
 <h4><i>Retrofit 2</i></h4> - getting data from server into pojo-classes
-<h4><i>SQLite</i></h4> - storing data fetched from server. User get data here if he is offline.
-<h4><i>Coroutines</i></h4> - managing asynchronous database queries. 
+<h4><i>SQLite</i></h4> - storing data fetched from server. User get data here if he is offline
+<h4><i>Coroutines</i></h4> - managing asynchronous database queries
 <h4><i>RxJava (RxKotlin)</i></h4>
-   - converting data from server to Observable. <br/>
-   - communication between fragments, click listeners. <br/>
+   - converting data from server to Observable <br/>
+   - communication between fragments, click listeners <br/>
    - providing asynchronous app work
 </li>	 
 <li><h3>ViewModel</h3>
@@ -35,6 +35,6 @@ VM is responsible for transferring data between view and model.
 <li><h3>View</h3>
 <h4><i>Fragments</i></h4> - interactive displaying and click reflecting
 <h4><i>Data Binding</i></h4>
-   - replace basic operations with UI (e.g. findViewById() ) to the XML.
+   - replace basic operations with UI (e.g. findViewById() ) to the XML
 </li>
 </ul>
