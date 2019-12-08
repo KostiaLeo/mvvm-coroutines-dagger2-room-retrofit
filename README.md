@@ -32,7 +32,7 @@ VM is responsible for transferring data between view and model.
 </li>
 
 <li><h3>View</h3>
-<h4><i>Fragments</i></h4> - interact displaying and click reflecting
+<h4><i>Fragments</i></h4> - interactive displaying and click reflecting
 <h4><i>Data Binding</i></h4>
    - replace basic operations with UI (e.g. findViewById() ) to the XML.
 </li>
