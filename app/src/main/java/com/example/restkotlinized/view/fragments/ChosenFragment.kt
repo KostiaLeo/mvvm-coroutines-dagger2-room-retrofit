@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
 import com.example.restkotlinized.model.Results
-import com.example.restkotlinized.view.adapters.NewzAdapter
+import com.example.restkotlinized.view.adapters.NewsAdapter
 import io.reactivex.disposables.Disposable
 
 class ChosenFragment : Fragment() {
@@ -34,7 +34,7 @@ class ChosenFragment : Fragment() {
     }
 
     private fun observeDataFromClickObservable() {
-        disposable = NewzAdapter.clickObservable.subscribe { result ->
+        disposable = NewsAdapter.clickObservable.subscribe { result ->
             setView(result)
         }
     }

@@ -68,24 +68,11 @@
                     android:layout_below="@id/name"
                     android:ellipsize="end"
                     android:gravity="start"
-                    android:lines="1"
                     android:scrollHorizontally="true"
                     android:text="@{artist.currency.id}"
-                    android:textSize="@dimen/top_text_size"
+                    android:textSize="@dimen/simple_text_size"
                     android:maxLines="4"
                     android:textStyle="bold" />
-
-<!--                <TextView-->
-<!--                    android:id="@+id/source"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginLeft="@dimen/top_mark_pad"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:gravity="start"-->
-<!--                    android:lines="1"-->
-<!--                    android:scrollHorizontally="true"-->
-<!--                    android:text="@{String.valueOf(artist.price)}"-->
-<!--                    android:textSize="@dimen/top_text_size" />-->
             </LinearLayout>
 
         </LinearLayout>

@@ -5,4 +5,5 @@
     <string name="fav_frag_text">Нету отмеченных \n избранных новостей</string>
     <string name="tab_text_2">Chosen artist</string>
     <string name="tab_text_3">Favourites</string>
+    <string name="top">TOP</string>
 </resources>

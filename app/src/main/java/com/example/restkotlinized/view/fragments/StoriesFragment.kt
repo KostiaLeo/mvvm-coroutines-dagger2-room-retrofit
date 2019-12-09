@@ -1,15 +1,11 @@
 package com.example.restkotlinized.view.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -21,23 +17,16 @@ import com.example.restkotlinized.R
 import com.example.restkotlinized.databinding.FragmentStoriesBinding
 import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.viewmodel.MainViewModel
-import com.example.restkotlinized.view.adapters.NewzAdapter
-import com.example.restkotlinized.view.adapters.TopNewzAdapter
+import com.example.restkotlinized.view.adapters.NewsAdapter
+import com.example.restkotlinized.view.adapters.TopNewsAdapter
 import com.example.restkotlinized.viewmodel.MainViewModelFactory
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import java.util.concurrent.TimeUnit
-import java.util.function.BiFunction
 import kotlin.collections.ArrayList
 
 class StoriesFragment : Fragment() {
     private lateinit var newsRecycler: RecyclerView
     private lateinit var viewPager2: ViewPager2
-    private lateinit var mainAdapter: NewzAdapter
-    private lateinit var adapterForTopNewz: TopNewzAdapter
+    private lateinit var mainAdapter: NewsAdapter
+    private lateinit var adapterForTopNews: TopNewsAdapter
 
     private lateinit var binding: FragmentStoriesBinding
     private lateinit var viewModel: MainViewModel
@@ -98,17 +87,17 @@ class StoriesFragment : Fragment() {
                 it?.let {
                     setAdapters(it)
                     mainAdapter?.notifyDataSetChanged()
-                    adapterForTopNewz?.notifyDataSetChanged()
+                    adapterForTopNews?.notifyDataSetChanged()
                 }
             }
         )
     }
 
     private fun setAdapters(allResults: ArrayList<Results>) {
-        mainAdapter = NewzAdapter(allResults)
-        adapterForTopNewz = TopNewzAdapter(allResults)
+        mainAdapter = NewsAdapter(allResults)
+        adapterForTopNews = TopNewsAdapter(allResults)
         newsRecycler?.adapter = mainAdapter
-        viewPager2?.adapter = adapterForTopNewz
+        viewPager2?.adapter = adapterForTopNews
     }
 
 // --------------------------- END UI -------------------------------
@@ -124,7 +113,7 @@ class StoriesFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
-        if(viewModel.artistsList.hasActiveObservers()){
+        if (viewModel.artistsList.hasActiveObservers()) {
             viewModel.artistsList.removeObservers(viewLifecycleOwner)
         }
     }
@@ -137,7 +126,7 @@ class StoriesFragment : Fragment() {
 /* private fun setDots(sliderDotsPanel: LinearLayout, viewPager: ViewPager2) {
 
     sliderDotsPanel.bringToFront()
-    val dotsCount = TopNewzAdapter.AMOUNT_OF_TOPNEWS
+    val dotsCount = TopNewsAdapter.AMOUNT_OF_TOPNEWS
 
     val dots = arrayOfNulls<ImageView>(dotsCount)
 

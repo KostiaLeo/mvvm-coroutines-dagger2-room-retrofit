@@ -14,8 +14,8 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import kotlin.collections.ArrayList
 
-class NewzAdapter(val results: ArrayList<Results>) :
-    RecyclerView.Adapter<NewzAdapter.ViewHolder>() {
+class NewsAdapter(val results: ArrayList<Results>) :
+    RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
     companion object {
         private val clickSubject = BehaviorSubject.create<Results>()

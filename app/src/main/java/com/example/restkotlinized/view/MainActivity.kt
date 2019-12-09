@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.example.restkotlinized.R
-import com.example.restkotlinized.view.adapters.NewzAdapter
+import com.example.restkotlinized.view.adapters.NewsAdapter
 import com.example.restkotlinized.view.fragments.SectionPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import io.reactivex.disposables.Disposable
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val tabLayout: TabLayout = findViewById(R.id.tabs)
         tabLayout.setupWithViewPager(viewPager)
 
-        disposable = NewzAdapter.switchObservable.subscribe {
+        disposable = NewsAdapter.switchObservable.subscribe {
             viewPager.currentItem = 1
         }
     }

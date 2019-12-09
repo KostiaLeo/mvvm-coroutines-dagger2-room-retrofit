@@ -17,7 +17,7 @@ class ModelRepository(
     val coroutineScope: CoroutineScope
 ) {
     private val liveDataProvider: LiveDataProvider = LiveDataProvider(applicationContext, coroutineScope)
-    private lateinit var localSource: ArtistsLocalSource
+    private var localSource: ArtistsLocalSource
 
     private val remoteSource = ArtistsRemoteSource()
 
