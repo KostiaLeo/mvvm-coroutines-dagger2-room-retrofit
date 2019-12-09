@@ -32,8 +32,8 @@ class StoriesFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var viewModelFactory: MainViewModelFactory
 
-    private val X_NESTEDSCROLL_COORDINATE = "x"
-    private val Y_NESTEDSCROLL_COORDINATE = "y"
+    private val X_COORDINATE = "x"
+    private val Y_COORDINATE = "y"
 
 // --------------------- methods -------------------------------
 
@@ -49,9 +49,9 @@ class StoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModelFactory = MainViewModelFactory(viewLifecycleOwner)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getDataArtists(context!!)
+        viewModelFactory = MainViewModelFactory(viewLifecycleOwner, this.activity!!.application)
+        viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.getDataArtists()
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
 
@@ -60,8 +60,8 @@ class StoriesFragment : Fragment() {
         savedInstanceState?.let {
             Handler().postDelayed({
                 binding.nestedScrollView.scrollTo(
-                    it.getInt(X_NESTEDSCROLL_COORDINATE),
-                    it.getInt(Y_NESTEDSCROLL_COORDINATE)
+                    it.getInt(X_COORDINATE),
+                    it.getInt(Y_COORDINATE)
                 )
             }, 700)
         }
@@ -86,18 +86,18 @@ class StoriesFragment : Fragment() {
             Observer<ArrayList<Results>> {
                 it?.let {
                     setAdapters(it)
-                    mainAdapter?.notifyDataSetChanged()
-                    adapterForTopNews?.notifyDataSetChanged()
+                    mainAdapter.notifyDataSetChanged()
+                    adapterForTopNews.notifyDataSetChanged()
                 }
             }
         )
     }
 
     private fun setAdapters(allResults: ArrayList<Results>) {
-        mainAdapter = NewsAdapter(allResults)
+        mainAdapter = NewsAdapter(allResults, viewModel)
         adapterForTopNews = TopNewsAdapter(allResults)
-        newsRecycler?.adapter = mainAdapter
-        viewPager2?.adapter = adapterForTopNews
+        newsRecycler.adapter = mainAdapter
+        viewPager2.adapter = adapterForTopNews
     }
 
 // --------------------------- END UI -------------------------------
@@ -107,8 +107,8 @@ class StoriesFragment : Fragment() {
         super.onSaveInstanceState(outState)
         val x = binding.nestedScrollView.scrollX
         val y = binding.nestedScrollView.scrollY
-        outState.putInt(X_NESTEDSCROLL_COORDINATE, x)
-        outState.putInt(Y_NESTEDSCROLL_COORDINATE, y)
+        outState.putInt(X_COORDINATE, x)
+        outState.putInt(Y_COORDINATE, y)
     }
 
     override fun onDetach() {

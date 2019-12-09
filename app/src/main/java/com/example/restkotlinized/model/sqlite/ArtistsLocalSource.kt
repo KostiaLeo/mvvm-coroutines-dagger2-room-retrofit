@@ -6,7 +6,7 @@ import com.example.restkotlinized.model.Results
 class ArtistsLocalSource(
     private val liveDataProvider: LiveDataProvider,
     private val owner: LifecycleOwner
-)  : LifecycleObserver {
+) {
 
     fun retrieveData(onDataReadyCallback: OnDataLocalReadyCallback) {
         liveDataProvider.allArtists.observe(owner, Observer { artists ->
@@ -16,11 +16,6 @@ class ArtistsLocalSource(
 
     fun saveData(artists: ArrayList<Results>) {
         liveDataProvider.insert(artists)
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun dispose(){
-        liveDataProvider.allArtists.removeObservers(owner)
     }
 }
 

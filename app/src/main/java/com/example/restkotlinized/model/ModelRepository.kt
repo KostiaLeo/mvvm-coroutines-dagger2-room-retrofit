@@ -25,7 +25,6 @@ class ModelRepository(
 
     init {
         localSource = ArtistsLocalSource(liveDataProvider, lifecycleOwner)
-        lifecycleOwner.lifecycle.addObserver(localSource)
     }
 
     fun retrieveData(onDataReadyCallback: OnDataReadyCallback) {

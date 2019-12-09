@@ -7,15 +7,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.get
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
 import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.view.adapters.NewsAdapter
+import com.example.restkotlinized.viewmodel.MainViewModel
 import io.reactivex.disposables.Disposable
 
 class ChosenFragment : Fragment() {
     private var root: View? = null
     private var disposable: Disposable? = null
+    private lateinit var viewModel: MainViewModel
 
     companion object Factory {
         fun create(): ChosenFragment =
@@ -27,6 +33,8 @@ class ChosenFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
         val root = inflater.inflate(R.layout.fragment_chosen, container, false)
         this.root = root
         observeDataFromClickObservable()
@@ -34,9 +42,13 @@ class ChosenFragment : Fragment() {
     }
 
     private fun observeDataFromClickObservable() {
-        disposable = NewsAdapter.clickObservable.subscribe { result ->
-            setView(result)
-        }
+        viewModel.selectedItem.observe(viewLifecycleOwner, Observer {
+            setView(it)
+        })
+// ------- alternative Rx click listener -------
+//        disposable = NewsAdapter.clickObservable.subscribe { result ->
+//            setView(result)
+//        }
     }
 
     private fun setView(result: Results?) {

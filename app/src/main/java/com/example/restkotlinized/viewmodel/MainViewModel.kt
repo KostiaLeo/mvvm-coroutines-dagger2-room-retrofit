@@ -12,25 +12,39 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
 class MainViewModel(
-    private val lifecycleOwner: LifecycleOwner
-) : ViewModel() {
-    private lateinit var localModelRepository: ModelRepository
-
+    private val lifecycleOwner: LifecycleOwner,
+    application: Application
+) : AndroidViewModel(application) {
+    val app = application
     val artistsList = MutableLiveData<ArrayList<Results>>()
 
+    val selectedItem = MutableLiveData<Results>()
+
     @SuppressLint("CheckResult")
-    fun getDataArtists(context: Context) {
-        localModelRepository = ModelRepository(
-            context,
+    fun getDataArtists() {
+        ModelRepository(
+            app,
             lifecycleOwner = lifecycleOwner,
             coroutineScope = viewModelScope
-        )
-
-        localModelRepository.retrieveData(object :
+        ).retrieveData(object :
             OnDataReadyCallback {
             override fun onDataReady(artists: ArrayList<Results>) {
-                artistsList.value = artists
+                artistsList.postValue(artists)
             }
         })
+    }
+
+// There is method for interaction between 2 fragments:
+//      this one is calling in main adapter on click event
+//      another fragment (subscribed on selectItem LiveData)
+//      catches data and display it
+    fun selectItem(artist: Results){
+        selectedItem.postValue(artist)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        artistsList.removeObservers(lifecycleOwner)
+        selectedItem.removeObservers(lifecycleOwner)
     }
 }
