@@ -14,7 +14,7 @@ interface ArtistDao {
     fun getArtists(): LiveData<List<Results>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(artist: Results)
+    suspend fun insert(artists: ArrayList<Results>)
 
     @Query("DELETE FROM artists_table")
     suspend fun deleteAllArtists()

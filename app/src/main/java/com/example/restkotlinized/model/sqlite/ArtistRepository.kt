@@ -6,7 +6,12 @@ import com.example.restkotlinized.model.Results
 class ArtistRepository(private val artistDao: ArtistDao) {
     val allArtists: LiveData<List<Results>> = artistDao.getArtists()
 
-    suspend fun insert(artist: Results) {
-        artistDao.insert(artist)
+    suspend fun refreshData(artists: ArrayList<Results>) {
+        deleteAll()
+        artistDao.insert(artists)
+    }
+
+    suspend fun deleteAll(){
+        artistDao.deleteAllArtists()
     }
 }

@@ -19,7 +19,7 @@ class LiveDataProvider(context: Context, private val viewModelScope: CoroutineSc
         allArtists = repository.allArtists
     }
 
-    fun insert(artist: Results) = viewModelScope.launch {
-        repository.insert(artist)
+    fun insert(artists: ArrayList<Results>) = viewModelScope.launch {
+        repository.refreshData(artists)
     }
 }

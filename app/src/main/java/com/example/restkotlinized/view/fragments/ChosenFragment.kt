@@ -1,6 +1,5 @@
 package com.example.restkotlinized.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,7 @@ import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.view.adapters.NewzAdapter
 import io.reactivex.disposables.Disposable
 
-class ChosenFragment() : Fragment() {
+class ChosenFragment : Fragment() {
     private var root: View? = null
     private var disposable: Disposable? = null
 

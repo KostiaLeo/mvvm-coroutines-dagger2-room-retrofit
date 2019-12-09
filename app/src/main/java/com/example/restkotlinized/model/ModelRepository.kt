@@ -23,6 +23,11 @@ class ModelRepository(
 
     private lateinit var onDataReadyCallback: OnDataReadyCallback
 
+    init {
+        localSource = ArtistsLocalSource(liveDataProvider, lifecycleOwner)
+        lifecycleOwner.lifecycle.addObserver(localSource)
+    }
+
     fun retrieveData(onDataReadyCallback: OnDataReadyCallback) {
         this.onDataReadyCallback = onDataReadyCallback
 
@@ -45,7 +50,6 @@ class ModelRepository(
     }
 
     private fun retrieveLocalData(){
-        localSource = ArtistsLocalSource(liveDataProvider, lifecycleOwner)
         localSource.retrieveData(object : OnDataLocalReadyCallback {
             override fun onLocalDataReady(artists: ArrayList<Results>) {
                 onDataReadyCallback.onDataReady(artists)

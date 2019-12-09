@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 interface INewsApi {
-    @GET("bins/1cwqty")
+    @GET("bins/us100")
     fun getAPINewz(): Single<MyNewz>
     companion object Factory {
         private const val BASE_URL = "https://api.myjson.com/"

@@ -1,8 +1,5 @@
 package com.example.restkotlinized.view
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager

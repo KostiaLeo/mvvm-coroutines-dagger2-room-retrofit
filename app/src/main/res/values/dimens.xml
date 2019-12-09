@@ -14,7 +14,7 @@
     <dimen name="top_mark_pad">4dp</dimen>
     <dimen name="top_fire_marg_top">2dp</dimen>
     <dimen name="top_text_pads">8dp</dimen>
-    <dimen name="top_text_size">12sp</dimen>
+    <dimen name="top_text_size">16sp</dimen>
     <dimen name="news_main_text_size">25sp</dimen>
     <dimen name="separate_line_height">8dp</dimen>
     <dimen name="margin_left_bottom_top_new_shortlay">16dp</dimen>
