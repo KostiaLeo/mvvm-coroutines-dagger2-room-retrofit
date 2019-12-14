@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
@@ -50,7 +51,8 @@ class StoriesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModelFactory = MainViewModelFactory(viewLifecycleOwner, this.activity!!.application)
-        viewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
+        viewModel =
+            ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
         viewModel.getDataArtists()
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
@@ -91,6 +93,10 @@ class StoriesFragment : Fragment() {
                 }
             }
         )
+
+        viewModel.titleClick.observe(viewLifecycleOwner, Observer {
+            binding.nestedScrollView.smoothScrollTo(0, 0)
+        })
     }
 
     private fun setAdapters(allResults: ArrayList<Results>) {
@@ -105,10 +111,10 @@ class StoriesFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val x = binding.nestedScrollView.scrollX
-        val y = binding.nestedScrollView.scrollY
-        outState.putInt(X_COORDINATE, x)
-        outState.putInt(Y_COORDINATE, y)
+        outState.putInt(X_COORDINATE,
+            binding.nestedScrollView.scrollX)
+        outState.putInt(Y_COORDINATE,
+            binding.nestedScrollView.scrollY)
     }
 
     override fun onDetach() {

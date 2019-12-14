@@ -69,6 +69,6 @@ private class NetManager(private val applicationContext: Context) {
             val conManager =
                 applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val network = conManager.activeNetworkInfo
-            return network != null && network.isConnectedOrConnecting
+            return network != null && network.isConnected
         }
 }
