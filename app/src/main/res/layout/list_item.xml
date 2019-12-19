@@ -7,8 +7,8 @@
         <import type="android.view.View"/>
         
         <variable
-            name="artist"
-            type="com.example.restkotlinized.model.Results"
+            name="film"
+            type="com.example.restkotlinized.model.pojo.Result"
             />
     </data>
 
@@ -33,7 +33,7 @@
                 android:layout_marginTop="@dimen/appbar_padding"
                 android:background="@color/default_news_background"
                 android:scaleType="centerCrop"
-                android:src_image="@{artist.image.url}"
+                android:src_image="@{film.backdrop_path}"
                 />
 <!--app:profileImage="@{artist.image.url}"-->
             <TextView
@@ -48,7 +48,7 @@
                 android:gravity="start"
                 android:lines="1"
                 android:scrollHorizontally="true"
-                android:text="@{artist.name}"
+                android:text="@{film.title}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/news_main_text_size" />
 
@@ -69,7 +69,7 @@
                     android:ellipsize="end"
                     android:gravity="start"
                     android:scrollHorizontally="true"
-                    android:text="@{artist.currency.id}"
+                    android:text="@{film.release_date}"
                     android:textSize="@dimen/simple_text_size"
                     android:maxLines="4"
                     android:textStyle="bold" />

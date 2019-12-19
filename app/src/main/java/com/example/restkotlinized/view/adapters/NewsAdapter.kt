@@ -2,23 +2,16 @@ package com.example.restkotlinized.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restkotlinized.databinding.ListItemBinding
-import com.example.restkotlinized.model.Results
+import com.example.restkotlinized.model.pojo.Result
 import com.example.restkotlinized.viewmodel.MainViewModel
 import com.jakewharton.rxbinding2.view.RxView
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import kotlin.collections.ArrayList
 
-class NewsAdapter(private val results: ArrayList<Results>, private val viewModel: MainViewModel) :
+class NewsAdapter(private val films: ArrayList<Result>, private val viewModel: MainViewModel) :
     RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
-
 
     private var disposableSetItem: Disposable? = null
 
@@ -30,10 +23,10 @@ class NewsAdapter(private val results: ArrayList<Results>, private val viewModel
         return ViewHolder(binding, viewModel)
     }
 
-    override fun getItemCount(): Int = results.let { results.size }
+    override fun getItemCount(): Int = films.let { films.size }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
-        holder.bind(results[position])
+        holder.bind(films[position])
 
     override fun onViewDetachedFromWindow(holder: ViewHolder) {
         super.onViewDetachedFromWindow(holder)
@@ -45,26 +38,14 @@ class NewsAdapter(private val results: ArrayList<Results>, private val viewModel
         private val binding: ListItemBinding,
         private val viewModel: MainViewModel
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(artist: Results) {
-            binding.artist = artist
+
+        fun bind(film: Result) {
+            binding.film = film
             binding.executePendingBindings()
 
             disposableSetItem = RxView.clicks(binding.root).subscribe {
-                viewModel.selectItem(results[layoutPosition])
-// -------- Alternative onClickListener via Rx ----------
-//                clickSubject.onNext(results[layoutPosition])
-//                switchSubject.onNext(Any())
+                viewModel.selectItem(films[layoutPosition])
             }
         }
     }
-    // ------- alternative Rx click listener -------
-//    companion object {
-//        private val clickSubject = BehaviorSubject.create<Results>()
-//        val clickObservable: Observable<Results> =
-//            clickSubject.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-//
-//        private val switchSubject = PublishSubject.create<Any>()
-//        val switchObservable: Observable<Any> =
-//            switchSubject.observeOn(AndroidSchedulers.mainThread())
-//    }
 }

@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.get
 import com.bumptech.glide.Glide
 import com.example.restkotlinized.R
-import com.example.restkotlinized.model.Results
+import com.example.restkotlinized.model.pojo.Result
 import com.example.restkotlinized.view.adapters.NewsAdapter
 import com.example.restkotlinized.viewmodel.MainViewModel
 import io.reactivex.disposables.Disposable
@@ -45,27 +45,24 @@ class ChosenFragment : Fragment() {
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer {
             setView(it)
         })
-// ------- alternative Rx click listener -------
-//        disposable = NewsAdapter.clickObservable.subscribe { result ->
-//            setView(result)
-//        }
     }
 
-    private fun setView(result: Results?) {
+    private fun setView(result: Result) {
         val nameTv = root?.findViewById<TextView>(R.id.name)
         val sourceTv = root?.findViewById<TextView>(R.id.source)
         val idTv = root?.findViewById<TextView>(R.id.id)
         val photo = root?.findViewById<ImageView>(R.id.photo)
-        val image = result?.image
+        //val image = result?.image
 
+        val basePath = "http://image.tmdb.org/t/p/w500"
         root?.context?.let {
             photo?.let { it1 ->
-                Glide.with(it).load(image?.url).into(it1)
+                Glide.with(it).load(basePath + result.backdrop_path).into(it1)
             }
         }
-        nameTv?.text = result?.name
-        idTv?.text = result?.currency?.id
-        sourceTv?.text = result?.price.toString()
+        nameTv?.text = result.title
+        idTv?.text = result.release_date
+        sourceTv?.text = result.overview
     }
 
     override fun onDetach() {

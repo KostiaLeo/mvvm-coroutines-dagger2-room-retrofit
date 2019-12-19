@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
 
-        viewModel = ViewModelProviders.of(this, MainViewModelFactory(this, application)).get(MainViewModel::class.java)
+        viewModel =
+            ViewModelProviders.of(this, MainViewModelFactory(this)).get(MainViewModel::class.java)
 
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
@@ -46,11 +47,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.selectedItem.observe(this, Observer {
             viewPager.currentItem = detailedPageNum
         })
-
-// -------- Alternative onClickListener via Rx ----------
-//        disposable = NewsAdapter.switchObservable.subscribe {
-//            viewPager.currentItem = detailedPageNum
-//        }
     }
 
     override fun onBackPressed() {

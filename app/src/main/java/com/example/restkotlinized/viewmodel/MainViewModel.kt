@@ -1,44 +1,35 @@
 package com.example.restkotlinized.viewmodel
 
 import android.annotation.SuppressLint
-import android.app.Application
-import android.content.Context
 import androidx.lifecycle.*
 import com.example.restkotlinized.model.ModelRepository
 import com.example.restkotlinized.model.OnDataReadyCallback
-import com.example.restkotlinized.model.Results
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
+import com.example.restkotlinized.model.pojo.Result
 
 class MainViewModel(
-    private val lifecycleOwner: LifecycleOwner,
-    application: Application
-) : AndroidViewModel(application) {
+    private val lifecycleOwner: LifecycleOwner
+) : ViewModel() {
 
-    private val app = application
-    val artistsList = MutableLiveData<ArrayList<Results>>()
+    val filmsList = MutableLiveData<ArrayList<Result>>()
 
-    val selectedItem = MutableLiveData<Results>()
+    val selectedItem = MutableLiveData<Result>()
     val titleClick = MutableLiveData<Any>()
+    val isLoaded = MutableLiveData(false)
 
     @SuppressLint("CheckResult")
     fun getDataArtists() {
-        ModelRepository(app, lifecycleOwner, viewModelScope)
+        ModelRepository()
             .retrieveData(object :
                 OnDataReadyCallback {
-                override fun onDataReady(artists: ArrayList<Results>) {
-                    artistsList.postValue(artists)
+                override fun onDataReady(films: ArrayList<Result>) {
+                    filmsList.postValue(films)
+                    isLoaded.postValue(true)
                 }
             })
     }
 
-    // There is method for interaction between 2 fragments:
-//      this one is calling in main adapter on click event
-//      another fragment (subscribed on selectItem LiveData)
-//      catches data and display it
-    fun selectItem(artist: Results) {
-        selectedItem.postValue(artist)
+    fun selectItem(film: Result) {
+        selectedItem.postValue(film)
     }
 
     fun onTitleClick() {
@@ -47,7 +38,7 @@ class MainViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        artistsList.removeObservers(lifecycleOwner)
+        filmsList.removeObservers(lifecycleOwner)
         selectedItem.removeObservers(lifecycleOwner)
     }
 }
