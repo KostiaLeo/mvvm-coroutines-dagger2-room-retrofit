@@ -23,8 +23,8 @@ ViewModel is responsible for transferring data between view and model.
 <h4><i>Retrofit 2</i></h4> - getting data from server into pojo-classes
 <h4><i>SQLite</i></h4> - storing data fetched from server. User get data here if he is offline
 <h4><i>Coroutines</i></h4> 
-   - managing asynchronous database queries
-   - using instead of callbacks
+   - managing asynchronous database queries<br/>
+   - using instead of callbacks<br/>
    - providing light asynchronous operations
 <h4><i>RxJava (RxKotlin)</i></h4>
    - converting data from server to Observable <br/>
