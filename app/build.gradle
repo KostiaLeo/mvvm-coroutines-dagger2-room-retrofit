@@ -41,7 +41,7 @@ dependencies {
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
-
+    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
 //    implementation 'androidx.core:core-ktx:1.1.0' // TO_DELETE
 
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"

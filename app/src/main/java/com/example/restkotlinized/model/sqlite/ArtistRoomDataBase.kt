@@ -9,17 +9,18 @@ import com.example.restkotlinized.model.Results
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Results::class), version = 1, exportSchema = false)
+@Database(entities = [Results::class], version = 1, exportSchema = false)
 abstract class ArtistRoomDataBase : RoomDatabase() {
 
     abstract fun artistDao(): ArtistDao
 
     companion object {
+        private const val databaseName = "product_database"
 
         @Volatile
         private var INSTANCE: ArtistRoomDataBase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): ArtistRoomDataBase {
+        fun getDatabase(context: Context): ArtistRoomDataBase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -28,33 +29,10 @@ abstract class ArtistRoomDataBase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     ArtistRoomDataBase::class.java,
-                    "product_database"
-                )
-                    .addCallback(
-                        ProductDatabaseCallback(scope)
-                    ).build()
+                    databaseName
+                ).build()
                 INSTANCE = instance
                 return instance
-            }
-        }
-    }
-
-    private class ProductDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
-
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
-            INSTANCE?.let { database ->
-                scope.launch {
-                    cleanDatabase(database.artistDao())
-                }
-            }
-        }
-
-        suspend fun cleanDatabase(artistDao: ArtistDao) {
-            if (artistDao.getArtists().value?.size != 0 && artistDao.getArtists().value?.size != null) {
-                artistDao.deleteAllArtists()
             }
         }
     }

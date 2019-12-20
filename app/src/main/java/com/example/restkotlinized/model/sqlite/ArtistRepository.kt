@@ -2,6 +2,8 @@ package com.example.restkotlinized.model.sqlite
 
 import androidx.lifecycle.LiveData
 import com.example.restkotlinized.model.Results
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class ArtistRepository(private val artistDao: ArtistDao) {
     val allArtists: LiveData<List<Results>> = artistDao.getArtists()
@@ -11,7 +13,7 @@ class ArtistRepository(private val artistDao: ArtistDao) {
         artistDao.insert(artists)
     }
 
-    suspend fun deleteAll(){
+    private suspend fun deleteAll(){
         artistDao.deleteAllArtists()
     }
 }

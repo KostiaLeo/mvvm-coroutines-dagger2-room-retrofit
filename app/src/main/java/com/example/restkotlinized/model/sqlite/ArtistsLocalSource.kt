@@ -1,24 +1,31 @@
 package com.example.restkotlinized.model.sqlite
 
+import android.content.Context
 import androidx.lifecycle.*
 import com.example.restkotlinized.model.Results
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
-class ArtistsLocalSource(
-    private val liveDataProvider: LiveDataProvider,
-    private val owner: LifecycleOwner
-) {
+class ArtistsLocalSource(context: Context) {
 
-    fun retrieveData(onDataReadyCallback: OnDataLocalReadyCallback) {
-        liveDataProvider.allArtists.observe(owner, Observer { artists ->
-            onDataReadyCallback.onLocalDataReady(ArrayList(artists))
-        })
+    private val repository: ArtistRepository
+    private val allArtists: LiveData<ArrayList<Results>>
+
+    init {
+        val artistsDao = ArtistRoomDataBase
+            .getDatabase(context).artistDao()
+        repository = ArtistRepository(artistsDao)
+        allArtists = Transformations.map(repository.allArtists) {
+            ArrayList(it)
+        }
     }
 
-    fun saveData(artists: ArrayList<Results>) {
-        liveDataProvider.insert(artists)
+    suspend fun retrieveData(): ArrayList<Results> = suspendCoroutine {
+        it.resume(allArtists.value!!)
     }
-}
 
-interface OnDataLocalReadyCallback {
-    fun onLocalDataReady(artists: ArrayList<Results>)
+
+    suspend fun saveData(artists: ArrayList<Results>) {
+        repository.refreshData(artists)
+    }
 }

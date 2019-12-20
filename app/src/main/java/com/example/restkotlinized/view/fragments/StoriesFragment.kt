@@ -20,7 +20,6 @@ import com.example.restkotlinized.model.Results
 import com.example.restkotlinized.viewmodel.MainViewModel
 import com.example.restkotlinized.view.adapters.NewsAdapter
 import com.example.restkotlinized.view.adapters.TopNewsAdapter
-import com.example.restkotlinized.viewmodel.MainViewModelFactory
 import kotlin.collections.ArrayList
 
 class StoriesFragment : Fragment() {
@@ -31,7 +30,6 @@ class StoriesFragment : Fragment() {
 
     private lateinit var binding: FragmentStoriesBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var viewModelFactory: MainViewModelFactory
 
     private val X_COORDINATE = "x"
     private val Y_COORDINATE = "y"
@@ -50,9 +48,7 @@ class StoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModelFactory = MainViewModelFactory(viewLifecycleOwner, this.activity!!.application)
-        viewModel =
-            ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getDataArtists()
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
