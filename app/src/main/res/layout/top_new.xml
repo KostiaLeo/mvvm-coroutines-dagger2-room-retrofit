@@ -8,7 +8,7 @@
 
         <variable
             name="artist"
-            type="com.example.restkotlinized.model.Results" />
+            type="com.example.android_skills.model.Results" />
     </data>
 
     <RelativeLayout

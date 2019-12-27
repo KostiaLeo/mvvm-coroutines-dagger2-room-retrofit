@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.restkotlinized.viewmodel.MainViewModel" />
+            type="com.example.android_skills.viewmodel.MainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

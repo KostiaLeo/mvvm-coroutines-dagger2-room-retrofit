@@ -11,14 +11,14 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.5.2'
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.41"
-
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
         //classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-
+//apply plugin: 'com.neenbedankt.android-apt'
 allprojects {
     repositories {
         google()
@@ -31,7 +31,7 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 ext {
-    roomVersion = '2.2.2'
+    roomVersion = '2.2.3'
     archLifecycleVersion = '2.2.0-rc02'
     androidxArchVersion = '2.1.0'
     coreTestingVersion = "2.1.0"
