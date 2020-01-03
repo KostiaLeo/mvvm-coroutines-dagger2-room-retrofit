@@ -11,7 +11,9 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 
-//class ExampleUnitTest {
+class ExampleUnitTest {
+
+
 //    private val component = DaggerApp.component
 //
 //    private val networkComponent = DaggerApp.networkComponent
@@ -45,4 +47,4 @@ import org.junit.Assert.*
 //        //val testString = DaggerApp.vmComponent.getVM().getTestingString()
 //        //assertEquals(testString, "test")
 //    }
-//}
+}

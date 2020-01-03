@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.android_skills.R
 import com.example.android_skills.dagger.DaggerApp
-import com.example.android_skills.dagger.daggerVM.DaggerViewModel
+import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.daggerVM.ViewModelFactory
 import com.example.android_skills.dagger.daggerVM.injectViewModel
 import com.example.android_skills.model.Results

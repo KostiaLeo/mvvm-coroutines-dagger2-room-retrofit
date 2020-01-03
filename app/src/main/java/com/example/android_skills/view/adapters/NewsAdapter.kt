@@ -1,13 +1,11 @@
 package com.example.android_skills.view.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android_skills.dagger.daggerVM.DaggerViewModel
+import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.databinding.ListItemBinding
 import com.example.android_skills.model.Results
-import com.example.android_skills.viewmodel.MainViewModel
 import com.jakewharton.rxbinding2.view.RxView
 import io.reactivex.disposables.Disposable
 import kotlin.collections.ArrayList

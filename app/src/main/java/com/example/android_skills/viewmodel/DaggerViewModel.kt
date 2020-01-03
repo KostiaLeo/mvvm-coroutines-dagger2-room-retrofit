@@ -1,9 +1,10 @@
-package com.example.android_skills.dagger.daggerVM
+package com.example.android_skills.viewmodel
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android_skills.dagger.daggerVM.injectRepository
 import com.example.android_skills.model.ModelRepository
 import com.example.android_skills.model.Results
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class DaggerViewModel @Inject constructor() : ViewModel(){
     @Inject
     lateinit var modelRepository: ModelRepository
-
+    
     val artistsList = MutableLiveData<ArrayList<Results>>()
 
     val selectedItem = MutableLiveData<Results>()
@@ -23,7 +24,9 @@ class DaggerViewModel @Inject constructor() : ViewModel(){
         injectRepository(this)
         
         viewModelScope.launch {
-            artistsList.postValue(modelRepository.retrieveData())
+            val artists = modelRepository.retrieveData()
+
+            artistsList.postValue(artists)
         }
     }
 

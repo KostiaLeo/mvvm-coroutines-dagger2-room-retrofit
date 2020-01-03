@@ -11,14 +11,21 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ModelRepository @Inject constructor(private val applicationContext: Application) {
-    private val localSource = ArtistsLocalSource(applicationContext)
-    private val remoteSource = ArtistsRemoteSource()
+class ModelRepository @Inject constructor() {
+    @Inject
+    lateinit var netManager: NetManager
+
+    @Inject
+    lateinit var localSource: ArtistsLocalSource
+
+    @Inject
+    lateinit var remoteSource: ArtistsRemoteSource
 
     suspend fun retrieveData() : ArrayList<Results> {
+        DaggerApp.sourceComponent.inject(this)
 
         val artists =
-            if(NetManager(applicationContext).isConnectedToInternet)
+            if(netManager.isConnectedToInternet)
                 retrieveRemoteData()
             else
                 retrieveLocalData()
@@ -38,13 +45,14 @@ class ModelRepository @Inject constructor(private val applicationContext: Applic
 
     private suspend fun retrieveLocalData(): ArrayList<Results> {
         val artists = localSource.retrieveData()
+
         return suspendCoroutine {
             it.resume(artists)
         }
     }
 }
 
-private class NetManager(private val applicationContext: Context) {
+class NetManager @Inject constructor(private val applicationContext: Context) {
 
     val isConnectedToInternet: Boolean
         @SuppressLint("MissingPermission")

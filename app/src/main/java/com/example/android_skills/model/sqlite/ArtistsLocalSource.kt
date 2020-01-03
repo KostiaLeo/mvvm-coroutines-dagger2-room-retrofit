@@ -3,29 +3,26 @@ package com.example.android_skills.model.sqlite
 import android.content.Context
 import androidx.lifecycle.*
 import com.example.android_skills.model.Results
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ArtistsLocalSource(context: Context) {
+class ArtistsLocalSource @Inject constructor(context: Context) {
 
-    private val repository: ArtistRepository
-    private val allArtists: LiveData<ArrayList<Results>>
+    private lateinit var allArtists: ArrayList<Results>
+    private val artistsDao = ArtistRoomDataBase.getDatabase(context).artistDao()
+    private val repository = ArtistRepository(artistsDao)
 
-    init {
-        val artistsDao = ArtistRoomDataBase
-            .getDatabase(context).artistDao()
-        repository = ArtistRepository(artistsDao)
-        allArtists = Transformations.map(repository.allArtists) {
-            ArrayList(it)
+    suspend fun retrieveData(): ArrayList<Results> {
+        allArtists = repository.getData()
+
+        return suspendCoroutine { continuation ->
+            continuation.resume(allArtists)
         }
     }
 
-    suspend fun retrieveData(): ArrayList<Results> = suspendCoroutine {
-        it.resume(allArtists.value!!)
-    }
-
-
     suspend fun saveData(artists: ArrayList<Results>) {
+        println("saving: ${artists[0].name}")
         repository.refreshData(artists)
     }
 }
