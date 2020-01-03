@@ -1,6 +1,6 @@
 package com.example.android_skills.dagger.modules
 
-import com.example.android_skills.dagger.SimpleDao
+import com.example.android_skills.dagger.targetClasses.SimpleDao
 import dagger.Module
 import dagger.Provides
 

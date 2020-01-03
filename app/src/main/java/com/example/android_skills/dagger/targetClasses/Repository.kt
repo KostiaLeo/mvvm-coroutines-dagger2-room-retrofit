@@ -1,4 +1,4 @@
-package com.example.android_skills.dagger
+package com.example.android_skills.dagger.targetClasses
 
 import javax.inject.Inject
 import javax.inject.Named

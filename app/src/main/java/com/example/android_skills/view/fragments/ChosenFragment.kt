@@ -1,5 +1,6 @@
 package com.example.android_skills.view.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,18 +12,32 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.android_skills.R
+import com.example.android_skills.dagger.DaggerApp
+import com.example.android_skills.dagger.daggerVM.DaggerViewModel
+import com.example.android_skills.dagger.daggerVM.ViewModelFactory
+import com.example.android_skills.dagger.daggerVM.injectViewModel
 import com.example.android_skills.model.Results
 import com.example.android_skills.viewmodel.MainViewModel
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class ChosenFragment : Fragment() {
     private var root: View? = null
     private var disposable: Disposable? = null
-    private lateinit var viewModel: MainViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var viewModel: DaggerViewModel
 
     companion object Factory {
         fun create(): ChosenFragment =
             ChosenFragment()
+    }
+
+    override fun onAttach(context: Context) {
+        DaggerApp.viewModelComponent.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -30,7 +45,7 @@ class ChosenFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+        viewModel = injectViewModel(viewModelFactory)
 
         val root = inflater.inflate(R.layout.fragment_chosen, container, false)
         this.root = root
@@ -40,6 +55,8 @@ class ChosenFragment : Fragment() {
 
     private fun observeDataFromClickObservable() {
         viewModel.selectedItem.observe(viewLifecycleOwner, Observer {
+            println("caught (chosenFrag)")
+
             setView(it)
         })
 // ------- alternative Rx click listener -------
@@ -60,6 +77,7 @@ class ChosenFragment : Fragment() {
                 Glide.with(it).load(image?.url).into(it1)
             }
         }
+
         nameTv?.text = result?.name
         idTv?.text = result?.currency?.id
         sourceTv?.text = result?.price.toString()

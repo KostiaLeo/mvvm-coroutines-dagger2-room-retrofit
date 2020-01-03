@@ -1,13 +1,18 @@
 package com.example.android_skills.dagger
 
-import com.example.android_skills.dagger.components.AppComponent
-import com.example.android_skills.dagger.components.DaggerAppComponent
-import com.example.android_skills.dagger.components.NetworkComponent
-import com.example.android_skills.dagger.modules.NetworkDBModule
+import android.app.Application
+import com.example.android_skills.dagger.daggerVM.AppComponent
+import com.example.android_skills.dagger.daggerVM.DaggerAppComponent
+import com.example.android_skills.dagger.daggerVM.RepositoryProvider
 
-class DaggerApp {
+class DaggerApp : Application() {
+
     companion object {
-        val component: AppComponent = DaggerAppComponent.create()
-        val networkComponent: NetworkComponent = DaggerApp.component.createNetworkComponent(NetworkDBModule("myDaoLink"))
+        lateinit var viewModelComponent: AppComponent
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        viewModelComponent = DaggerAppComponent.builder().repositoryProvider(RepositoryProvider(this)).build()
     }
 }

@@ -1,12 +1,13 @@
 package com.example.android_skills.view.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -14,31 +15,45 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.android_skills.R
-import com.example.android_skills.databinding.FragmentStoriesBinding
+import com.example.android_skills.dagger.DaggerApp
+import com.example.android_skills.dagger.daggerVM.DaggerViewModel
+import com.example.android_skills.dagger.daggerVM.ViewModelFactory
+import com.example.android_skills.dagger.daggerVM.injectViewModel
 import com.example.android_skills.model.Results
-import com.example.android_skills.viewmodel.MainViewModel
 import com.example.android_skills.view.adapters.NewsAdapter
 import com.example.android_skills.view.adapters.TopNewsAdapter
-import kotlin.collections.ArrayList
+import javax.inject.Inject
 
 class StoriesFragment : Fragment() {
+    private lateinit var root: View
+
     private lateinit var newsRecycler: RecyclerView
     private lateinit var viewPager2: ViewPager2
     private lateinit var mainAdapter: NewsAdapter
     private lateinit var adapterForTopNews: TopNewsAdapter
+    private lateinit var nestedScrollView: NestedScrollView
 
-    private lateinit var binding: FragmentStoriesBinding
-    private lateinit var viewModel: MainViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var viewModel: DaggerViewModel
 
     private val X_COORDINATE = "x"
     private val Y_COORDINATE = "y"
 
-// --------------------- methods -------------------------------
+
+    private var results = ArrayList<Results>()
+    // --------------------- methods -------------------------------
 
     companion object Factory {
         fun create(): StoriesFragment {
             return StoriesFragment()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        DaggerApp.viewModelComponent.inject(this)
+        super.onAttach(context)
     }
 
     @SuppressLint("CheckResult")
@@ -47,42 +62,52 @@ class StoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = injectViewModel(viewModelFactory)
         viewModel.getDataArtists()
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
+        //binding = DataBindingUtil.inflate(inflater, R.layout.fragment_stories, container, false)
+
+        root = inflater.inflate(R.layout.fragment_stories, container, false)
 
         initUI()
-
         savedInstanceState?.let {
             Handler().postDelayed({
-                binding.nestedScrollView.scrollTo(
+                nestedScrollView.scrollTo(
                     it.getInt(X_COORDINATE),
                     it.getInt(Y_COORDINATE)
                 )
             }, 700)
         }
 
-        return binding.root
+        return root
     }
 
     private fun initUI() {
-        binding.viewModel = viewModel
-        binding.executePendingBindings()
+//        binding.viewModel = viewModel
+//        binding.executePendingBindings()
+        newsRecycler = root.findViewById(R.id.newzzz)
+        viewPager2 = root.findViewById(R.id.viewPager2)
+        nestedScrollView = root.findViewById(R.id.nested_scroll_view)
 
-        newsRecycler = binding.newzzz.apply {
+
+        newsRecycler.apply {
             layoutManager = LinearLayoutManager(context)
             itemAnimator = DefaultItemAnimator()
         }
+        //newsRecycler = binding.newzzz
 
-        viewPager2 = binding.viewPager2.apply {
+        viewPager2.apply {
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
 
         viewModel.artistsList.observe(viewLifecycleOwner,
             Observer<ArrayList<Results>> {
                 it?.let {
-                    setAdapters(it)
+                    mainAdapter = NewsAdapter(it, viewModel)
+                    adapterForTopNews = TopNewsAdapter(it)
+
+                    newsRecycler.adapter = mainAdapter
+                    viewPager2.adapter = adapterForTopNews
                     mainAdapter.notifyDataSetChanged()
                     adapterForTopNews.notifyDataSetChanged()
                 }
@@ -90,26 +115,44 @@ class StoriesFragment : Fragment() {
         )
 
         viewModel.titleClick.observe(viewLifecycleOwner, Observer {
-            binding.nestedScrollView.smoothScrollTo(0, 0)
+            nestedScrollView.smoothScrollTo(0, 0)
         })
     }
 
     private fun setAdapters(allResults: ArrayList<Results>) {
-        mainAdapter = NewsAdapter(allResults, viewModel)
+        //println("${allResults[0].name} - from setAdapters")
+//
+//        newsRecycler = binding.newzzz.apply {
+//            layoutManager = LinearLayoutManager(context)
+//            itemAnimator = DefaultItemAnimator()
+//        }
+//
+//        viewPager2 = binding.viewPager2.apply {
+//            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//        }
+
+        mainAdapter = NewsAdapter(allResults
+            , viewModel
+        )
+
         adapterForTopNews = TopNewsAdapter(allResults)
+        println(mainAdapter.itemCount)
         newsRecycler.adapter = mainAdapter
         viewPager2.adapter = adapterForTopNews
+
+        mainAdapter.notifyDataSetChanged()
+        adapterForTopNews.notifyDataSetChanged()
     }
 
-// --------------------------- END UI -------------------------------
+ //--------------------------- END UI -------------------------------
 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(X_COORDINATE,
-            binding.nestedScrollView.scrollX)
+            nestedScrollView.scrollX)
         outState.putInt(Y_COORDINATE,
-            binding.nestedScrollView.scrollY)
+            nestedScrollView.scrollY)
     }
 
     override fun onDetach() {
