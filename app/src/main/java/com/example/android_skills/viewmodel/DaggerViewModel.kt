@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_skills.dagger.daggerVM.injectRepository
+import com.example.android_skills.dagger.daggerVM.extensions.injectRepository
 import com.example.android_skills.model.ModelRepository
 import com.example.android_skills.model.Results
 import kotlinx.coroutines.launch

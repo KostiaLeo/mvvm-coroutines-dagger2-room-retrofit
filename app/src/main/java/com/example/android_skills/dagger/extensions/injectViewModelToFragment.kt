@@ -1,4 +1,4 @@
-package com.example.android_skills.dagger.daggerVM
+package com.example.android_skills.dagger.daggerVM.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -17,5 +17,5 @@ inline fun <reified T : ViewModel> FragmentActivity.injectViewModel(factory: Vie
 }
 
 inline fun DaggerViewModel.injectRepository(daggerViewModel: DaggerViewModel) {
-    DaggerApp.viewModelComponent.inject(daggerViewModel)
+    DaggerApp.viewComponent.inject(daggerViewModel)
 }

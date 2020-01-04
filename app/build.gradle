@@ -81,10 +81,14 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     implementation 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
+
     // dagger
     implementation 'com.google.dagger:dagger:2.25.4'
     implementation 'com.google.dagger:dagger-android-support:2.25.4'
     kapt 'com.google.dagger:dagger-compiler:2.25.4'
+    // dagger android
+    implementation 'com.google.dagger:dagger-android:2.25.4'
+    kapt 'com.google.dagger:dagger-android-processor:2.25.4'
 }
 repositories {
     mavenCentral()

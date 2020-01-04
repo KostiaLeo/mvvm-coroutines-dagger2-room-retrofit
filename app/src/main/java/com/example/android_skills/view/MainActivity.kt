@@ -3,19 +3,26 @@ package com.example.android_skills.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
 import com.example.android_skills.R
 import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.viewmodel.DaggerViewModel
-import com.example.android_skills.dagger.daggerVM.ViewModelFactory
-import com.example.android_skills.dagger.daggerVM.injectViewModel
+import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
+import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.view.fragments.SectionPagerAdapter
 import com.google.android.material.tabs.TabLayout
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
+
     private var disposable: Disposable? = null
     private lateinit var viewPager: ViewPager
     private lateinit var title: TextView
@@ -24,12 +31,14 @@ class MainActivity : AppCompatActivity() {
     private val detailedPageNum = 1
 
     @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
+    @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: DaggerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        DaggerApp.viewModelComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -51,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.selectedItem.observe(this, Observer {
-            println("caught (Activity)")
             viewPager.currentItem = detailedPageNum
         })
 
@@ -61,6 +69,8 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector as AndroidInjector<Any>
+
     override fun onBackPressed() {
         viewPager.currentItem = mainPageNum
     }
@@ -68,5 +78,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         disposable?.dispose()
+        viewModel.apply {
+            selectedItem.removeObservers(this@MainActivity)
+            titleClick.removeObservers(this@MainActivity)
+            artistsList.removeObservers(this@MainActivity)
+        }
     }
 }

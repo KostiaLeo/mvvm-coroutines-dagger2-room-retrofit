@@ -13,13 +13,16 @@ import com.bumptech.glide.Glide
 import com.example.android_skills.R
 import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.viewmodel.DaggerViewModel
-import com.example.android_skills.dagger.daggerVM.ViewModelFactory
-import com.example.android_skills.dagger.daggerVM.injectViewModel
+import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
+import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.model.Results
+import dagger.android.AndroidInjection
+import dagger.android.DaggerFragment_MembersInjector
+import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-class ChosenFragment : Fragment() {
+class ChosenFragment : DaggerFragment() {
     private var root: View? = null
     private var disposable: Disposable? = null
 
@@ -31,11 +34,6 @@ class ChosenFragment : Fragment() {
     companion object Factory {
         fun create(): ChosenFragment =
             ChosenFragment()
-    }
-
-    override fun onAttach(context: Context) {
-        DaggerApp.viewModelComponent.inject(this)
-        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -84,5 +82,10 @@ class ChosenFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         disposable?.dispose()
+        viewModel.apply {
+            selectedItem.removeObservers(this@ChosenFragment)
+            titleClick.removeObservers(this@ChosenFragment)
+            artistsList.removeObservers(this@ChosenFragment)
+        }
     }
 }

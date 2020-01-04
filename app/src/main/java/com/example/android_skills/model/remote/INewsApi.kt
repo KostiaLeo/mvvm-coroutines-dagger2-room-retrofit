@@ -9,16 +9,6 @@ import retrofit2.http.GET
 
 
 interface INewsApi {
-    @GET("bins/us100")
+    @GET(NetworkUrl.URL_CODE)
     fun getAPINewz(): Single<MyNewz>
-    companion object Factory {
-        private const val BASE_URL = "https://api.myjson.com/"
-        fun create(): INewsApi {
-            val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-            return retrofit.create(INewsApi::class.java)
-        }
-    }
 }

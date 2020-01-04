@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_skills.databinding.TopNewBinding
 import com.example.android_skills.model.Results
 
-class TopNewsAdapter(val artists: ArrayList<Results>) :
+class TopNewsAdapter(private val artists: ArrayList<Results>) :
     RecyclerView.Adapter<TopNewsAdapter.TopViewHolder>() {
     companion object {
         const val AMOUNT_OF_TOPNEWS = 5

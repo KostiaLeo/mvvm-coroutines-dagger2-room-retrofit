@@ -1,20 +1,20 @@
 package com.example.android_skills.model.sqlite
 
-import android.content.Context
-import androidx.lifecycle.*
+import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.model.Results
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ArtistsLocalSource @Inject constructor(context: Context) {
+class ArtistsLocalSource @Inject constructor() {
+    init { DaggerApp.roomComponent.inject(this) }
 
-    private lateinit var allArtists: ArrayList<Results>
-    private val artistsDao = ArtistRoomDataBase.getDatabase(context).artistDao()
-    private val repository = ArtistRepository(artistsDao)
+    @Inject
+    lateinit var repository: ArtistRepository
 
     suspend fun retrieveData(): ArrayList<Results> {
-        allArtists = repository.getData()
+
+        val allArtists = repository.getData()
 
         return suspendCoroutine { continuation ->
             continuation.resume(allArtists)

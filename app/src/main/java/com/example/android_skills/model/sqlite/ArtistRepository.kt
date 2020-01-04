@@ -6,12 +6,13 @@ import androidx.lifecycle.LiveData
 import com.example.android_skills.model.Results
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("CheckResult")
-class ArtistRepository(private val artistDao: ArtistDao) {
+class ArtistRepository @Inject constructor(private val artistDao: ArtistDao) {
 
     suspend fun getData(): ArrayList<Results>{
         return suspendCoroutine {continuation ->

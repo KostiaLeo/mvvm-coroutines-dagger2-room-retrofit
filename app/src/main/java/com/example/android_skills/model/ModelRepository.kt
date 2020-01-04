@@ -12,18 +12,17 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class ModelRepository @Inject constructor() {
+    init { DaggerApp.sourceComponent.inject(this) }
+
     @Inject
     lateinit var netManager: NetManager
-
     @Inject
     lateinit var localSource: ArtistsLocalSource
-
     @Inject
     lateinit var remoteSource: ArtistsRemoteSource
 
-    suspend fun retrieveData() : ArrayList<Results> {
-        DaggerApp.sourceComponent.inject(this)
 
+    suspend fun retrieveData() : ArrayList<Results> {
         val artists =
             if(netManager.isConnectedToInternet)
                 retrieveRemoteData()

@@ -21,9 +21,7 @@ class NewsAdapter(private val results: ArrayList<Results>
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(layoutInflater, parent, false)
 
-        return ViewHolder(binding
-            , viewModel
-        )
+        return ViewHolder(binding, viewModel)
     }
 
     override fun getItemCount(): Int {
@@ -48,7 +46,6 @@ class NewsAdapter(private val results: ArrayList<Results>
             binding.executePendingBindings()
             disposableSetItem = RxView.clicks(binding.root).subscribe {
                 viewModel.selectItem(results[layoutPosition])
-                println("clicked (Adapter)")
 // -------- Alternative onClickListener via Rx ----------
 //                clickSubject.onNext(results[layoutPosition])
 //                switchSubject.onNext(Any())

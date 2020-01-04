@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.android_skills.model.Results
 import io.reactivex.Flowable
+import javax.inject.Inject
 
 
 @Dao

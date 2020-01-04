@@ -46,7 +46,8 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-black"
                 android:gravity="start"
-                android:lines="1"
+
+                android:maxLines="3"
                 android:scrollHorizontally="true"
                 android:text="@{artist.name}"
                 android:textColor="@color/black"
