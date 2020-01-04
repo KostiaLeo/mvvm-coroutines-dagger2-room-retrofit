@@ -1,29 +1,24 @@
 package com.example.android_skills.view.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.android_skills.R
-import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
 import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.model.Results
 import com.example.android_skills.view.adapters.NewsAdapter
 import com.example.android_skills.view.adapters.TopNewsAdapter
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 

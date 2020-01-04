@@ -1,23 +1,18 @@
 package com.example.android_skills.view.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.android_skills.R
-import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
 import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.model.Results
-import dagger.android.AndroidInjection
-import dagger.android.DaggerFragment_MembersInjector
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject

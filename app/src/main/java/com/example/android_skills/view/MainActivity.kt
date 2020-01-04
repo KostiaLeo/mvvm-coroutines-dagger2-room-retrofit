@@ -1,19 +1,16 @@
 package com.example.android_skills.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
 import com.example.android_skills.R
-import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
 import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.view.fragments.SectionPagerAdapter
 import com.google.android.material.tabs.TabLayout
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
