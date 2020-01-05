@@ -20,4 +20,10 @@ interface ArtistDao {
 
     @Query("DELETE FROM artists_table")
     suspend fun deleteAllArtists(): Int
+
+    @Query("DELETE FROM artists_table WHERE res_id = (SELECT MAX(res_id) FROM artists_table)")
+    suspend fun deleteLastItem(): Int
+
+    @Query("SELECT COUNT(*) FROM artists_table")
+    suspend fun countOfRows(): Int
 }

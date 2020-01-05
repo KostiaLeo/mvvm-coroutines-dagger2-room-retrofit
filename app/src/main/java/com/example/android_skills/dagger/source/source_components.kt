@@ -7,7 +7,10 @@ import com.example.android_skills.dagger.source.RetrofitModule
 import com.example.android_skills.dagger.source.RoomModule
 import com.example.android_skills.dagger.source.SourceModule
 import com.example.android_skills.model.ModelRepository
+import com.example.android_skills.model.NetManager
 import com.example.android_skills.model.remote.ArtistsRemoteSource
+import com.example.android_skills.model.sqlite.ArtistDao
+import com.example.android_skills.model.sqlite.ArtistDatabaseRepository
 import com.example.android_skills.model.sqlite.ArtistsLocalSource
 import dagger.Subcomponent
 
@@ -17,6 +20,12 @@ interface SourceComponent {
     fun createRetrofitComponent(): RetrofitComponent
     fun createRoomComponent(roomModule: RoomModule): RoomComponent
     fun inject(modelRepository: ModelRepository)
+
+// provide-methods for testing
+    fun provideLocalSource(): ArtistsLocalSource
+    fun provideRemoteSource(): ArtistsRemoteSource
+    fun provideGeneralRepository(): ModelRepository
+    fun provideNetManager(): NetManager
 }
 
 @Subcomponent(modules = [RetrofitModule::class])
@@ -29,4 +38,6 @@ interface RetrofitComponent{
 @RoomScope
 interface RoomComponent{
     fun inject(artistsLocalSource: ArtistsLocalSource)
+    fun provideDao(): ArtistDao
+    fun provideDatabaseRepository(): ArtistDatabaseRepository
 }

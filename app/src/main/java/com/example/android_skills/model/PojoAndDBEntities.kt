@@ -31,7 +31,7 @@ data class Results(
     @Embedded val currency: Currency
 ) {
     @PrimaryKey(autoGenerate = true)
-    var res_id: Int? = null
+    var res_id: Int = 0
 }
 
 data class Image(val width: String, val url: String, val height: String) {

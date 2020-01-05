@@ -10,6 +10,7 @@ import com.example.android_skills.dagger.daggerVM.view.ViewModelModule
 import com.example.android_skills.view.MainActivity
 import com.example.android_skills.view.fragments.ChosenFragment
 import com.example.android_skills.view.fragments.StoriesFragment
+import com.example.android_skills.viewmodel.DaggerViewModel
 import dagger.*
 import dagger.android.AndroidInjectionModule
 import dagger.android.ContributesAndroidInjector
@@ -22,6 +23,8 @@ interface AppComponent {
     fun createViewComponent(): ViewComponent
 
     fun inject(application: DaggerApp)
+
+    fun provideViewModel(): DaggerViewModel
 
     @Component.Builder
     interface Builder{

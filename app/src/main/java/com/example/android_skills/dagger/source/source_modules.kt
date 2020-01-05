@@ -9,7 +9,7 @@ import com.example.android_skills.model.remote.ArtistsRemoteSource
 import com.example.android_skills.model.remote.INewsApi
 import com.example.android_skills.model.remote.NetworkUrl
 import com.example.android_skills.model.sqlite.ArtistDao
-import com.example.android_skills.model.sqlite.ArtistRepository
+import com.example.android_skills.model.sqlite.ArtistDatabaseRepository
 import com.example.android_skills.model.sqlite.ArtistRoomDataBase
 import com.example.android_skills.model.sqlite.ArtistsLocalSource
 import dagger.Module
@@ -72,5 +72,5 @@ class RoomModule(val context: Context) {
     fun provideDao(): ArtistDao = provideDataBase().artistDao()
 
     @Provides
-    fun provideLocalRepository(): ArtistRepository = ArtistRepository(provideDao())
+    fun provideLocalRepository(): ArtistDatabaseRepository = ArtistDatabaseRepository(provideDao())
 }

@@ -10,11 +10,11 @@ class ArtistsLocalSource @Inject constructor() {
     init { DaggerApp.roomComponent.inject(this) }
 
     @Inject
-    lateinit var repository: ArtistRepository
+    lateinit var databaseRepository: ArtistDatabaseRepository
 
     suspend fun retrieveData(): ArrayList<Results> {
 
-        val allArtists = repository.getData()
+        val allArtists = databaseRepository.getData()
 
         return suspendCoroutine { continuation ->
             continuation.resume(allArtists)
@@ -23,6 +23,6 @@ class ArtistsLocalSource @Inject constructor() {
 
     suspend fun saveData(artists: ArrayList<Results>) {
         println("saving: ${artists[0].name}")
-        repository.refreshData(artists)
+        databaseRepository.refreshData(artists)
     }
 }

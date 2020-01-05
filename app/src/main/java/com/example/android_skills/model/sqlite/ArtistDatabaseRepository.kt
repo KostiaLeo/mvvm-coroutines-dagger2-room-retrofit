@@ -12,7 +12,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("CheckResult")
-class ArtistRepository @Inject constructor(private val artistDao: ArtistDao) {
+class ArtistDatabaseRepository @Inject constructor(private val artistDao: ArtistDao) {
 
     suspend fun getData(): ArrayList<Results>{
         return suspendCoroutine {continuation ->

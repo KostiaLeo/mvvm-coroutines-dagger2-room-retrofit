@@ -19,7 +19,7 @@ class DaggerApp : Application(), HasAndroidInjector {
 
 
     companion object {
-        private lateinit var appComponent: AppComponent
+        lateinit var appComponent: AppComponent
         lateinit var sourceComponent: SourceComponent
         lateinit var retrofitComponent: RetrofitComponent
         lateinit var roomComponent: RoomComponent
