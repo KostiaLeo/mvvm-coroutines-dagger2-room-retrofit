@@ -1,6 +1,6 @@
 # Music news
-<h3>Application which retrieves data from Webserver (via Retrofit), saves it into SQLite and get from local database (SQLite) if user is offline. <br/>
-There is applying MVVM architecture pattern example. </h3>
+<h3>Application which retrieves data from Webserver (via Retrofit), saves it into Room and get from it if user is offline. <br/>
+There are applying MVVM architecture pattern and Dagger 2 example. </h3>
 <h3>Overview: </h3>
 <ul>
 <li><h3>Model</h3>
@@ -12,6 +12,9 @@ It implements state saving reflected on configuration changes.
 </li>
 <li><h3>ViewModel</h3>
 ViewModel is responsible for transferring data between view and model.
+</li>
+<li><h3>Dagger 2</h3>
+<h4><i></i></h4> - Implementation of dependency injection for communication between app modules. AndroidInjector applying for injecting into View components.
 </li>
 </ul>
 <hr/>
@@ -27,16 +30,16 @@ ViewModel is responsible for transferring data between view and model.
    - using instead of callbacks<br/>
    - providing light asynchronous operations
 <h4><i>RxJava (RxKotlin)</i></h4>
-   - converting data from server to Observable <br/>
-   - communication between fragments, click listeners <br/>
+   - converting data from server and database to Observable <br/>
    - providing asynchronous app work
 </li>	 
 <li><h3>ViewModel</h3>
-<h4><i>LiveData</i></h4> - live changing data into fetched one from model
+<h4><i>LiveData</i></h4> - observer-pattern implementation for View interaction
 </li>
 
 <li><h3>View</h3>
-<h4><i>Fragments</i></h4> - interactive displaying and click reflecting
+<h4><i>Fragments</i></h4> 
+   - interactive displaying and click reflecting
 <h4><i>Data Binding</i></h4>
    - replace basic operations with UI (e.g. findViewById() ) to the XML
 </li>
