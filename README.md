@@ -14,7 +14,9 @@ It implements state saving reflected on configuration changes.
 ViewModel is responsible for transferring data between view and model.
 </li>
 <li><h3>Dagger 2</h3>
-<h4><i></i></h4> - Implementation of dependency injection for communication between app modules. AndroidInjector applying for injecting into View components.
+<h4><i></i></h4> - Implementation of dependency injection for communication between app modules <br/>
+                 - AndroidInjector applying for injecting into View components <br/>
+                 - Unit-testing simplifying
 </li>
 </ul>
 <hr/>
