@@ -1,21 +1,22 @@
 package com.example.android_skills.model.remote
 
 import com.example.android_skills.dagger.DaggerApp
-import com.example.android_skills.model.MyNewz
-import com.example.android_skills.model.Results
+import com.example.android_skills.model.model_module_description.Exhibit
+import com.example.android_skills.model.model_module_description.Exhibitions
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class ArtistsRemoteSource @Inject constructor() {
+class ExhibitsRemoteSource @Inject constructor() {
 
     @Inject
-    lateinit var remoteDataSingle: Single<MyNewz>
+    lateinit var remoteDataSingle: Single<Exhibitions>
 
-    suspend fun retrieveData(): ArrayList<Results> {
+    suspend fun retrieveData(): ArrayList<Exhibit> {
         DaggerApp.retrofitComponent.inject(this)
 
         return suspendCoroutine {
@@ -23,8 +24,8 @@ class ArtistsRemoteSource @Inject constructor() {
                 .subscribeOn(Schedulers.io()).retry(3)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { news -> it.resume(news.results.toList() as ArrayList<Results>) },
-                    { error -> println(error) }
+                    { exhibitions -> it.resume(ArrayList(exhibitions.list)) },
+                    { error -> it.resumeWithException(error) }
                 )
         }
     }

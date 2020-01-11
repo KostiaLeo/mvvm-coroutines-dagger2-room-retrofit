@@ -2,10 +2,8 @@ package com.example.android_skills.dagger
 
 import android.app.Activity
 import android.app.Application
-import com.example.android_skills.dagger.daggerVM.source.*
-import com.example.android_skills.dagger.daggerVM.view.ViewComponent
-import com.example.android_skills.dagger.source.RoomModule
-import com.example.android_skills.dagger.source.SourceModule
+import com.example.android_skills.dagger.view.ViewComponent
+import com.example.android_skills.dagger.source.*
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

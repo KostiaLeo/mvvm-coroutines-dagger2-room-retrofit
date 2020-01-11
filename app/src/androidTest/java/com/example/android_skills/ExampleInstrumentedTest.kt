@@ -4,9 +4,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.example.android_skills.dagger.DaggerApp
-import com.example.android_skills.model.Currency
-import com.example.android_skills.model.Image
-import com.example.android_skills.model.Results
 import kotlinx.coroutines.launch
 
 import org.junit.Test
@@ -24,8 +21,8 @@ class ExampleInstrumentedTest {
 
     private val viewModel = DaggerApp.appComponent.provideViewModel()
     private val scope = viewModel.viewModelScope
-    private val src = DaggerApp.sourceComponent.provideGeneralRepository()
-    private val firstExpectedName = "Peep"
+    private val firstExpectedName = "iPhone 5s"
+    private val dao = DaggerApp.roomComponent.provideDao()
 
     private val source = DaggerApp.sourceComponent
 
@@ -35,7 +32,7 @@ class ExampleInstrumentedTest {
         val repository = source.provideGeneralRepository()
 
         scope.launch {
-            val firstName = repository.retrieveData()[0].name
+            val firstName = repository.getExhibitList()[0].title
             assertEquals(firstName, firstExpectedName)
         }
     }
@@ -43,23 +40,27 @@ class ExampleInstrumentedTest {
     @Test
     fun testRemoteSource() {
         scope.launch {
-            val firstName = source.provideRemoteSource().retrieveData()[0].name
-            assertEquals(firstName, firstExpectedName)
+            val firstName = source.provideRemoteSource().retrieveData()[0].title
+            println(firstName)
+            assertEquals(firstName, "iPhone 5s")
+            val rows = dao.countOfRows()
+
+            assertEquals("9 items should be inserted", 9, rows)
         }
     }
 
     @Test
     fun testLocalSource() {
         scope.launch {
-            val firstName = source.provideLocalSource().retrieveData()[0].name
-            assertEquals(firstName, firstExpectedName)
+            val firstName = source.provideLocalSource().retrieveData()[0].title
+            assertEquals("try to retrieve local data", firstName, firstExpectedName)
         }
     }
 
     @Test
     fun testDatabaseRepository() {
         scope.launch {
-            val firstName = DaggerApp.roomComponent.provideDatabaseRepository().getData()[0].name
+            val firstName = DaggerApp.roomComponent.provideDatabaseRepository().getData()[0].title
             assertEquals(firstName, firstExpectedName)
         }
     }
@@ -70,20 +71,23 @@ class ExampleInstrumentedTest {
         scope.launch {
             val dao = DaggerApp.roomComponent.provideDao()
 
-            val artist = Results(Image("", "", ""), "", "", Currency(""))
 
-            val countOfAddedRows = dao.insert(arrayListOf(artist)).size
-
-            val countAfterAdding = dao.countOfRows()
-
-            val countOfDeleted = dao.deleteLastItem()
-
-            val countOfLeftItems = dao.countOfRows()
-
-            assertEquals("I've added one new row", 1, countOfAddedRows)
-            assertEquals("All rows after adding", 7, countAfterAdding)
-            assertEquals("I've deleted one new row", 1, countOfDeleted)
-            assertEquals("And it's left one less item", 6, countOfLeftItems)
+            //println(dao.deleteAllArtists())
+            //val artist = Results(Image("", "", ""), "", "", Currency(""))
+//            val exhibit = Exhibit(listOf(""), "title")
+//
+//            val countOfAddedRows = dao.insert(arrayListOf(exhibit)).size
+//
+//            val countAfterAdding = dao.countOfRows()
+//
+//            //val countOfDeleted = dao.deleteLastItem()
+//
+//            val countOfLeftItems = dao.countOfRows()
+//
+//            assertEquals("I've added one new row", 1, countOfAddedRows)
+//            assertEquals("All rows after adding", 4, countAfterAdding)
+            //assertEquals("I've deleted one new row", 1, countOfDeleted)
+            //assertEquals("And it's left one less item", 3, countOfLeftItems)
         }
     }
 }

@@ -1,14 +1,12 @@
 package com.example.android_skills.dagger
 
 import android.app.Application
-import androidx.fragment.app.Fragment
-import com.example.android_skills.dagger.daggerVM.source.SourceComponent
+import com.example.android_skills.dagger.view.ViewComponent
+import com.example.android_skills.dagger.view.ViewModelModule
+import com.example.android_skills.dagger.source.SourceComponent
 import com.example.android_skills.dagger.source.SourceModule
-import com.example.android_skills.dagger.daggerVM.view.RepositoryProvider
-import com.example.android_skills.dagger.daggerVM.view.ViewComponent
-import com.example.android_skills.dagger.daggerVM.view.ViewModelModule
+import com.example.android_skills.dagger.view.RepositoryProvider
 import com.example.android_skills.view.MainActivity
-import com.example.android_skills.view.fragments.ChosenFragment
 import com.example.android_skills.view.fragments.StoriesFragment
 import com.example.android_skills.viewmodel.DaggerViewModel
 import dagger.*
@@ -45,7 +43,4 @@ abstract class ViewModule {
 abstract class FragmentModule {
     @ContributesAndroidInjector(modules = [ViewModelModule::class])
     abstract fun contributeFragmentViewModelInjector(): StoriesFragment
-
-    @ContributesAndroidInjector(modules = [ViewModelModule::class])
-    abstract fun contributeFragmentChosenViewModelInjector(): ChosenFragment
 }

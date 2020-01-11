@@ -8,19 +8,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.android_skills.R
 
-class SectionPagerAdapter(private val context: Context, private val fm: FragmentManager) :
+class SectionPagerAdapter(private val context: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm) {
     companion object {
-        val TAB_TITLES = arrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2
-        )
+        val TAB_TITLES = arrayOf(R.string.tab_text_1)
     }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> StoriesFragment.create()
-            1 -> ChosenFragment.create()
             else -> StoriesFragment.create()
         }
     }

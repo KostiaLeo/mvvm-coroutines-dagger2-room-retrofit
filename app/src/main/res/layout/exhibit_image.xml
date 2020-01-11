@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="imageUrl"
+            type="String" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_news_height"
+            android:layout_marginTop="@dimen/appbar_padding"
+            android:background="@color/default_news_background"
+            android:scaleType="centerCrop"
+            android:src_image="@{imageUrl}" />
+
+    </LinearLayout>
+</layout>

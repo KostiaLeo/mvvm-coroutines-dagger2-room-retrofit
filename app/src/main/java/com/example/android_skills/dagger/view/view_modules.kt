@@ -1,8 +1,7 @@
-package com.example.android_skills.dagger.daggerVM.view
+package com.example.android_skills.dagger.view
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ActivityScope
 import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
 import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelKey
 import com.example.android_skills.model.ModelRepository

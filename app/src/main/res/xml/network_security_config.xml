@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">api.myjson.com</domain>
+        <domain includeSubdomains="true">img01.ibnlive.in</domain>
+        <domain includeSubdomains="true">encrypted-tbn0.gstatic.com</domain>
     </domain-config>
 </network-security-config>

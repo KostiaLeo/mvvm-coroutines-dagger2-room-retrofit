@@ -3,15 +3,15 @@ package com.example.android_skills.dagger.source
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.android_skills.model.MyNewz
+import com.example.android_skills.model.model_module_description.Exhibitions
 import com.example.android_skills.model.NetManager
-import com.example.android_skills.model.remote.ArtistsRemoteSource
-import com.example.android_skills.model.remote.INewsApi
+import com.example.android_skills.model.remote.ExhibitsRemoteSource
+import com.example.android_skills.model.remote.IExhibitionsApi
 import com.example.android_skills.model.remote.NetworkUrl
-import com.example.android_skills.model.sqlite.ArtistDao
-import com.example.android_skills.model.sqlite.ArtistDatabaseRepository
-import com.example.android_skills.model.sqlite.ArtistRoomDataBase
-import com.example.android_skills.model.sqlite.ArtistsLocalSource
+import com.example.android_skills.model.room.ExhibitDao
+import com.example.android_skills.model.room.ExhibitDatabaseRepository
+import com.example.android_skills.model.room.ExhibitRoomDataBase
+import com.example.android_skills.model.room.ExhibitLocalSource
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -20,14 +20,22 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
+//@Qualifier
+//@Retention(AnnotationRetention.RUNTIME)
+//annotation class ForApp
+
 @Module
 class SourceModule (private val application: Application){
 
     @Provides
-    fun provideRemoteSource(): ArtistsRemoteSource = ArtistsRemoteSource()
+//    @ForApp
+    fun provideContext(): Context = application
 
     @Provides
-    fun provideLocalSource(): ArtistsLocalSource = ArtistsLocalSource()
+    fun provideRemoteSource(): ExhibitsRemoteSource = ExhibitsRemoteSource()
+
+    @Provides
+    fun provideLocalSource(): ExhibitLocalSource = ExhibitLocalSource()
 
     @Provides
     fun provideNetManager(): NetManager = NetManager(application)
@@ -46,11 +54,11 @@ class RetrofitModule{
 
     @Provides
     @Reusable
-    internal fun provideAPI(): INewsApi = provideRetrofit().create(INewsApi::class.java)
+    internal fun provideAPI(): IExhibitionsApi = provideRetrofit().create(IExhibitionsApi::class.java)
 
     @Provides
     @Reusable
-    fun provideNetworkDataObservable(): Single<MyNewz> = provideAPI().getAPINewz()
+    fun provideNetworkDataObservable(): Single<Exhibitions> = provideAPI().getAPIExhibitions()
 }
 
 @Module
@@ -61,16 +69,16 @@ class RoomModule(val context: Context) {
 
     @Provides
     @Reusable
-    fun provideDataBase(): ArtistRoomDataBase =
+    fun provideDataBase(): ExhibitRoomDataBase =
         Room.databaseBuilder(
             context.applicationContext,
-            ArtistRoomDataBase::class.java,
+            ExhibitRoomDataBase::class.java,
             databaseName
         ).build()
 
     @Provides
-    fun provideDao(): ArtistDao = provideDataBase().artistDao()
+    fun provideDao(): ExhibitDao = provideDataBase().exhibitDao()
 
     @Provides
-    fun provideLocalRepository(): ArtistDatabaseRepository = ArtistDatabaseRepository(provideDao())
+    fun provideLocalRepository(exhibitDao: ExhibitDao): ExhibitDatabaseRepository = ExhibitDatabaseRepository(exhibitDao)
 }

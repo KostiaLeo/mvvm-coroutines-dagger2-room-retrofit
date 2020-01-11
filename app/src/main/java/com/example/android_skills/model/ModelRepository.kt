@@ -1,28 +1,32 @@
 package com.example.android_skills.model
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import com.example.android_skills.dagger.DaggerApp
-import com.example.android_skills.model.remote.ArtistsRemoteSource
-import com.example.android_skills.model.sqlite.ArtistsLocalSource
+import com.example.android_skills.model.model_module_description.Exhibit
+import com.example.android_skills.model.model_module_description.ExhibitsLoader
+import com.example.android_skills.model.remote.ExhibitsRemoteSource
+import com.example.android_skills.model.room.ExhibitLocalSource
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ModelRepository @Inject constructor() {
+class ModelRepository
+@Inject
+constructor() : ExhibitsLoader {
+
     init { DaggerApp.sourceComponent.inject(this) }
 
     @Inject
     lateinit var netManager: NetManager
     @Inject
-    lateinit var localSource: ArtistsLocalSource
+    lateinit var localSource: ExhibitLocalSource
     @Inject
-    lateinit var remoteSource: ArtistsRemoteSource
+    lateinit var remoteSource: ExhibitsRemoteSource
 
 
-    suspend fun retrieveData() : ArrayList<Results> {
+    override suspend fun getExhibitList(): List<Exhibit> {
         val artists =
             if(netManager.isConnectedToInternet)
                 retrieveRemoteData()
@@ -34,19 +38,19 @@ class ModelRepository @Inject constructor() {
         }
     }
 
-    private suspend fun retrieveRemoteData() : ArrayList<Results> {
-        val artists = remoteSource.retrieveData()
-        localSource.saveData(artists)
+    private suspend fun retrieveRemoteData() : ArrayList<Exhibit> {
+        val exhibits = remoteSource.retrieveData()
+        localSource.saveData(exhibits)
         return suspendCoroutine {
-            it.resume(artists)
+            it.resume(exhibits)
         }
     }
 
-    private suspend fun retrieveLocalData(): ArrayList<Results> {
-        val artists = localSource.retrieveData()
+    private suspend fun retrieveLocalData(): ArrayList<Exhibit> {
+        val exhibits = localSource.retrieveData()
 
         return suspendCoroutine {
-            it.resume(artists)
+            it.resume(exhibits)
         }
     }
 }

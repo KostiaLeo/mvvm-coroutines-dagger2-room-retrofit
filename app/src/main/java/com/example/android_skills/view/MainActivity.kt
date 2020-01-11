@@ -3,14 +3,12 @@ package com.example.android_skills.view
 import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
 import androidx.viewpager.widget.ViewPager
 import com.example.android_skills.R
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
 import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.view.fragments.SectionPagerAdapter
-import com.google.android.material.tabs.TabLayout
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -24,14 +22,16 @@ class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
     private lateinit var viewPager: ViewPager
     private lateinit var title: TextView
 
-    private val mainPageNum = 0
-    private val detailedPageNum = 1
+// --------- Dagger 2 injections -----------
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector as AndroidInjector<Any>
+
+// ------- Dagger 2 injections end ---------
 
     private lateinit var viewModel: DaggerViewModel
 
@@ -46,39 +46,19 @@ class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
 
-        val tabLayout: TabLayout = findViewById(R.id.tabs)
-        tabLayout.setupWithViewPager(viewPager)
-
         title = findViewById(R.id.titleApp)
 
         title.setOnClickListener {
             viewModel.onTitleClick()
-            viewPager.currentItem = mainPageNum
         }
-
-        viewModel.selectedItem.observe(this, Observer {
-            viewPager.currentItem = detailedPageNum
-        })
-
-// -------- Alternative onClickListener via Rx ----------
-//        disposable = NewsAdapter.switchObservable.subscribe {
-//            viewPager.currentItem = detailedPageNum
-//        }
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector as AndroidInjector<Any>
-
-    override fun onBackPressed() {
-        viewPager.currentItem = mainPageNum
     }
 
     override fun onDestroy() {
         super.onDestroy()
         disposable?.dispose()
         viewModel.apply {
-            selectedItem.removeObservers(this@MainActivity)
             titleClick.removeObservers(this@MainActivity)
-            artistsList.removeObservers(this@MainActivity)
+            exhibitsList.removeObservers(this@MainActivity)
         }
     }
 }

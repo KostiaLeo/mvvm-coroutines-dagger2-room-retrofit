@@ -1,9 +1,8 @@
-package com.example.android_skills.model.sqlite
+package com.example.android_skills.model.room
 
 import android.annotation.SuppressLint
 import android.util.Log
-import androidx.lifecycle.LiveData
-import com.example.android_skills.model.Results
+import com.example.android_skills.model.model_module_description.Exhibit
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -12,11 +11,11 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @SuppressLint("CheckResult")
-class ArtistDatabaseRepository @Inject constructor(private val artistDao: ArtistDao) {
+class ExhibitDatabaseRepository @Inject constructor(private val exhibitDao: ExhibitDao) {
 
-    suspend fun getData(): ArrayList<Results>{
+    suspend fun getData(): ArrayList<Exhibit>{
         return suspendCoroutine {continuation ->
-            artistDao.getArtists()
+            exhibitDao.getArtists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -29,14 +28,12 @@ class ArtistDatabaseRepository @Inject constructor(private val artistDao: Artist
         }
     }
 
-    suspend fun refreshData(artists: ArrayList<Results>) {
-        println("refreshing: ${artists[0].name}")
+    suspend fun refreshData(artists: ArrayList<Exhibit>) {
         deleteAll()
-        println("inserted ${artistDao.insert(artists).size}")
+        println("inserted ${exhibitDao.insert(artists).size}")
     }
 
     private suspend fun deleteAll(){
-        println("deleted ${artistDao.deleteAllArtists()}")
-
+        println("deleted ${exhibitDao.deleteAllArtists()}")
     }
 }
