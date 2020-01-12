@@ -12,9 +12,11 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ModelRepository
-@Inject
-constructor() : ExhibitsLoader {
+// This class intended for figuring out the store we'll fetch data from (depends on internet connection)
+// Furthermore this class incapsulates sources and ways for interacting with them from ViewModel
+// VM just calls method getExhibitList() and Repository independently decides way for fethcing
+
+class ModelRepository @Inject constructor() : ExhibitsLoader {
 
     init { DaggerApp.sourceComponent.inject(this) }
 
