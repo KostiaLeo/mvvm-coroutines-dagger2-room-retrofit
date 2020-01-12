@@ -2,7 +2,6 @@ package com.example.android_skills.model.room
 
 import androidx.room.*
 import com.example.android_skills.model.model_module_description.Exhibit
-import com.example.android_skills.model.ImagesURLConverter
 import io.reactivex.Flowable
 
 
@@ -18,6 +17,7 @@ interface ExhibitDao {
     @Query("DELETE FROM exhibitions")
     suspend fun deleteAllArtists(): Int
 
+// Next methods are created specially for instrumental unit-tests
     @Query("DELETE FROM exhibitions WHERE id = (SELECT MAX(id) FROM exhibitions)")
     suspend fun deleteLastItem(): Int
 

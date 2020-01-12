@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import com.example.android_skills.dagger.DaggerApp
+import com.example.android_skills.model.model_module_description.Exhibit
 import kotlinx.coroutines.launch
 
 import org.junit.Test
@@ -71,23 +72,20 @@ class ExampleInstrumentedTest {
         scope.launch {
             val dao = DaggerApp.roomComponent.provideDao()
 
+            val exhibit = Exhibit(listOf(""), "title")
 
-            //println(dao.deleteAllArtists())
-            //val artist = Results(Image("", "", ""), "", "", Currency(""))
-//            val exhibit = Exhibit(listOf(""), "title")
-//
-//            val countOfAddedRows = dao.insert(arrayListOf(exhibit)).size
-//
-//            val countAfterAdding = dao.countOfRows()
-//
-//            //val countOfDeleted = dao.deleteLastItem()
-//
-//            val countOfLeftItems = dao.countOfRows()
-//
-//            assertEquals("I've added one new row", 1, countOfAddedRows)
-//            assertEquals("All rows after adding", 4, countAfterAdding)
-            //assertEquals("I've deleted one new row", 1, countOfDeleted)
-            //assertEquals("And it's left one less item", 3, countOfLeftItems)
+            val countOfAddedRows = dao.insert(arrayListOf(exhibit)).size
+
+            val countAfterAdding = dao.countOfRows()
+
+            val countOfDeleted = dao.deleteLastItem()
+
+            val countOfLeftItems = dao.countOfRows()
+
+            assertEquals("I've added one new row", 1, countOfAddedRows)
+            assertEquals("All rows after adding", 10, countAfterAdding)
+            assertEquals("I've deleted one new row", 1, countOfDeleted)
+            assertEquals("And it's left one less item", 9, countOfLeftItems)
         }
     }
 }

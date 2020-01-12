@@ -7,7 +7,7 @@ import com.example.android_skills.dagger.source.SourceComponent
 import com.example.android_skills.dagger.source.SourceModule
 import com.example.android_skills.dagger.view.RepositoryProvider
 import com.example.android_skills.view.MainActivity
-import com.example.android_skills.view.fragments.StoriesFragment
+import com.example.android_skills.view.fragments.ExhibitionFragment
 import com.example.android_skills.viewmodel.DaggerViewModel
 import dagger.*
 import dagger.android.AndroidInjectionModule
@@ -42,5 +42,5 @@ abstract class ViewModule {
 @Module
 abstract class FragmentModule {
     @ContributesAndroidInjector(modules = [ViewModelModule::class])
-    abstract fun contributeFragmentViewModelInjector(): StoriesFragment
+    abstract fun contributeFragmentViewModelInjector(): ExhibitionFragment
 }

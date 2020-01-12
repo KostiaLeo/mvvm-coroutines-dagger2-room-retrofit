@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.android_skills.R
 
+// Fragment controlling system
 class SectionPagerAdapter(private val context: Context, fm: FragmentManager) :
     FragmentPagerAdapter(fm) {
     companion object {
@@ -16,8 +17,8 @@ class SectionPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> StoriesFragment.create()
-            else -> StoriesFragment.create()
+            0 -> ExhibitionFragment.create()
+            else -> ExhibitionFragment.create()
         }
     }
 

@@ -6,15 +6,17 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
+// Source-class which injected to the ModelRepository for working with database
+
 class ExhibitLocalSource @Inject constructor() {
     init { DaggerApp.roomComponent.inject(this) }
+
     @Inject
     lateinit var databaseRepository: ExhibitDatabaseRepository
 
+
     suspend fun retrieveData(): ArrayList<Exhibit> {
-
         val allExhibits = databaseRepository.getData()
-
         return suspendCoroutine { continuation ->
             continuation.resume(allExhibits)
         }

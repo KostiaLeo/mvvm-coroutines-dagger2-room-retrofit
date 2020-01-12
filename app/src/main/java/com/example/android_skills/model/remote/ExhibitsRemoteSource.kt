@@ -1,5 +1,7 @@
 package com.example.android_skills.model.remote
 
+import android.util.Log
+import com.example.android_skills.logging.TAGs
 import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.model.model_module_description.Exhibit
 import com.example.android_skills.model.model_module_description.Exhibitions
@@ -16,6 +18,8 @@ class ExhibitsRemoteSource @Inject constructor() {
     @Inject
     lateinit var remoteDataSingle: Single<Exhibitions>
 
+    private val tag = TAGs.retrofitTag
+
     suspend fun retrieveData(): ArrayList<Exhibit> {
         DaggerApp.retrofitComponent.inject(this)
 
@@ -24,8 +28,14 @@ class ExhibitsRemoteSource @Inject constructor() {
                 .subscribeOn(Schedulers.io()).retry(3)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { exhibitions -> it.resume(ArrayList(exhibitions.list)) },
-                    { error -> it.resumeWithException(error) }
+                    { exhibitions ->
+                        it.resume(ArrayList(exhibitions.list))
+                        Log.d(tag, "Retrofit retrieving success")
+                    },
+                    { error ->
+                        it.resumeWithException(error)
+                        Log.e(tag, "Retrofit retrieving failed", error)
+                    }
                 )
         }
     }

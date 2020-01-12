@@ -21,7 +21,12 @@ import com.example.android_skills.view.adapters.ExhibitParentAdapter
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class StoriesFragment : DaggerFragment() {
+
+// Why do we need fragment? Yes, in accordance with task it's not mentioned, however
+// in a case we want to implement onClick event to the recyclerView item it's better to interact exactly between fragment.
+// Thus we can just create one more fragment and deal with it instead of creating other activities
+
+class ExhibitionFragment : DaggerFragment() {
     private lateinit var root: View
 
     private lateinit var newsRecycler: RecyclerView
@@ -33,12 +38,12 @@ class StoriesFragment : DaggerFragment() {
 
     private lateinit var viewModel: DaggerViewModel
 
-    private val YCoordinate = "y"
+    private val yCoordinate = "y"
 
 
     companion object Factory {
-        fun create(): StoriesFragment {
-            return StoriesFragment()
+        fun create(): ExhibitionFragment {
+            return ExhibitionFragment()
         }
     }
 
@@ -54,11 +59,10 @@ class StoriesFragment : DaggerFragment() {
         root = inflater.inflate(R.layout.fragment_stories, container, false)
 
         initUI()
+
         savedInstanceState?.let {
             Handler().postDelayed({
-                nestedScrollView.scrollTo(
-                    0, it.getInt(YCoordinate)
-                )
+                nestedScrollView.scrollTo(0, it.getInt(yCoordinate))
             }, 700)
         }
 
@@ -95,15 +99,11 @@ class StoriesFragment : DaggerFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(
-            YCoordinate,
-            nestedScrollView.scrollY
-        )
+        outState.putInt(yCoordinate, nestedScrollView.scrollY)
     }
 
     override fun onDetach() {
         super.onDetach()
-
-        viewModel.exhibitsList.removeObservers(this@StoriesFragment)
+        viewModel.exhibitsList.removeObservers(this@ExhibitionFragment)
     }
 }

@@ -17,47 +17,5 @@ import javax.inject.Inject
  */
 
 class ExampleUnitTest {
-
-    val daggerViewModel: DaggerViewModel = DaggerApp.appComponent.provideViewModel()
-
-    fun initApp(){
-
-    }
-    @Test
-    fun start(){
-        assertNotNull(daggerViewModel)
-    }
-//    private val component = DaggerApp.component
-//
-//    private val networkComponent = DaggerApp.networkComponent
-//
-//    @Test
-//    fun checkNetworkDefault() {
-//        val networkUtilsDefault = networkComponent.getNetworkUtilsDefault()
-//        assertEquals(networkUtilsDefault.showUrl(), "default is your url")
-//    }
-//
-//    @Test
-//    fun checkNetworkByUrl(){
-//        val networkUtilsByUrl = networkComponent.getNetworkUtilsByUrl()
-//        assertEquals(networkUtilsByUrl.showUrl(), "http:/hello is your url")
-//    }
-//
-//    @Test
-//    fun checkNetworkDBBuilder(){
-//        val networkDB = networkComponent.getNetworkDB()
-//        assertEquals(networkDB.showDao(), "this is dao - myDaoLink")
-//    }
-//
-//    @Test
-//    fun checkLocalDB(){
-//        val localDB = component.getDatabaseHelper()
-//        assertEquals(localDB.showDB(), "You're welcome to local database")
-//    }
-//
-//    @Test
-//    fun testVMComponent(){
-//        //val testString = DaggerApp.vmComponent.getVM().getTestingString()
-//        //assertEquals(testString, "test")
-//    }
+    // see test at the com.example.android_skills.ExampleInstrumentedTest
 }

@@ -7,6 +7,7 @@ import com.example.android_skills.databinding.ExhibitImageBinding
 
 class ExhibitImageAdapter(private val images: List<String>) :
     RecyclerView.Adapter<ExhibitImageAdapter.ExhibitImgHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExhibitImgHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ExhibitImageBinding.inflate(layoutInflater, parent, false)

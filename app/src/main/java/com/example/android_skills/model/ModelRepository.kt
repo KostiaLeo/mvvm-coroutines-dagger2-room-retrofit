@@ -3,6 +3,8 @@ package com.example.android_skills.model
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
+import android.util.Log
+import com.example.android_skills.logging.TAGs
 import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.model.model_module_description.Exhibit
 import com.example.android_skills.model.model_module_description.ExhibitsLoader
@@ -13,12 +15,11 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 // This class intended for figuring out the store we'll fetch data from (depends on internet connection)
-// Furthermore this class incapsulates sources and ways for interacting with them from ViewModel
-// VM just calls method getExhibitList() and Repository independently decides way for fethcing
+// Furthermore this class encapsulates sources and ways for interacting with them from ViewModel.
+// VM just calls method getExhibitList() and Repository independently decides way for fetching
 
 class ModelRepository @Inject constructor() : ExhibitsLoader {
-
-    init { DaggerApp.sourceComponent.inject(this) }
+    init { DaggerApp.sourceComponent.inject(this)}
 
     @Inject
     lateinit var netManager: NetManager
@@ -27,16 +28,23 @@ class ModelRepository @Inject constructor() : ExhibitsLoader {
     @Inject
     lateinit var remoteSource: ExhibitsRemoteSource
 
+    private val tag = TAGs.modelRepositoryTag
 
     override suspend fun getExhibitList(): List<Exhibit> {
-        val artists =
+        val artists: ArrayList<Exhibit>? =
             if(netManager.isConnectedToInternet)
                 retrieveRemoteData()
             else
                 retrieveLocalData()
 
-        return suspendCoroutine {
-            it.resume(artists)
+        return suspendCoroutine {continuation ->
+            artists?.let {
+                continuation.resume(it)
+
+                Log.d(tag, "data successfully delivered to the ModelRepository")
+            }
+
+            Log.e(tag, "data delivering to the ModelRepository failed")
         }
     }
 

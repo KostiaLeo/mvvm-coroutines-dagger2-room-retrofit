@@ -1,7 +1,9 @@
-package com.example.android_skills.model
+package com.example.android_skills.model.room
 
 import androidx.room.TypeConverter
 import java.util.stream.Collectors
+
+// Type converters for properly Room database working
 
 class ImagesURLConverter {
     private val delimiter = ", "
