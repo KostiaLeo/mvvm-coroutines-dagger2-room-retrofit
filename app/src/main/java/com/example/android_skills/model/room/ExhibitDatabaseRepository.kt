@@ -6,7 +6,9 @@ import com.example.android_skills.logging.TAGs
 import com.example.android_skills.model.model_module_description.Exhibit
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -25,7 +27,10 @@ class ExhibitDatabaseRepository @Inject constructor(private val exhibitDao: Exhi
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        continuation.resume(ArrayList(it))
+                        if(it.isNotEmpty())
+                            continuation.resume(ArrayList(it))
+                        else
+                            continuation.resume(ArrayList(Collections.EMPTY_LIST) as ArrayList<Exhibit>)
                         Log.d(tag , "Room retrieving success")
                     },
                     {

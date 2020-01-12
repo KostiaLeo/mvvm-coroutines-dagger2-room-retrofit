@@ -8,7 +8,9 @@ import com.example.android_skills.model.model_module_description.Exhibitions
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -23,17 +25,21 @@ class ExhibitsRemoteSource @Inject constructor() {
     suspend fun retrieveData(): ArrayList<Exhibit> {
         DaggerApp.retrofitComponent.inject(this)
 
-        return suspendCoroutine {
+        return suspendCoroutine { continuation ->
             remoteDataSingle
                 .subscribeOn(Schedulers.io()).retry(3)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { exhibitions ->
-                        it.resume(ArrayList(exhibitions.list))
+                        if(exhibitions.list.isNotEmpty())
+                            continuation.resume(ArrayList(exhibitions.list))
+                        else
+                            continuation.resume(ArrayList(Collections.EMPTY_LIST) as ArrayList<Exhibit>)
+
                         Log.d(tag, "Retrofit retrieving success")
                     },
                     { error ->
-                        it.resumeWithException(error)
+                        continuation.resumeWithException(error)
                         Log.e(tag, "Retrofit retrieving failed", error)
                     }
                 )

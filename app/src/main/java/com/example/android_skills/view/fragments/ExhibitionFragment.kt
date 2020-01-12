@@ -1,13 +1,17 @@
 package com.example.android_skills.view.fragments
 
 import android.annotation.SuppressLint
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,13 +21,16 @@ import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFac
 import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
 import com.example.android_skills.model.model_module_description.Exhibit
 import com.example.android_skills.view.adapters.ExhibitParentAdapter
+import com.google.android.material.snackbar.Snackbar
 
 import dagger.android.support.DaggerFragment
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 // Why do we need fragment? Yes, in accordance with task it's not mentioned, however
-// in a case we want to implement onClick event to the recyclerView item it's better to interact exactly between fragment.
+// in a case we want to implement onClick event for the recyclerView item it's better to interact exactly between fragment.
 // Thus we can just create one more fragment and deal with it instead of creating other activities
 
 class ExhibitionFragment : DaggerFragment() {
@@ -32,6 +39,7 @@ class ExhibitionFragment : DaggerFragment() {
     private lateinit var newsRecycler: RecyclerView
     private lateinit var mainAdapter: ExhibitParentAdapter
     private lateinit var nestedScrollView: NestedScrollView
+    private lateinit var progressBar: ProgressBar
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -56,7 +64,7 @@ class ExhibitionFragment : DaggerFragment() {
         viewModel = injectViewModel(viewModelFactory)
         viewModel.getDataArtists()
 
-        root = inflater.inflate(R.layout.fragment_stories, container, false)
+        root = inflater.inflate(R.layout.fragment_exhibits, container, false)
 
         initUI()
 
@@ -70,6 +78,8 @@ class ExhibitionFragment : DaggerFragment() {
     }
 
     private fun initUI() {
+        progressBar = root.findViewById(R.id.progress_bar)
+
         newsRecycler = root.findViewById(R.id.newzzz)
         nestedScrollView = root.findViewById(R.id.nested_scroll_view)
 
@@ -81,7 +91,12 @@ class ExhibitionFragment : DaggerFragment() {
         viewModel.exhibitsList.observe(viewLifecycleOwner,
             Observer<ArrayList<Exhibit>> {
                 it?.let {
-                    drawRecyclerView(it)
+                    progressBar.visibility = View.GONE
+                    if(it == ArrayList(Collections.EMPTY_LIST)) {
+                        Snackbar.make(this.root, "Check internet connection and reboot app", Snackbar.LENGTH_LONG).show()
+                    } else {
+                        drawRecyclerView(it)
+                    }
                 }
             }
         )
