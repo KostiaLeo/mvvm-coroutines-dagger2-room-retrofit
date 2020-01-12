@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 // ViewModel architecture component implementation:
-//      here we're gonna retrieve through viewModelScope.
-//      besides it's profitably that ViewModel-class keeps alive all processes
+//      here we're gonna retrieve data through viewModelScope.
+//      besides VM usage is profitably since ViewModel-class keeps alive and saves all processes
 //      during configuration changes (e.g. screen rotation)
 
 class DaggerViewModel @Inject constructor() : ViewModel(){
