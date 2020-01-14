@@ -1,6 +1,7 @@
 package com.example.android_skills.dagger.dagger
 
 import android.app.Application
+import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelModule
 import com.example.android_skills.view.MainActivity
 import com.example.android_skills.view.fragments.ExhibitionFragment
 import dagger.BindsInstance

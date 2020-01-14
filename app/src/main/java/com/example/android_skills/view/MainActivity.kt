@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.android_skills.R
-import com.example.android_skills.dagger.dagger.vm_factory.ViewModelFactory
+import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.view.fragments.SectionPagerAdapter

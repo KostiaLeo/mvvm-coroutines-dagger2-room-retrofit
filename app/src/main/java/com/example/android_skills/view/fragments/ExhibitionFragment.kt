@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_skills.R
-import com.example.android_skills.dagger.dagger.vm_factory.ViewModelFactory
+import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.model.model_module_description.Exhibit
