@@ -1,24 +1,21 @@
 package com.example.android_skills.view.fragments
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_skills.R
+import com.example.android_skills.dagger.dagger.vm_factory.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
-import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
-import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
+import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.model.model_module_description.Exhibit
 import com.example.android_skills.view.adapters.ExhibitParentAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -62,17 +59,15 @@ class ExhibitionFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = injectViewModel(viewModelFactory)
-        viewModel.getDataArtists()
 
         root = inflater.inflate(R.layout.fragment_exhibits, container, false)
 
         initUI()
 
-        savedInstanceState?.let {
-            Handler().postDelayed({
-                nestedScrollView.scrollTo(0, it.getInt(yCoordinate))
-            }, 700)
-        }
+        observeExhibitsData()
+        observeTitleClicks()
+
+        scrollToPreviousPosition(savedInstanceState)
 
         return root
     }
@@ -87,8 +82,10 @@ class ExhibitionFragment : DaggerFragment() {
             layoutManager = LinearLayoutManager(context)
             itemAnimator = DefaultItemAnimator()
         }
+    }
 
-        viewModel.exhibitsList.observe(viewLifecycleOwner,
+    private fun observeExhibitsData(){
+        viewModel.getExhibitsList().observe(viewLifecycleOwner,
             Observer<ArrayList<Exhibit>> {
                 it?.let {
                     progressBar.visibility = View.GONE
@@ -100,16 +97,26 @@ class ExhibitionFragment : DaggerFragment() {
                 }
             }
         )
-
-        viewModel.titleClick.observe(viewLifecycleOwner, Observer {
-            nestedScrollView.smoothScrollTo(0, 0)
-        })
     }
 
     private fun drawRecyclerView(exhibits: ArrayList<Exhibit>) {
         mainAdapter = ExhibitParentAdapter(exhibits)
         newsRecycler.adapter = mainAdapter
         mainAdapter.notifyDataSetChanged()
+    }
+
+    private fun observeTitleClicks(){
+        viewModel.titleClick.observe(viewLifecycleOwner, Observer {
+            nestedScrollView.smoothScrollTo(0, 0)
+        })
+    }
+
+    private fun scrollToPreviousPosition(bundle: Bundle?){
+        bundle?.let {
+            Handler().postDelayed({
+                nestedScrollView.scrollTo(0, it.getInt(yCoordinate))
+            }, 700)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -119,6 +126,6 @@ class ExhibitionFragment : DaggerFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        viewModel.exhibitsList.removeObservers(this@ExhibitionFragment)
+        viewModel.getExhibitsList().removeObservers(this@ExhibitionFragment)
     }
 }

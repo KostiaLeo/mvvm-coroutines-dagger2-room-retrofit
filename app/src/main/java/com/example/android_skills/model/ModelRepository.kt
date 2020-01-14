@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
 import com.example.android_skills.logging.TAGs
-import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.model.model_module_description.Exhibit
 import com.example.android_skills.model.model_module_description.ExhibitsLoader
 import com.example.android_skills.model.remote.ExhibitsRemoteSource
@@ -18,15 +17,19 @@ import kotlin.coroutines.suspendCoroutine
 // Furthermore this class encapsulates sources and ways for interacting with them from ViewModel.
 // VM just calls method getExhibitList() and Repository independently decides way for fetching
 
-class ModelRepository @Inject constructor() : ExhibitsLoader {
-    init { DaggerApp.sourceComponent.inject(this)}
+class ModelRepository @Inject constructor(
+    private val netManager: NetManager,
+    private val localSource: ExhibitLocalSource,
+    private val remoteSource: ExhibitsRemoteSource
+) : ExhibitsLoader {
+//    init { DaggerApp.sourceComponent.inject(this)}
 
-    @Inject
-    lateinit var netManager: NetManager
-    @Inject
-    lateinit var localSource: ExhibitLocalSource
-    @Inject
-    lateinit var remoteSource: ExhibitsRemoteSource
+//    @Inject
+//    lateinit var netManager: NetManager
+//    @Inject
+//    lateinit var localSource: ExhibitLocalSource
+//    @Inject
+//    lateinit var remoteSource: ExhibitsRemoteSource
 
     private val tag = TAGs.modelRepositoryTag
 

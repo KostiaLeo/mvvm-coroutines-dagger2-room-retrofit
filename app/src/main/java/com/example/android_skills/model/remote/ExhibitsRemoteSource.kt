@@ -2,7 +2,6 @@ package com.example.android_skills.model.remote
 
 import android.util.Log
 import com.example.android_skills.logging.TAGs
-import com.example.android_skills.dagger.DaggerApp
 import com.example.android_skills.model.model_module_description.Exhibit
 import com.example.android_skills.model.model_module_description.Exhibitions
 import io.reactivex.Single
@@ -15,15 +14,13 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class ExhibitsRemoteSource @Inject constructor() {
-
-    @Inject
-    lateinit var remoteDataSingle: Single<Exhibitions>
+class ExhibitsRemoteSource @Inject constructor(
+    private val remoteDataSingle: Single<Exhibitions>
+) {
 
     private val tag = TAGs.retrofitTag
 
     suspend fun retrieveData(): ArrayList<Exhibit> {
-        DaggerApp.retrofitComponent.inject(this)
 
         return suspendCoroutine { continuation ->
             remoteDataSingle

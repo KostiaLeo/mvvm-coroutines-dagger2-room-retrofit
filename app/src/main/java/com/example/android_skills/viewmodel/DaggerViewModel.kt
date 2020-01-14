@@ -2,13 +2,13 @@ package com.example.android_skills.viewmodel
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android_skills.logging.TAGs
-import com.example.android_skills.dagger.daggerVM.extensions.injectRepository
 import com.example.android_skills.model.model_module_description.Exhibit
-import com.example.android_skills.model.ModelRepository
+import com.example.android_skills.model.model_module_description.ExhibitsLoader
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,27 +17,30 @@ import javax.inject.Inject
 //      besides VM usage is profitably since ViewModel-class keeps alive and saves all processes
 //      during configuration changes (e.g. screen rotation)
 
-class DaggerViewModel @Inject constructor() : ViewModel(){
-    @Inject
-    lateinit var modelRepository: ModelRepository
-
-    val exhibitsList = MutableLiveData<ArrayList<Exhibit>>()
-
+class DaggerViewModel @Inject constructor(
+    private val loader: ExhibitsLoader
+) : ViewModel(){
+    private val _exhibitsListMutable = MutableLiveData<ArrayList<Exhibit>>()
     val titleClick = MutableLiveData<Any>()
+
+    init {
+        loadData()
+    }
 
     private val tag = TAGs.viewModelTag
 
     @SuppressLint("CheckResult")
-    fun getDataArtists() {
-        injectRepository(this)
+    private fun loadData() {
 
         viewModelScope.launch {
-            val artists = modelRepository.getExhibitList()
-            exhibitsList.postValue(ArrayList(artists))
+            val artists = loader.getExhibitList()
+            _exhibitsListMutable.postValue(ArrayList(artists))
 
             Log.d(tag, "ViewModel data retrieving and sharing to LiveData")
         }
     }
+
+    fun getExhibitsList(): LiveData<ArrayList<Exhibit>> = _exhibitsListMutable
 
     fun onTitleClick() {
         titleClick.postValue(Any())

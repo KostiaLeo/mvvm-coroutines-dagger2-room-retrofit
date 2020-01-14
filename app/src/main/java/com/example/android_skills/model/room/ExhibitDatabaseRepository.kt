@@ -22,7 +22,7 @@ class ExhibitDatabaseRepository @Inject constructor(private val exhibitDao: Exhi
 
     suspend fun getData(): ArrayList<Exhibit>{
         return suspendCoroutine {continuation ->
-            exhibitDao.getArtists()
+            exhibitDao.getExhibits()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -47,6 +47,6 @@ class ExhibitDatabaseRepository @Inject constructor(private val exhibitDao: Exhi
     }
 
     private suspend fun deleteAll(){
-        Log.d(tag,"deleted ${exhibitDao.deleteAllArtists()}")
+        Log.d(tag,"deleted ${exhibitDao.deleteAllExhibits()}")
     }
 }

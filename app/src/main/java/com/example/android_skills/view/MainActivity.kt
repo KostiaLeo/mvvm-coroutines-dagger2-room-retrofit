@@ -5,9 +5,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.android_skills.R
+import com.example.android_skills.dagger.dagger.vm_factory.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
-import com.example.android_skills.dagger.daggerVM.viewmodel_factory.ViewModelFactory
-import com.example.android_skills.dagger.daggerVM.extensions.injectViewModel
+import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.view.fragments.SectionPagerAdapter
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -39,10 +39,13 @@ class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
-
         viewModel = injectViewModel(viewModelFactory)
 
+        initUI()
+    }
+
+    private fun initUI(){
+        val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
 
@@ -58,7 +61,7 @@ class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
         disposable?.dispose()
         viewModel.apply {
             titleClick.removeObservers(this@MainActivity)
-            exhibitsList.removeObservers(this@MainActivity)
+            getExhibitsList().removeObservers(this@MainActivity)
         }
     }
 }

@@ -9,13 +9,13 @@ import io.reactivex.Flowable
 @TypeConverters(ImagesURLConverter::class)
 interface ExhibitDao {
     @Query("SELECT * from exhibitions")
-    fun getArtists(): Flowable<List<Exhibit>>
+    fun getExhibits(): Flowable<List<Exhibit>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(artists: ArrayList<Exhibit>): List<Long>
+    suspend fun insert(exhibits: ArrayList<Exhibit>): List<Long>
 
     @Query("DELETE FROM exhibitions")
-    suspend fun deleteAllArtists(): Int
+    suspend fun deleteAllExhibits(): Int
 
 // Next methods are created specially for instrumental unit-tests
     @Query("DELETE FROM exhibitions WHERE id = (SELECT MAX(id) FROM exhibitions)")
