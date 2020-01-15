@@ -1,16 +1,23 @@
 package com.example.android_skills.dagger.dagger
 
-import com.example.android_skills.model.model_module_description.Exhibitions
+import com.example.android_skills.model.RemoteSource
 import com.example.android_skills.model.remote.ExhibitsRemoteSource
 import com.example.android_skills.model.remote.IExhibitionsApi
 import com.example.android_skills.model.remote.NetworkUrl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Single
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
+
+@Module(includes = [RemoteModule::class])
+abstract class RemoteSourceModule {
+
+    @Binds
+    @Singleton
+    abstract fun bindRemoteSource(exhibitsRemoteSource: ExhibitsRemoteSource): RemoteSource
+}
 
 @Module
 class RemoteModule{
@@ -19,8 +26,7 @@ class RemoteModule{
     @Singleton
     internal fun provideRetrofit(): Retrofit =
         Retrofit.Builder().baseUrl(NetworkUrl.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
     @Provides
@@ -29,9 +35,5 @@ class RemoteModule{
 
     @Provides
     @Singleton
-    fun provideNetworkDataObservable(api: IExhibitionsApi): Single<Exhibitions> = api.getAPIExhibitions()
-
-    @Provides
-    @Singleton
-    fun provideRemoteSource(single: Single<Exhibitions>): ExhibitsRemoteSource = ExhibitsRemoteSource(single)
+    fun provideRemoteSource(api: IExhibitionsApi): ExhibitsRemoteSource = ExhibitsRemoteSource(api)
 }

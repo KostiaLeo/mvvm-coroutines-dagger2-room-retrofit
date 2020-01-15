@@ -1,8 +1,8 @@
 package com.example.android_skills.dagger.dagger
 
+import com.example.android_skills.model.ExhibitsLoader
 import com.example.android_skills.model.ModelRepository
 import com.example.android_skills.model.NetManager
-import com.example.android_skills.model.model_module_description.ExhibitsLoader
 import com.example.android_skills.model.remote.ExhibitsRemoteSource
 import com.example.android_skills.model.room.ExhibitLocalSource
 import dagger.Binds

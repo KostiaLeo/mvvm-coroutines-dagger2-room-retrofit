@@ -1,6 +1,9 @@
-package com.example.android_skills.model.model_module_description
+package com.example.android_skills.model
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.RoomWarnings
+import androidx.room.TypeConverters
 import com.example.android_skills.model.room.ImagesURLConverter
 
 
@@ -15,8 +18,6 @@ data class Exhibit(
 
     val images: List<String>,
 
+    @PrimaryKey
     val title: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-}
+)

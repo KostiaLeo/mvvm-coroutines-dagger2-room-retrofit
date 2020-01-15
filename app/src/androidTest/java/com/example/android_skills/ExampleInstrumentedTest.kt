@@ -3,7 +3,7 @@ package com.example.android_skills
 import androidx.lifecycle.viewModelScope
 import androidx.test.runner.AndroidJUnit4
 import com.example.android_skills.dagger.dagger.App
-import com.example.android_skills.model.model_module_description.Exhibit
+import com.example.android_skills.model.Exhibit
 import kotlinx.coroutines.launch
 
 import org.junit.Test
@@ -38,7 +38,7 @@ class ExampleInstrumentedTest {
     @Test
     fun testRemoteSource() {
         scope.launch {
-            val firstName = App.appComponent.provideremoteSrc().retrieveData()[0].title
+            val firstName = App.appComponent.provideRemoteSrc().retrieveData()[0].title
             println(firstName)
             assertEquals(firstName, "iPhone 5s")
             val rows = dao.countOfRows()
@@ -73,14 +73,12 @@ class ExampleInstrumentedTest {
 
             val countAfterAdding = dao.countOfRows()
 
-            val countOfDeleted = dao.deleteLastItem()
 
-            val countOfLeftItems = dao.countOfRows()
+            val countAfterRemoving = dao.deleteAllExhibits()
 
             assertEquals("I've added one new row", 1, countOfAddedRows)
             assertEquals("All rows after adding", 19, countAfterAdding)
-            assertEquals("I've deleted one new row", 1, countOfDeleted)
-            assertEquals("And it's left one less item", 18, countOfLeftItems)
+            assertEquals("And it's left one less item", 0, countAfterRemoving)
         }
     }
 }

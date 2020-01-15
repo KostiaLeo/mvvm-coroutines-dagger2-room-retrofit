@@ -2,7 +2,7 @@ package com.example.android_skills.model.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.android_skills.model.model_module_description.Exhibit
+import com.example.android_skills.model.Exhibit
 // DataBase class (provides in dagger.source.source.module)
 
 @Database(entities = [Exhibit::class], version = 1, exportSchema = false)

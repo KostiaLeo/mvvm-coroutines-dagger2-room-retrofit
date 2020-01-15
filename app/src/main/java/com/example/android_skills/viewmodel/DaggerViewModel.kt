@@ -5,11 +5,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.android_skills.logging.TAGs
-import com.example.android_skills.model.model_module_description.Exhibit
-import com.example.android_skills.model.model_module_description.ExhibitsLoader
-import kotlinx.coroutines.launch
+import com.example.android_skills.model.Exhibit
+import com.example.android_skills.model.ExhibitsLoader
 import javax.inject.Inject
 
 // ViewModel architecture component implementation:
@@ -31,18 +29,11 @@ class DaggerViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     private fun loadData() {
-
-        viewModelScope.launch {
             val artists = loader.getExhibitList()
             _exhibitsListMutable.postValue(ArrayList(artists))
 
             Log.d(tag, "ViewModel data retrieving and sharing to LiveData")
-        }
     }
 
     fun getExhibitsList(): LiveData<ArrayList<Exhibit>> = _exhibitsListMutable
-
-    fun onTitleClick() {
-        titleClick.postValue(Any())
-    }
 }

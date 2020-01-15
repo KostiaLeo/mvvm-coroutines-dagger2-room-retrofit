@@ -6,4 +6,5 @@
     <string name="tab_text_2">Chosen artist</string>
     <string name="tab_text_3">Favourites</string>
     <string name="top">TOP</string>
+    <string name="title_model">Model</string>
 </resources>

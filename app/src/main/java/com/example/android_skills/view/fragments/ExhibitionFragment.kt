@@ -16,7 +16,7 @@ import com.example.android_skills.R
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.extensions.injectViewModel
-import com.example.android_skills.model.model_module_description.Exhibit
+import com.example.android_skills.model.Exhibit
 import com.example.android_skills.view.adapters.ExhibitParentAdapter
 import com.google.android.material.snackbar.Snackbar
 
@@ -65,7 +65,6 @@ class ExhibitionFragment : DaggerFragment() {
         initUI()
 
         observeExhibitsData()
-        observeTitleClicks()
 
         scrollToPreviousPosition(savedInstanceState)
 
@@ -105,12 +104,6 @@ class ExhibitionFragment : DaggerFragment() {
         mainAdapter.notifyDataSetChanged()
     }
 
-    private fun observeTitleClicks(){
-        viewModel.titleClick.observe(viewLifecycleOwner, Observer {
-            nestedScrollView.smoothScrollTo(0, 0)
-        })
-    }
-
     private fun scrollToPreviousPosition(bundle: Bundle?){
         bundle?.let {
             Handler().postDelayed({
@@ -126,6 +119,6 @@ class ExhibitionFragment : DaggerFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        viewModel.getExhibitsList().removeObservers(this@ExhibitionFragment)
+        viewModel.getExhibitsList().removeObservers(this)
     }
 }

@@ -1,24 +1,20 @@
 package com.example.android_skills.model.room
 
-import com.example.android_skills.model.model_module_description.Exhibit
+import com.example.android_skills.model.Exhibit
+import com.example.android_skills.model.LocalSource
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 // Source-class which injected to the ModelRepository for working with database
 
 class ExhibitLocalSource @Inject constructor(
     private val databaseRepository: ExhibitDatabaseRepository
-) {
+): LocalSource {
 
-    suspend fun retrieveData(): ArrayList<Exhibit> {
-        val allExhibits = databaseRepository.getData()
-        return suspendCoroutine { continuation ->
-            continuation.resume(allExhibits)
-        }
+    override fun retrieveData(): List<Exhibit> {
+        return databaseRepository.getData()
     }
 
-    suspend fun saveData(exhibits: ArrayList<Exhibit>) {
+    override fun saveData(exhibits: List<Exhibit>) {
         databaseRepository.refreshData(exhibits)
     }
 }

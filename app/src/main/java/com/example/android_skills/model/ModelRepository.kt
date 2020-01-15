@@ -3,15 +3,8 @@ package com.example.android_skills.model
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
-import android.util.Log
 import com.example.android_skills.logging.TAGs
-import com.example.android_skills.model.model_module_description.Exhibit
-import com.example.android_skills.model.model_module_description.ExhibitsLoader
-import com.example.android_skills.model.remote.ExhibitsRemoteSource
-import com.example.android_skills.model.room.ExhibitLocalSource
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 // This class intended for figuring out the store we'll fetch data from (depends on internet connection)
 // Furthermore this class encapsulates sources and ways for interacting with them from ViewModel.
@@ -19,53 +12,29 @@ import kotlin.coroutines.suspendCoroutine
 
 class ModelRepository @Inject constructor(
     private val netManager: NetManager,
-    private val localSource: ExhibitLocalSource,
-    private val remoteSource: ExhibitsRemoteSource
+    private val localSource: LocalSource,
+    private val remoteSource: RemoteSource
 ) : ExhibitsLoader {
-//    init { DaggerApp.sourceComponent.inject(this)}
-
-//    @Inject
-//    lateinit var netManager: NetManager
-//    @Inject
-//    lateinit var localSource: ExhibitLocalSource
-//    @Inject
-//    lateinit var remoteSource: ExhibitsRemoteSource
 
     private val tag = TAGs.modelRepositoryTag
 
-    override suspend fun getExhibitList(): List<Exhibit> {
-        val artists: ArrayList<Exhibit>? =
-            if(netManager.isConnectedToInternet)
-                retrieveRemoteData()
-            else
-                retrieveLocalData()
+    override fun getExhibitList(): List<Exhibit> {
 
-        return suspendCoroutine {continuation ->
-            artists?.let {
-                continuation.resume(it)
+        return if (netManager.isConnectedToInternet)
+            retrieveRemoteData()
+        else
+            retrieveLocalData()
 
-                Log.d(tag, "data successfully delivered to the ModelRepository")
-            }
-
-            Log.e(tag, "data delivering to the ModelRepository failed")
-        }
     }
 
-    private suspend fun retrieveRemoteData() : ArrayList<Exhibit> {
+    private fun retrieveRemoteData(): List<Exhibit> {
+
         val exhibits = remoteSource.retrieveData()
         localSource.saveData(exhibits)
-        return suspendCoroutine {
-            it.resume(exhibits)
-        }
+        return exhibits
     }
 
-    private suspend fun retrieveLocalData(): ArrayList<Exhibit> {
-        val exhibits = localSource.retrieveData()
-
-        return suspendCoroutine {
-            it.resume(exhibits)
-        }
-    }
+    private fun retrieveLocalData(): List<Exhibit> = localSource.retrieveData()
 }
 
 class NetManager @Inject constructor(private val applicationContext: Context) {

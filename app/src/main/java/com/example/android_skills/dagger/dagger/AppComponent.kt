@@ -17,13 +17,18 @@ import dagger.android.ContributesAndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
-@Component(modules = [AndroidSupportInjectionModule::class, ViewModelModule::class, FragmentModule::class, ModuleRepository::class, LocalModule::class, RemoteModule::class, NetModule::class, ViewModule::class, LoaderModule::class])
+@Component(
+    modules = [AndroidSupportInjectionModule::class, ViewModelModule::class,
+        FragmentModule::class, ModuleRepository::class, LocalModule::class,
+        RemoteModule::class, NetModule::class, ViewModule::class, LoaderModule::class,
+        RemoteSourceModule::class, LocalSourceModule::class]
+)
 @Singleton
 interface AppComponent {
     fun inject(application: App)
 
     @Component.Builder
-    interface Builder{
+    interface Builder {
         fun build(): AppComponent
 
         fun setNetModule(netModule: NetModule): Builder
@@ -40,7 +45,7 @@ interface AppComponent {
 
     fun provideLocalSrc(): ExhibitLocalSource
 
-    fun provideremoteSrc(): ExhibitsRemoteSource
+    fun provideRemoteSrc(): ExhibitsRemoteSource
 
     fun provideViewModel(): DaggerViewModel
 

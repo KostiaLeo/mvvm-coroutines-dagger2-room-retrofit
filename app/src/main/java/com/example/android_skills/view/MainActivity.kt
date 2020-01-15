@@ -9,6 +9,9 @@ import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFact
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.view.fragments.SectionPagerAdapter
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -18,50 +21,42 @@ import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
 
-    private var disposable: Disposable? = null
     private lateinit var viewPager: ViewPager
-    private lateinit var title: TextView
 
 // --------- Dagger 2 injections -----------
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector as AndroidInjector<Any>
+    override fun androidInjector(): AndroidInjector<Any> =
+        dispatchingAndroidInjector as AndroidInjector<Any>
+
+    private lateinit var installManager: SplitInstallManager
+    private lateinit var request: SplitInstallRequest
 
 // ------- Dagger 2 injections end ---------
-
-    private lateinit var viewModel: DaggerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = injectViewModel(viewModelFactory)
-
         initUI()
+
+        initModules()
+
+        installManager.startInstall(request)
     }
 
-    private fun initUI(){
+    private fun initModules() {
+        installManager = SplitInstallManagerFactory.create(this)
+        request = SplitInstallRequest.newBuilder().addModule("model").build()
+    }
+
+
+    private fun initUI() {
         val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
 
-        title = findViewById(R.id.titleApp)
-
-        title.setOnClickListener {
-            viewModel.onTitleClick()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable?.dispose()
-        viewModel.apply {
-            titleClick.removeObservers(this@MainActivity)
-            getExhibitsList().removeObservers(this@MainActivity)
-        }
     }
 }

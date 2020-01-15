@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_skills.databinding.ExhibitImageBinding
 
 class ExhibitImageAdapter(private val images: List<String>) :
-    RecyclerView.Adapter<ExhibitImageAdapter.ExhibitImgHolder>() {
+    RecyclerView.Adapter<ExhibitImgHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExhibitImgHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,14 +20,13 @@ class ExhibitImageAdapter(private val images: List<String>) :
     override fun onBindViewHolder(holder: ExhibitImgHolder, position: Int) {
         holder.bind(images[position])
     }
+}
 
-
-    inner class ExhibitImgHolder(
-        private val binding: ExhibitImageBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(imageUrl: String){
-            binding.imageUrl = imageUrl
-            binding.executePendingBindings()
-        }
+class ExhibitImgHolder(
+    private val binding: ExhibitImageBinding
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(imageUrl: String){
+        binding.imageUrl = imageUrl
+        binding.executePendingBindings()
     }
 }
