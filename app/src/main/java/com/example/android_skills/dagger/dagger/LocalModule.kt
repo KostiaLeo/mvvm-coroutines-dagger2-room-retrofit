@@ -32,7 +32,7 @@ class LocalModule(private val context: Context) {
             context.applicationContext,
             ExhibitRoomDataBase::class.java,
             databaseName
-        ).build()
+        ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton

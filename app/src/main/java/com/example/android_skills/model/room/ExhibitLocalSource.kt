@@ -12,7 +12,6 @@ import javax.inject.Inject
 class ExhibitLocalSource @Inject constructor(
     private val databaseRepository: ExhibitDatabaseRepository
 ) : LocalSource {
-    val a = ArrayList<Exhibit>()
 
     override fun retrieveData(): List<Exhibit> {
         return runBlocking {
