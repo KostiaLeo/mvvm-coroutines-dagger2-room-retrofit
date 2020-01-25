@@ -10,20 +10,20 @@ import javax.inject.Inject
 // Source-class which injected to the ModelRepository for working with database
 
 class ExhibitLocalSource @Inject constructor(
-    private val databaseRepository: ExhibitDatabaseRepository
+    private val exhibitDao: ExhibitDao
 ) : LocalSource {
 
-    override fun retrieveData(): List<Exhibit> {
-        return runBlocking {
-            val list = databaseRepository.getData()
-            Log.d(TAGs.roomTag, "Retrieved ${list.size} items from database")
-            return@runBlocking list
-        }
+    override suspend fun retrieveData(): List<Exhibit> = withContext(Dispatchers.IO){
+        val exhibits = exhibitDao.getExhibits()
+
+        Log.d(TAGs.roomTag, "Retrieved ${exhibits.size} items from database")
+
+        if (exhibits.isNotEmpty()) exhibits
+        else emptyList()
     }
 
-    override fun saveData(exhibits: List<Exhibit>) {
-        CoroutineScope(Dispatchers.IO + Job()).launch {
-            databaseRepository.refreshData(exhibits)
-        }
+    override suspend fun saveData(exhibits: List<Exhibit>) {
+        exhibitDao.deleteAllExhibits()
+        exhibitDao.insert(exhibits).size
     }
 }

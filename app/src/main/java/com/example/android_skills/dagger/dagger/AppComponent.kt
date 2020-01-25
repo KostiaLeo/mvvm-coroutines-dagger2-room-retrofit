@@ -5,7 +5,6 @@ import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelModu
 import com.example.android_skills.model.ModelRepository
 import com.example.android_skills.model.remote.ExhibitsRemoteSource
 import com.example.android_skills.model.room.ExhibitDao
-import com.example.android_skills.model.room.ExhibitDatabaseRepository
 import com.example.android_skills.model.room.ExhibitLocalSource
 import com.example.android_skills.view.MainActivity
 import com.example.android_skills.view.fragments.ExhibitionFragment
@@ -40,8 +39,6 @@ interface AppComponent {
     }
 
     fun provideDao(): ExhibitDao
-
-    fun provideDBRepo(): ExhibitDatabaseRepository
 
     fun provideLocalSrc(): ExhibitLocalSource
 

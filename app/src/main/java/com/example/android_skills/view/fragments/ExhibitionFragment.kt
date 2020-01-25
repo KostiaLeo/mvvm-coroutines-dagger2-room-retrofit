@@ -118,7 +118,7 @@ class ExhibitionFragment : DaggerFragment() {
     }
 
     override fun onDetach() {
+        viewModel.getExhibitsList().removeObservers(viewLifecycleOwner)
         super.onDetach()
-        viewModel.getExhibitsList().removeObservers(this)
     }
 }

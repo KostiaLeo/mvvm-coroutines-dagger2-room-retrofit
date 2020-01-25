@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.example.android_skills.model.LocalSource
 import com.example.android_skills.model.room.ExhibitDao
-import com.example.android_skills.model.room.ExhibitDatabaseRepository
 import com.example.android_skills.model.room.ExhibitLocalSource
 import com.example.android_skills.model.room.ExhibitRoomDataBase
 import dagger.Binds
@@ -39,13 +38,13 @@ class LocalModule(private val context: Context) {
     fun provideDao(exhibitRoomDataBase: ExhibitRoomDataBase): ExhibitDao =
         exhibitRoomDataBase.exhibitDao()
 
-    @Provides
-    @Singleton
-    fun provideLocalRepository(exhibitDao: ExhibitDao): ExhibitDatabaseRepository =
-        ExhibitDatabaseRepository(exhibitDao)
+//    @Provides
+//    @Singleton
+//    fun provideLocalRepository(exhibitDao: ExhibitDao): ExhibitDatabaseRepository =
+//        ExhibitDatabaseRepository(exhibitDao)
 
     @Provides
     @Singleton
-    fun provideLocalSource(databaseRepository: ExhibitDatabaseRepository): ExhibitLocalSource =
-        ExhibitLocalSource(databaseRepository)
+    fun provideLocalSource(exhibitDao: ExhibitDao): ExhibitLocalSource =
+        ExhibitLocalSource(exhibitDao)
 }

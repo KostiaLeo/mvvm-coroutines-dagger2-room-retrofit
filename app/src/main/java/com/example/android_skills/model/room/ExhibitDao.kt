@@ -7,7 +7,7 @@ import com.example.android_skills.model.Exhibit
 @TypeConverters(ImagesURLConverter::class)
 interface ExhibitDao {
     @Query("SELECT * from exhibitions")
-    suspend fun getExhibitsAsync(): List<Exhibit>
+    suspend fun getExhibits(): List<Exhibit>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(exhibits: List<Exhibit>): List<Long>

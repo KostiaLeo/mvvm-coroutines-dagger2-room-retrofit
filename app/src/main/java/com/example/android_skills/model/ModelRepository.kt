@@ -16,9 +16,7 @@ class ModelRepository @Inject constructor(
     private val remoteSource: RemoteSource
 ) : ExhibitsLoader {
 
-    private val tag = TAGs.modelRepositoryTag
-
-    override fun getExhibitList(): List<Exhibit> {
+    override suspend fun getExhibitList(): List<Exhibit> {
 
         return if (netManager.isConnectedToInternet)
             retrieveRemoteData()
@@ -27,14 +25,14 @@ class ModelRepository @Inject constructor(
 
     }
 
-    private fun retrieveRemoteData(): List<Exhibit> {
+    private suspend fun retrieveRemoteData(): List<Exhibit> {
 
         val exhibits = remoteSource.retrieveData()
         localSource.saveData(exhibits)
         return exhibits
     }
 
-    private fun retrieveLocalData(): List<Exhibit> = localSource.retrieveData()
+    private suspend fun retrieveLocalData(): List<Exhibit> = localSource.retrieveData()
 }
 
 class NetManager @Inject constructor(private val applicationContext: Context) {

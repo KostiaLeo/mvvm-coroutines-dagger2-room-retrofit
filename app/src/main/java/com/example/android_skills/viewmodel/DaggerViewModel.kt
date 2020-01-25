@@ -1,12 +1,9 @@
 package com.example.android_skills.viewmodel
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_skills.logging.TAGs
 import com.example.android_skills.model.Exhibit
 import com.example.android_skills.model.ExhibitsLoader
 import kotlinx.coroutines.Dispatchers
@@ -21,24 +18,26 @@ import javax.inject.Inject
 
 class DaggerViewModel @Inject constructor(
     private val loader: ExhibitsLoader
-) : ViewModel(){
+) : ViewModel() {
     private val _exhibitsListMutable = MutableLiveData<ArrayList<Exhibit>>()
+    private lateinit var viewModelJob: Job
 
     init {
         loadData()
     }
 
-    private val tag = TAGs.viewModelTag
-
-    @SuppressLint("CheckResult")
     private fun loadData() {
-        viewModelScope.launch(Dispatchers.Default + Job()){
+        viewModelJob = viewModelScope.launch {
+
             val artists = loader.getExhibitList()
             _exhibitsListMutable.postValue(ArrayList(artists))
-
-            Log.d(tag, "ViewModel data retrieving and sharing to LiveData")
         }
     }
 
     fun getExhibitsList(): LiveData<ArrayList<Exhibit>> = _exhibitsListMutable
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }
