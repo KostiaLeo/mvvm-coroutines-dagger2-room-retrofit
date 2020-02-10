@@ -11,7 +11,7 @@ class ExhibitsRemoteSource @Inject constructor(
     private val api: IExhibitionsApi
 ) : RemoteSource {
 
-    override suspend fun retrieveData(): List<Exhibit> = withContext(Dispatchers.IO){
+    override suspend fun retrieveData(): List<Exhibit> = withContext(Dispatchers.IO) {
         val list = api.getAPIExhibitions().list
 
         Log.d(TAGs.retrofitTag, "Retrieved ${list.size} items from network")
