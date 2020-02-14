@@ -16,6 +16,7 @@ import com.example.android_skills.R
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.extensions.injectViewModel
+import com.example.android_skills.databinding.FragmentExhibitsBinding
 import com.example.android_skills.model.Exhibit
 import com.example.android_skills.view.adapters.ExhibitParentAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +32,7 @@ import kotlin.collections.ArrayList
 // Thus we can just create one more fragment and deal with it instead of creating other activities
 
 class ExhibitionFragment : DaggerFragment() {
-    private lateinit var root: View
+    private lateinit var binding: FragmentExhibitsBinding
 
     private lateinit var newsRecycler: RecyclerView
     private lateinit var mainAdapter: ExhibitParentAdapter
@@ -60,7 +61,8 @@ class ExhibitionFragment : DaggerFragment() {
     ): View? {
         viewModel = injectViewModel(viewModelFactory)
 
-        root = inflater.inflate(R.layout.fragment_exhibits, container, false)
+        binding = FragmentExhibitsBinding.inflate(inflater)
+        binding.lifecycleOwner = viewLifecycleOwner
 
         initUI()
 
@@ -68,28 +70,33 @@ class ExhibitionFragment : DaggerFragment() {
 
         scrollToPreviousPosition(savedInstanceState)
 
-        return root
+        return binding.root
     }
 
     private fun initUI() {
-        progressBar = root.findViewById(R.id.progress_bar)
+        progressBar = binding.progressBar
 
-        newsRecycler = root.findViewById(R.id.newzzz)
-        nestedScrollView = root.findViewById(R.id.nested_scroll_view)
-
-        newsRecycler.apply {
-            layoutManager = LinearLayoutManager(context)
-            itemAnimator = DefaultItemAnimator()
+        newsRecycler = binding.newzzz.also {
+            with(it) {
+                layoutManager = LinearLayoutManager(context)
+                itemAnimator = DefaultItemAnimator()
+            }
         }
+
+        nestedScrollView = binding.nestedScrollView
     }
 
-    private fun observeExhibitsData(){
+    private fun observeExhibitsData() {
         viewModel.getExhibitsList().observe(viewLifecycleOwner,
             Observer<ArrayList<Exhibit>> {
                 it?.let {
                     progressBar.visibility = View.GONE
-                    if(it == ArrayList(Collections.EMPTY_LIST)) {
-                        Snackbar.make(this.root, "Check internet connection and reboot app", Snackbar.LENGTH_LONG).show()
+                    if (it == ArrayList(Collections.EMPTY_LIST)) {
+                        Snackbar.make(
+                            binding.root,
+                            "Check internet connection and reboot app",
+                            Snackbar.LENGTH_LONG
+                        ).show()
                     } else {
                         drawRecyclerView(it)
                     }
@@ -104,7 +111,7 @@ class ExhibitionFragment : DaggerFragment() {
         mainAdapter.notifyDataSetChanged()
     }
 
-    private fun scrollToPreviousPosition(bundle: Bundle?){
+    private fun scrollToPreviousPosition(bundle: Bundle?) {
         bundle?.let {
             Handler().postDelayed({
                 nestedScrollView.scrollTo(0, it.getInt(yCoordinate))
@@ -117,8 +124,8 @@ class ExhibitionFragment : DaggerFragment() {
         outState.putInt(yCoordinate, nestedScrollView.scrollY)
     }
 
-    override fun onDetach() {
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewModel.getExhibitsList().removeObservers(viewLifecycleOwner)
-        super.onDetach()
     }
 }

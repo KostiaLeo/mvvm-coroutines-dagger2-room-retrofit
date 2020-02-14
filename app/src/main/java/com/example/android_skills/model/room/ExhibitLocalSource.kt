@@ -22,8 +22,7 @@ class ExhibitLocalSource @Inject constructor(
         else emptyList()
     }
 
-    override suspend fun saveData(exhibits: List<Exhibit>) {
-        exhibitDao.deleteAllExhibits()
+    override suspend fun refreshData(exhibits: List<Exhibit>) {
         exhibitDao.insert(exhibits).size
     }
 }

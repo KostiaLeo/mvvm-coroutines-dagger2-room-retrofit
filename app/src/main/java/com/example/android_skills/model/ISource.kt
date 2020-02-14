@@ -5,7 +5,7 @@ interface Source {
 }
 
 interface LocalSource : Source {
-    suspend fun saveData(exhibits: List<Exhibit>)
+    suspend fun refreshData(exhibits: List<Exhibit>)
 }
 
 interface RemoteSource : Source

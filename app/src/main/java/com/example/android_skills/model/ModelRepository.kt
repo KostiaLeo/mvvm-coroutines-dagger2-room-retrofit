@@ -28,7 +28,7 @@ class ModelRepository @Inject constructor(
     private suspend fun retrieveRemoteData(): List<Exhibit> {
 
         val exhibits = remoteSource.retrieveData()
-        localSource.saveData(exhibits)
+        localSource.refreshData(exhibits)
         return exhibits
     }
 

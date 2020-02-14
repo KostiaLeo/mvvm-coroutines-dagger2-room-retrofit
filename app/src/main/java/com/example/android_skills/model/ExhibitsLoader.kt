@@ -1,5 +1,5 @@
 package com.example.android_skills.model
 
-interface ExhibitsLoader{
+interface ExhibitsLoader {
     suspend fun getExhibitList(): List<Exhibit>
 }

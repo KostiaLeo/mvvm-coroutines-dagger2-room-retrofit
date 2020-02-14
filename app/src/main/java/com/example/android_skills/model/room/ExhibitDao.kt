@@ -9,11 +9,11 @@ interface ExhibitDao {
     @Query("SELECT * from exhibitions")
     suspend fun getExhibits(): List<Exhibit>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(exhibits: List<Exhibit>): List<Long>
 
-    @Query("DELETE FROM exhibitions")
-    suspend fun deleteAllExhibits(): Int
+//    @Query("DELETE FROM exhibitions")
+//    suspend fun deleteAllExhibits(): Int
 
 // Next methods are created specially for instrumental unit-tests
 //    @Query("DELETE FROM exhibitions WHERE id = (SELECT MAX(id) FROM exhibitions)")
