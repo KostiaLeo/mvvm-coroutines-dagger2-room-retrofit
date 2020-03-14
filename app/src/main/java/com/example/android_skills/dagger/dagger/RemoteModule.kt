@@ -20,7 +20,7 @@ abstract class RemoteSourceModule {
 }
 
 @Module
-class RemoteModule{
+class RemoteModule {
 
     @Provides
     @Singleton

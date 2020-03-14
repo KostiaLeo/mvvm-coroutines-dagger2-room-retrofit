@@ -13,6 +13,7 @@ import javax.inject.Singleton
 
 @Module(includes = [LocalModule::class])
 abstract class LocalSourceModule {
+
     @Binds
     @Singleton
     abstract fun bindLocalSource(exhibitLocalSource: ExhibitLocalSource): LocalSource
@@ -20,9 +21,6 @@ abstract class LocalSourceModule {
 
 @Module
 class LocalModule(private val context: Context) {
-    companion object {
-        const val databaseName = "product_database"
-    }
 
     @Provides
     @Singleton
@@ -30,18 +28,13 @@ class LocalModule(private val context: Context) {
         Room.databaseBuilder(
             context.applicationContext,
             ExhibitRoomDataBase::class.java,
-            databaseName
+            "product_database"
         ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton
     fun provideDao(exhibitRoomDataBase: ExhibitRoomDataBase): ExhibitDao =
         exhibitRoomDataBase.exhibitDao()
-
-//    @Provides
-//    @Singleton
-//    fun provideLocalRepository(exhibitDao: ExhibitDao): ExhibitDatabaseRepository =
-//        ExhibitDatabaseRepository(exhibitDao)
 
     @Provides
     @Singleton

@@ -3,6 +3,7 @@ package com.example.android_skills.model
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
+import com.example.android_skills.ioReturnTask
 import com.example.android_skills.logging.TAGs
 import javax.inject.Inject
 
@@ -26,7 +27,6 @@ class ModelRepository @Inject constructor(
     }
 
     private suspend fun retrieveRemoteData(): List<Exhibit> {
-
         val exhibits = remoteSource.retrieveData()
         localSource.refreshData(exhibits)
         return exhibits

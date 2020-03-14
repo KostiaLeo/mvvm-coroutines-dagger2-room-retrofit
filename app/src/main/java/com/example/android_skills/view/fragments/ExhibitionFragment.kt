@@ -20,6 +20,7 @@ import com.example.android_skills.databinding.FragmentExhibitsBinding
 import com.example.android_skills.model.Exhibit
 import com.example.android_skills.view.adapters.ExhibitParentAdapter
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.AndroidInjection
 
 import dagger.android.support.DaggerFragment
 import java.util.*

@@ -9,7 +9,7 @@ import com.example.android_skills.databinding.ListItemBinding
 import com.example.android_skills.model.Exhibit
 import kotlin.collections.ArrayList
 
-class ExhibitParentAdapter(private val exhibits: ArrayList<Exhibit>) :
+class ExhibitParentAdapter(private val exhibits: List<Exhibit>) :
     RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
