@@ -67,7 +67,7 @@ fun startJob(
 ): Job {
     return parentScope.launch(coroutineContext) {
         supervisorScope {
-            block
+            block()
         }
     }
 }
