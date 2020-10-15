@@ -1,10 +1,14 @@
 package com.example.android_skills.model.remote
 
-import com.example.android_skills.model.Exhibitions
+import com.example.android_skills.model.Item
+import com.example.android_skills.model.ItemResponse
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 interface IExhibitionsApi {
-    @GET(NetworkUrl.URL_CODE)
-    suspend fun getAPIExhibitions(): Exhibitions
+    @GET("/")
+    suspend fun getAPIExhibitions(
+        @Query("page") page: Int
+    ): List<Item>
 }

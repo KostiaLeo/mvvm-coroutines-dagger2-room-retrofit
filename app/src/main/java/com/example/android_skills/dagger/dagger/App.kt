@@ -21,8 +21,6 @@ class App: Application(), HasAndroidInjector {
     override fun onCreate() {
         appComponent = DaggerAppComponent.builder()
             .bindApplication(this)
-            .setLocalModule(LocalModule(applicationContext))
-            .setNetModule(NetModule(applicationContext))
             .build()
         appComponent.inject(this)
         super.onCreate()

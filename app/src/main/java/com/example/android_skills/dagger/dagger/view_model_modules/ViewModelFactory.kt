@@ -10,7 +10,6 @@ class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Cl
     private var daggerViewModel: ViewModel? = null
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-
         if (modelClass.isAssignableFrom(ViewModel::class.java) || ViewModel::class.java.isAssignableFrom(modelClass)) {
             daggerViewModel?.let { return it as T }
             daggerViewModel = viewModels[modelClass]?.get()

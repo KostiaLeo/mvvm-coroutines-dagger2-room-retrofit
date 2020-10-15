@@ -38,16 +38,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // Room
-    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
-    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
-    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
-    implementation 'androidx.room:room-rxjava2:2.2.2'
-
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
@@ -78,7 +68,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     //Slider
-//    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
     implementation "androidx.viewpager2:viewpager2:1.0.0-alpha01"
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -91,7 +80,10 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.25.4'
     kapt 'com.google.dagger:dagger-android-processor:2.25.4'
 
-    implementation 'com.google.android.play:core:1.6.1'
+
+    def paging_version = "2.1.2"
+
+    implementation "androidx.paging:paging-runtime:$paging_version"
 }
 repositories {
     mavenCentral()

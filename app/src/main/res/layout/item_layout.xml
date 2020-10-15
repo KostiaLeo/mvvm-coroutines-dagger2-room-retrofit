@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="item"
+            type="com.example.android_skills.model.Item" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/image"
+        android:src_image="@{item.img}"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="400dp"
+        android:layout_height="250dp"/>
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/image"
+        android:layout_marginTop="40dp"
+        android:id="@+id/title"
+        android:text="@{item.title}"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginTop="10dp"
+        android:background="#777474"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

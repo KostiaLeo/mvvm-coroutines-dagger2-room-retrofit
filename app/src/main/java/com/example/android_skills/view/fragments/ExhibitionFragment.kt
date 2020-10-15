@@ -12,15 +12,14 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android_skills.R
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.viewmodel.DaggerViewModel
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.databinding.FragmentExhibitsBinding
 import com.example.android_skills.model.Exhibit
 import com.example.android_skills.view.adapters.ExhibitParentAdapter
+import com.example.android_skills.view.paging.ItemAdapter
 import com.google.android.material.snackbar.Snackbar
-import dagger.android.AndroidInjection
 
 import dagger.android.support.DaggerFragment
 import java.util.*
@@ -39,6 +38,7 @@ class ExhibitionFragment : DaggerFragment() {
     private lateinit var mainAdapter: ExhibitParentAdapter
     private lateinit var nestedScrollView: NestedScrollView
     private lateinit var progressBar: ProgressBar
+    private lateinit var adapter: ItemAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -83,33 +83,25 @@ class ExhibitionFragment : DaggerFragment() {
                 itemAnimator = DefaultItemAnimator()
             }
         }
-
+        adapter = ItemAdapter()
+        newsRecycler.adapter = adapter
         nestedScrollView = binding.nestedScrollView
     }
 
     private fun observeExhibitsData() {
-        viewModel.getExhibitsList().observe(viewLifecycleOwner,
-            Observer<ArrayList<Exhibit>> {
+        viewModel.itemsLiveData.observe(viewLifecycleOwner,
+            Observer {
                 it?.let {
+                    println("submittion $it")
                     progressBar.visibility = View.GONE
-                    if (it == ArrayList(Collections.EMPTY_LIST)) {
-                        Snackbar.make(
-                            binding.root,
-                            "Check internet connection and reboot app",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    } else {
-                        drawRecyclerView(it)
-                    }
+//                    if (it == ArrayList(Collections.EMPTY_LIST)) {
+//                        Snackbar.make(binding.root, "Check internet connection and reboot app", Snackbar.LENGTH_LONG).show()
+//                    } else {
+                        adapter.submitList(it)
+//                    }
                 }
             }
         )
-    }
-
-    private fun drawRecyclerView(exhibits: ArrayList<Exhibit>) {
-        mainAdapter = ExhibitParentAdapter(exhibits)
-        newsRecycler.adapter = mainAdapter
-        mainAdapter.notifyDataSetChanged()
     }
 
     private fun scrollToPreviousPosition(bundle: Bundle?) {
@@ -127,6 +119,6 @@ class ExhibitionFragment : DaggerFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.getExhibitsList().removeObservers(viewLifecycleOwner)
+        viewModel.itemsLiveData.removeObservers(viewLifecycleOwner)
     }
 }

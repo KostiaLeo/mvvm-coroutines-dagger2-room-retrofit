@@ -1,36 +1,29 @@
 package com.example.android_skills.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android_skills.ioReturnTask
-import com.example.android_skills.model.Exhibit
-import com.example.android_skills.model.ExhibitsLoader
-import com.example.android_skills.uiJob
-import kotlinx.coroutines.*
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.android_skills.model.Item
+import com.example.android_skills.model.ItemsDataSource
+import com.example.android_skills.model.remote.IExhibitionsApi
 import javax.inject.Inject
 
-// ViewModel architecture component implementation:
-//      here we're gonna retrieve data through viewModelScope.
-//      besides VM usage is profitably since ViewModel-class keeps alive and saves all processes
-//      during configuration changes (e.g. screen rotation)
-
 class DaggerViewModel @Inject constructor(
-    private val loader: ExhibitsLoader
+    private val api: IExhibitionsApi
 ) : ViewModel() {
-    private val _exhibitsListMutable = MutableLiveData<ArrayList<Exhibit>>()
+
+    var itemsLiveData: LiveData<PagedList<Item>>
 
     init {
-        loadData()
-    }
-
-    private fun loadData() {
-        viewModelScope.launch {
-            val artists = loader.getExhibitList()
-            _exhibitsListMutable.postValue(ArrayList(artists))
+        val config = PagedList.Config.Builder().setInitialLoadSizeHint(2).setPageSize(2).build()
+        val dataFactory = object : DataSource.Factory<Int, Item>() {
+            override fun create(): DataSource<Int, Item> {
+                return ItemsDataSource(api, viewModelScope)
+            }
         }
+        itemsLiveData = LivePagedListBuilder(dataFactory, config).build()
     }
-
-    fun getExhibitsList(): LiveData<ArrayList<Exhibit>> = _exhibitsListMutable
 }

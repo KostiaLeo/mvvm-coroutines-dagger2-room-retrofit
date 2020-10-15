@@ -2,13 +2,8 @@ package com.example.android_skills.dagger.dagger
 
 import android.app.Application
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelModule
-import com.example.android_skills.model.ModelRepository
-import com.example.android_skills.model.remote.ExhibitsRemoteSource
-import com.example.android_skills.model.room.ExhibitDao
-import com.example.android_skills.model.room.ExhibitLocalSource
 import com.example.android_skills.view.MainActivity
 import com.example.android_skills.view.fragments.ExhibitionFragment
-import com.example.android_skills.viewmodel.DaggerViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -17,10 +12,7 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Component(
-    modules = [AndroidSupportInjectionModule::class, ViewModelModule::class,
-        FragmentModule::class, ModuleRepository::class, LocalModule::class,
-        RemoteModule::class, NetModule::class, ViewModule::class, LoaderModule::class,
-        RemoteSourceModule::class, LocalSourceModule::class]
+    modules = [AndroidSupportInjectionModule::class, ViewModelModule::class, RemoteModule::class, ViewModule::class, FragmentModule::class]
 )
 @Singleton
 interface AppComponent {
@@ -30,23 +22,10 @@ interface AppComponent {
     interface Builder {
         fun build(): AppComponent
 
-        fun setNetModule(netModule: NetModule): Builder
-
-        fun setLocalModule(localModule: LocalModule): Builder
-
         @BindsInstance
         fun bindApplication(application: Application): Builder
     }
 
-    fun provideDao(): ExhibitDao
-
-    fun provideLocalSrc(): ExhibitLocalSource
-
-    fun provideRemoteSrc(): ExhibitsRemoteSource
-
-    fun provideViewModel(): DaggerViewModel
-
-    fun provideModelRepo(): ModelRepository
 }
 
 @Module
