@@ -7,7 +7,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_skills.databinding.ItemLayoutBinding
-import com.example.android_skills.model.Item
+import com.example.android_skills.model.data.Item
 
 class ItemAdapter : PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffUtil()) {
 

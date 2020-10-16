@@ -1,4 +1,4 @@
-package com.example.android_skills.model
+package com.example.android_skills.model.data
 
 data class ItemResponse (
     val itemList: List<Item>

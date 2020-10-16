@@ -1,7 +1,6 @@
-package com.example.android_skills.model.remote
+package com.example.android_skills.model.source
 
-import com.example.android_skills.model.Item
-import com.example.android_skills.model.ItemResponse
+import com.example.android_skills.model.data.Item
 import retrofit2.http.GET
 import retrofit2.http.Query
 

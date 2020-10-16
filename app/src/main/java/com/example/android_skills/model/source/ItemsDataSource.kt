@@ -1,7 +1,7 @@
-package com.example.android_skills.model
+package com.example.android_skills.model.source
 
 import androidx.paging.PageKeyedDataSource
-import com.example.android_skills.model.remote.ItemsApi
+import com.example.android_skills.model.data.Item
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -19,20 +19,14 @@ class ItemsDataSource constructor(
     ) {
         scope.launch {
             val result = api.getAPIExhibitions(1).filter(filter)
-            println("result: $result")
-            launch(Dispatchers.Main) {
-                callback.onResult(result, 1, 2)
-            }
+            callback.onResult(result, 1, 2)
         }
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Item>) {
         scope.launch {
             val result = api.getAPIExhibitions(params.key).filter(filter)
-            println("key: ${params.key} req ${params.requestedLoadSize} resultAfter: $result")
-            launch(Dispatchers.Main) {
-                callback.onResult(result, params.key + 1)
-            }
+            callback.onResult(result, params.key + 1)
         }
     }
 
