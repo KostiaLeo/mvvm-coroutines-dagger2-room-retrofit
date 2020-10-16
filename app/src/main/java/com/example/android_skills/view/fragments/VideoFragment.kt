@@ -10,10 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.databinding.FragmentVideoBinding
-import com.example.android_skills.view.paging.ItemAdapter
+import com.example.android_skills.view.adapters.ItemAdapter
+import com.example.android_skills.view.adapters.TopNewsAdapter
 import com.example.android_skills.viewmodel.VideoViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -23,6 +25,8 @@ class VideoFragment : DaggerFragment() {
     private lateinit var newsRecycler: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var adapter: ItemAdapter
+    private lateinit var topViewPager: ViewPager2
+    private lateinit var topNewsAdapter: TopNewsAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -52,6 +56,10 @@ class VideoFragment : DaggerFragment() {
             adapter.submitList(it)
         })
 
+        viewModel.topNewsLiveData.observe(viewLifecycleOwner, Observer {
+            topNewsAdapter.submitList(it)
+        })
+
         return binding.root
     }
 
@@ -66,10 +74,15 @@ class VideoFragment : DaggerFragment() {
         }
         adapter = ItemAdapter()
         newsRecycler.adapter = adapter
+
+        topViewPager = binding.topViewPager
+        topNewsAdapter = TopNewsAdapter()
+        topViewPager.adapter = topNewsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.itemsLiveData.removeObservers(viewLifecycleOwner)
+        viewModel.topNewsLiveData.removeObservers(viewLifecycleOwner)
     }
 }

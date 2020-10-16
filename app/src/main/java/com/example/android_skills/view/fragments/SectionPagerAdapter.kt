@@ -2,13 +2,11 @@
 
 package com.example.android_skills.view.fragments
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-// Fragment controlling system
-class SectionPagerAdapter(private val context: Context, fm: FragmentManager) :
+class SectionPagerAdapter(fm: FragmentManager) :
     FragmentPagerAdapter(fm) {
 
     companion object {

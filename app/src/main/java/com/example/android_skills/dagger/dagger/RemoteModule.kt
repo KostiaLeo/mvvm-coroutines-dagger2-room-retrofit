@@ -1,6 +1,7 @@
 package com.example.android_skills.dagger.dagger
 
 import com.example.android_skills.model.BASE_URL
+import com.example.android_skills.model.Repository
 import com.example.android_skills.model.source.ItemsApi
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,9 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    internal fun provideAPI(retrofit: Retrofit): ItemsApi = retrofit.create(
-        ItemsApi::class.java)
+    internal fun provideAPI(retrofit: Retrofit): ItemsApi = retrofit.create(ItemsApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideRepository(api: ItemsApi) = Repository(api)
 }

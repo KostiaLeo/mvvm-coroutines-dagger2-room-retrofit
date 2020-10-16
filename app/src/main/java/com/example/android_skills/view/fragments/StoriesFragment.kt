@@ -10,10 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.databinding.FragmentStoriesBinding
-import com.example.android_skills.view.paging.ItemAdapter
+import com.example.android_skills.view.adapters.ItemAdapter
+import com.example.android_skills.view.adapters.TopNewsAdapter
 import com.example.android_skills.viewmodel.StoriesViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -23,10 +25,11 @@ class StoriesFragment : DaggerFragment() {
     private lateinit var newsRecycler: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var adapter: ItemAdapter
+    private lateinit var topViewPager: ViewPager2
+    private lateinit var topNewsAdapter: TopNewsAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-
     private lateinit var viewModel: StoriesViewModel
 
 
@@ -49,8 +52,12 @@ class StoriesFragment : DaggerFragment() {
         initUI()
 
         viewModel.itemsLiveData.observe(viewLifecycleOwner, Observer {
-            progressBar.visibility = View.GONE
             adapter.submitList(it)
+            progressBar.visibility = View.GONE
+        })
+
+        viewModel.topNewsLiveData.observe(viewLifecycleOwner, Observer {
+            topNewsAdapter.submitList(it)
         })
 
         return binding.root
@@ -59,18 +66,21 @@ class StoriesFragment : DaggerFragment() {
     private fun initUI() {
         progressBar = binding.progressBar
 
-        newsRecycler = binding.storiesRecycler.also {
-            with(it) {
-                layoutManager = LinearLayoutManager(context)
-                itemAnimator = DefaultItemAnimator()
-            }
+        newsRecycler = binding.storiesRecycler.apply {
+            layoutManager = LinearLayoutManager(context)
+            itemAnimator = DefaultItemAnimator()
         }
         adapter = ItemAdapter()
         newsRecycler.adapter = adapter
+
+        topViewPager = binding.topViewPager
+        topNewsAdapter = TopNewsAdapter()
+        topViewPager.adapter = topNewsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.itemsLiveData.removeObservers(viewLifecycleOwner)
+        viewModel.topNewsLiveData.removeObservers(viewLifecycleOwner)
     }
 }

@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.databinding.FragmentFavouritesBinding
-import com.example.android_skills.view.paging.ItemAdapter
+import com.example.android_skills.view.adapters.ItemAdapter
+import com.example.android_skills.view.adapters.TopNewsAdapter
 import com.example.android_skills.viewmodel.FavouritesViewModel
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -22,6 +24,8 @@ class FavouritesFragment : DaggerFragment() {
     private lateinit var newsRecycler: RecyclerView
     private lateinit var progressBar: ProgressBar
     private lateinit var adapter: ItemAdapter
+    private lateinit var topViewPager: ViewPager2
+    private lateinit var topNewsAdapter: TopNewsAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -50,6 +54,10 @@ class FavouritesFragment : DaggerFragment() {
             adapter.submitList(it)
         })
 
+        viewModel.topNewsLiveData.observe(viewLifecycleOwner, Observer {
+            topNewsAdapter.submitList(it)
+        })
+
         return binding.root
     }
 
@@ -64,10 +72,15 @@ class FavouritesFragment : DaggerFragment() {
         }
         adapter = ItemAdapter()
         newsRecycler.adapter = adapter
+
+        topViewPager = binding.topViewPager
+        topNewsAdapter = TopNewsAdapter()
+        topViewPager.adapter = topNewsAdapter
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.itemsLiveData.removeObservers(viewLifecycleOwner)
+        viewModel.topNewsLiveData.removeObservers(viewLifecycleOwner)
     }
 }

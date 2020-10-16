@@ -29,7 +29,7 @@ class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
     }
 
     private fun initUI() {
-        val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
+        val sectionPagerAdapter = SectionPagerAdapter(supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
         tabs.setupWithViewPager(viewPager)

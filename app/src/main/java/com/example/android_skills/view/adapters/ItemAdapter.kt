@@ -1,8 +1,7 @@
-package com.example.android_skills.view.paging
+package com.example.android_skills.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +18,6 @@ class ItemAdapter : PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffU
         getItem(position)?.let(holder::bind)
     }
 
-    override fun submitList(pagedList: PagedList<Item>?) {
-        super.submitList(pagedList)
-        println("submitted $pagedList")
-    }
-
     class ItemViewHolder (private val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
             binding.item = item
@@ -33,15 +27,15 @@ class ItemAdapter : PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffU
             }
         }
     }
+}
 
-    class ItemDiffUtil : DiffUtil.ItemCallback<Item>() {
+class ItemDiffUtil : DiffUtil.ItemCallback<Item>() {
 
-        override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem.title == newItem.title
-        }
+    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+        return oldItem.title == newItem.title
+    }
 
-        override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
-            return oldItem == newItem
-        }
+    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+        return oldItem == newItem
     }
 }

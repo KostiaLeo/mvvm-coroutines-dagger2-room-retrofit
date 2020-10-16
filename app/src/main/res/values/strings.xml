@@ -1,10 +1,3 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Exhibits</string>
-    <string name="tab_text_1">All Artists</string>
-    <string name="video_frag_text">Список пуст \n Контент появится позже</string>
-    <string name="fav_frag_text">Нету отмеченных \n избранных новостей</string>
-    <string name="tab_text_2">Chosen artist</string>
-    <string name="tab_text_3">Favourites</string>
-    <string name="top">TOP</string>
-    <string name="title_model">Model</string>
+    <string name="app_name">News</string>
 </resources>
