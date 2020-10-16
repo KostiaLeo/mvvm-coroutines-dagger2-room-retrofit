@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 
-interface IExhibitionsApi {
+interface ItemsApi {
     @GET("/")
     suspend fun getAPIExhibitions(
         @Query("page") page: Int

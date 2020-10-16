@@ -1,36 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="item"
             type="com.example.android_skills.model.Item" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/image"
-        android:src_image="@{item.img}"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="400dp"
-        android:layout_height="250dp"/>
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@id/image"
-        android:layout_marginTop="40dp"
-        android:id="@+id/title"
-        android:text="@{item.title}"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <View
-        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#777474"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src_image="@{item.img}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{item.title}"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/image"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." />
+
+        <TextView
+            android:id="@+id/source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Source.com"
+            android:textColor="#4AABF8"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text="Source.com" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/source"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            tools:text=" - 2 hours ago" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/separate_line_height"
+            android:layout_marginTop="@dimen/appbar_padding"
+            android:layout_marginBottom="@dimen/separate_line_height"
+            android:background="@color/separate_line_color"
+            app:layout_constraintTop_toBottomOf="@id/source" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

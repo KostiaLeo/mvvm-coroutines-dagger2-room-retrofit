@@ -27,6 +27,10 @@ class ItemAdapter : PagedListAdapter<Item, ItemAdapter.ItemViewHolder>(ItemDiffU
     class ItemViewHolder (private val binding: ItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
             binding.item = item
+            binding.time.text = buildString {
+                append(" - ")
+                append(item.time)
+            }
         }
     }
 

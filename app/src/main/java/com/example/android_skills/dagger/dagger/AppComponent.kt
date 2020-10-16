@@ -3,7 +3,9 @@ package com.example.android_skills.dagger.dagger
 import android.app.Application
 import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelModule
 import com.example.android_skills.view.MainActivity
-import com.example.android_skills.view.fragments.ExhibitionFragment
+import com.example.android_skills.view.fragments.FavouritesFragment
+import com.example.android_skills.view.fragments.StoriesFragment
+import com.example.android_skills.view.fragments.VideoFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -37,5 +39,11 @@ abstract class ViewModule {
 @Module
 abstract class FragmentModule {
     @ContributesAndroidInjector(modules = [ViewModelModule::class])
-    abstract fun contributeFragmentViewModelInjector(): ExhibitionFragment
+    abstract fun contributeStoriesFragmentViewModelInjector(): StoriesFragment
+
+    @ContributesAndroidInjector(modules = [ViewModelModule::class])
+    abstract fun contributeVideoFragmentViewModelInjector(): VideoFragment
+
+    @ContributesAndroidInjector(modules = [ViewModelModule::class])
+    abstract fun contributeFavouritesFragmentViewModelInjector(): FavouritesFragment
 }

@@ -42,7 +42,6 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-black"
                 android:gravity="start"
-
                 android:maxLines="3"
                 android:scrollHorizontally="true"
                 android:text="@{exhibit.title}"

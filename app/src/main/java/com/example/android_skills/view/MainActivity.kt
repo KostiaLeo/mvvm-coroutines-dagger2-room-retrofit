@@ -9,6 +9,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
@@ -31,6 +32,7 @@ class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
         val sectionPagerAdapter = SectionPagerAdapter(this, supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionPagerAdapter
-
+        tabs.setupWithViewPager(viewPager)
+        viewPager.offscreenPageLimit = 2
     }
 }

@@ -5,20 +5,13 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragments.ExhibitionFragment">
+        tools:context=".view.fragments.StoriesFragment">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stories_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/newzzz"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_layout" />
-
-        </androidx.core.widget.NestedScrollView>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_layout" />
 
         <ProgressBar
             android:id="@+id/progress_bar"
