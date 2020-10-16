@@ -1,6 +1,7 @@
-package com.example.android_skills.dagger.dagger
+package com.example.android_skills.dagger
 
-import com.example.android_skills.dagger.dagger.modules.SingletonModule
+import com.example.android_skills.dagger.App
+import com.example.android_skills.dagger.modules.SingletonModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule

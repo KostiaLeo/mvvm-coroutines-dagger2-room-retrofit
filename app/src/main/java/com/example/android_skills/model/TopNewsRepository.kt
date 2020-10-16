@@ -9,7 +9,7 @@ import com.example.android_skills.model.source.ItemsApi
 import com.example.android_skills.model.source.ItemsDataSource
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val api: ItemsApi) {
+class TopNewsRepository @Inject constructor(private val api: ItemsApi) {
     var topItemsLiveData: LiveData<PagedList<Item>>
 
     init {

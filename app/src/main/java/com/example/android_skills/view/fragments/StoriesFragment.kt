@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.example.android_skills.dagger.dagger.modules.ViewModelFactory
+import com.example.android_skills.dagger.modules.ViewModelFactory
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.databinding.FragmentStoriesBinding
 import com.example.android_skills.view.adapters.ItemAdapter

@@ -1,6 +1,6 @@
-package com.example.android_skills.dagger.dagger.modules
+package com.example.android_skills.dagger.modules
 
-import com.example.android_skills.dagger.dagger.FragmentScope
+import com.example.android_skills.dagger.FragmentScope
 import com.example.android_skills.view.fragments.FavouritesFragment
 import com.example.android_skills.view.fragments.StoriesFragment
 import com.example.android_skills.view.fragments.VideoFragment

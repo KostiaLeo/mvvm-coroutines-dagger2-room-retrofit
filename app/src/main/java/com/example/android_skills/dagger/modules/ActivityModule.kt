@@ -1,7 +1,7 @@
-package com.example.android_skills.dagger.dagger.modules
+package com.example.android_skills.dagger.modules
 
-import com.example.android_skills.dagger.dagger.ActivityScope
-import com.example.android_skills.model.Repository
+import com.example.android_skills.dagger.ActivityScope
+import com.example.android_skills.model.TopNewsRepository
 import com.example.android_skills.model.source.ItemsApi
 import com.example.android_skills.view.MainActivity
 import dagger.Module
@@ -18,7 +18,7 @@ class ActivityModule {
 
     @Provides
     @ActivityScope
-    fun provideRepository(api: ItemsApi) = Repository(api)
+    fun provideRepository(api: ItemsApi) = TopNewsRepository(api)
 }
 
 @Module

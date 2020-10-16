@@ -1,4 +1,4 @@
-package com.example.android_skills.dagger.dagger
+package com.example.android_skills.dagger
 
 import android.app.Activity
 import android.app.Application
@@ -19,7 +19,8 @@ class App: Application(), HasAndroidInjector {
     }
 
     override fun onCreate() {
-        appComponent = DaggerAppComponent.create()
+        appComponent =
+            DaggerAppComponent.create()
         appComponent.inject(this)
         super.onCreate()
     }
