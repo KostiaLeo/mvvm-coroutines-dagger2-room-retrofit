@@ -9,7 +9,7 @@ import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.example.android_skills.dagger.dagger.view_model_modules.ViewModelFactory
+import com.example.android_skills.dagger.dagger.modules.ViewModelFactory
 import com.example.android_skills.dagger.extensions.injectViewModel
 import com.example.android_skills.databinding.FragmentFavouritesBinding
 import com.example.android_skills.view.adapters.ItemAdapter
