@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 
-public class ImgSetter {
+public class ImageLoader {
     @BindingAdapter("android:src_image_hiding")
     public static void setImageUrlHiding(ImageView imageView, String url) {
         if (url != null && !url.equals("null") && url.length() != 0) {

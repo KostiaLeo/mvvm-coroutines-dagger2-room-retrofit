@@ -1,9 +1,5 @@
 package com.example.android_skills.model.data
 
-data class ItemResponse (
-    val itemList: List<Item>
-)
-
 data class Item(
     val click_url: String,
     val img: String,

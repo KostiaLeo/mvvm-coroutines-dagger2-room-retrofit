@@ -9,6 +9,7 @@ import javax.inject.Singleton
 
 @Module(includes = [ActivityBuilderModule::class])
 class SingletonModule {
+
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit =

@@ -12,15 +12,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity(), HasAndroidInjector {
+class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var viewPager: ViewPager
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
-
-    override fun androidInjector(): AndroidInjector<Any> =
-        dispatchingAndroidInjector as AndroidInjector<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

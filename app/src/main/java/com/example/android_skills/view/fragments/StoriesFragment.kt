@@ -31,8 +31,7 @@ class StoriesFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: StoriesViewModel
-
-
+    
     companion object {
         @JvmStatic
         fun newInstance() = StoriesFragment()

@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
 @MapKey
 internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
-@Module
+@Module(includes = [PagedLiveDataModule::class])
 abstract class ViewModelModule {
 
     @Binds
